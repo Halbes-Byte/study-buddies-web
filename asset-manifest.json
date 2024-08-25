@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/Study-Buddies-Web/static/css/main.435d5fe5.chunk.css",
-    "main.js": "/Study-Buddies-Web/static/js/main.704f432d.chunk.js",
-    "main.js.map": "/Study-Buddies-Web/static/js/main.704f432d.chunk.js.map",
-    "runtime~main.js": "/Study-Buddies-Web/static/js/runtime~main.926f9992.js",
-    "runtime~main.js.map": "/Study-Buddies-Web/static/js/runtime~main.926f9992.js.map",
-    "static/js/2.bbc244fd.chunk.js": "/Study-Buddies-Web/static/js/2.bbc244fd.chunk.js",
-    "static/js/2.bbc244fd.chunk.js.map": "/Study-Buddies-Web/static/js/2.bbc244fd.chunk.js.map",
-    "static/js/3.a29efab2.chunk.js": "/Study-Buddies-Web/static/js/3.a29efab2.chunk.js",
-    "static/js/3.a29efab2.chunk.js.map": "/Study-Buddies-Web/static/js/3.a29efab2.chunk.js.map",
-    "index.html": "/Study-Buddies-Web/index.html",
-    "precache-manifest.6845a86274ca0a650b5e8f65a4e4794b.js": "/Study-Buddies-Web/precache-manifest.6845a86274ca0a650b5e8f65a4e4794b.js",
-    "service-worker.js": "/Study-Buddies-Web/service-worker.js",
-    "static/css/main.435d5fe5.chunk.css.map": "/Study-Buddies-Web/static/css/main.435d5fe5.chunk.css.map",
-    "static/media/logo.svg": "/Study-Buddies-Web/static/media/logo.06e73328.svg"
+    "main.css": "/study-buddies-web/static/css/main.435d5fe5.chunk.css",
+    "main.js": "/study-buddies-web/static/js/main.166cd648.chunk.js",
+    "main.js.map": "/study-buddies-web/static/js/main.166cd648.chunk.js.map",
+    "runtime~main.js": "/study-buddies-web/static/js/runtime~main.6c94d287.js",
+    "runtime~main.js.map": "/study-buddies-web/static/js/runtime~main.6c94d287.js.map",
+    "static/js/2.bbc244fd.chunk.js": "/study-buddies-web/static/js/2.bbc244fd.chunk.js",
+    "static/js/2.bbc244fd.chunk.js.map": "/study-buddies-web/static/js/2.bbc244fd.chunk.js.map",
+    "static/js/3.a29efab2.chunk.js": "/study-buddies-web/static/js/3.a29efab2.chunk.js",
+    "static/js/3.a29efab2.chunk.js.map": "/study-buddies-web/static/js/3.a29efab2.chunk.js.map",
+    "index.html": "/study-buddies-web/index.html",
+    "precache-manifest.7cf6d35a17a984526bd332256ba84239.js": "/study-buddies-web/precache-manifest.7cf6d35a17a984526bd332256ba84239.js",
+    "service-worker.js": "/study-buddies-web/service-worker.js",
+    "static/css/main.435d5fe5.chunk.css.map": "/study-buddies-web/static/css/main.435d5fe5.chunk.css.map",
+    "static/media/halbesByte.jpeg": "/study-buddies-web/static/media/halbesByte.e44ae0d8.jpeg"
   }
 }
