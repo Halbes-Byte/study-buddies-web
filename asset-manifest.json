@@ -1,18 +1,16 @@
 {
   "files": {
-    "main.css": "/study-buddies-web/static/css/main.435d5fe5.chunk.css",
-    "main.js": "/study-buddies-web/static/js/main.166cd648.chunk.js",
-    "main.js.map": "/study-buddies-web/static/js/main.166cd648.chunk.js.map",
-    "runtime~main.js": "/study-buddies-web/static/js/runtime~main.6c94d287.js",
-    "runtime~main.js.map": "/study-buddies-web/static/js/runtime~main.6c94d287.js.map",
-    "static/js/2.bbc244fd.chunk.js": "/study-buddies-web/static/js/2.bbc244fd.chunk.js",
-    "static/js/2.bbc244fd.chunk.js.map": "/study-buddies-web/static/js/2.bbc244fd.chunk.js.map",
-    "static/js/3.a29efab2.chunk.js": "/study-buddies-web/static/js/3.a29efab2.chunk.js",
-    "static/js/3.a29efab2.chunk.js.map": "/study-buddies-web/static/js/3.a29efab2.chunk.js.map",
-    "index.html": "/study-buddies-web/index.html",
-    "precache-manifest.7cf6d35a17a984526bd332256ba84239.js": "/study-buddies-web/precache-manifest.7cf6d35a17a984526bd332256ba84239.js",
-    "service-worker.js": "/study-buddies-web/service-worker.js",
-    "static/css/main.435d5fe5.chunk.css.map": "/study-buddies-web/static/css/main.435d5fe5.chunk.css.map",
-    "static/media/halbesByte.jpeg": "/study-buddies-web/static/media/halbesByte.e44ae0d8.jpeg"
-  }
+    "main.css": "/react-gh-pages/static/css/main.8cbe3360.css",
+    "main.js": "/react-gh-pages/static/js/main.572df6df.js",
+    "static/js/453.3b0b8f1b.chunk.js": "/react-gh-pages/static/js/453.3b0b8f1b.chunk.js",
+    "static/media/halbesByte.jpeg": "/react-gh-pages/static/media/halbesByte.291a62f814e9ac670ec9.jpeg",
+    "index.html": "/react-gh-pages/index.html",
+    "main.8cbe3360.css.map": "/react-gh-pages/static/css/main.8cbe3360.css.map",
+    "main.572df6df.js.map": "/react-gh-pages/static/js/main.572df6df.js.map",
+    "453.3b0b8f1b.chunk.js.map": "/react-gh-pages/static/js/453.3b0b8f1b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8cbe3360.css",
+    "static/js/main.572df6df.js"
+  ]
 }
