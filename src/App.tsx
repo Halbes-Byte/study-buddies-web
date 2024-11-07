@@ -3,6 +3,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import RefineWrapper from "./RefineWrapper";
 import { BrowserRouter } from "react-router-dom";
 import { customTheme } from "./customTheme";
+import React from 'react';
 
 function App() {
   return (
