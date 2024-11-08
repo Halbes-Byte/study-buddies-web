@@ -12,8 +12,8 @@ function CustomRoutes() {
     return (
         <Routes>
             <Route>
-                <Route path="">
-                    <Route path="">
+                <Route path="/study-buddies-web">
+                    <Route path="/study-buddies-web">
                         <Route index element={<Homepage />} />
                     </Route>
                 </Route>
