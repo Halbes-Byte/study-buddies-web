@@ -4,16 +4,20 @@ import RefineWrapper from "./RefineWrapper";
 import { BrowserRouter } from "react-router-dom";
 import { customTheme } from "./customTheme";
 import React from 'react';
+import Navbar from './navbar'; 
 
 function App() {
   return (
-      <ThemeProvider theme={customTheme}>
-        <CssBaseline />
-        <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
-        <BrowserRouter>
-          <RefineWrapper />
-        </BrowserRouter>
-      </ThemeProvider>
+    <ThemeProvider theme={customTheme}>
+      <CssBaseline />
+      <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
+      <BrowserRouter>
+
+        <Navbar /> 
+        <RefineWrapper />
+
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

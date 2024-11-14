@@ -7,47 +7,14 @@ import {Link} from "react-router-dom";
 
 
 
-export function Navbar() {
-    return (
-      <nav className="bg-[#151821] text-white py-7 h-[80px]"> 
-        <div className="flex justify-between items-center relative">
-          
-          <Link to="">
-            <img className="absolute top-4 left-4 z-50 h-8" src={menu} alt="Back to homepage" /> 
-          </Link>
-  
-         
-          <div className="flex justify-right w-auto mr-[200px]"> 
-            <Link to="" className="text-l text-gray-400 hover:text-[#56A095] hover:font-bold px-5">
-              Home
-            </Link>
 
-            <p className="text-[#56A095]">|</p>
-            <Link to="" className="text-l text-gray-400 hover:text-[#56A095] hover:font-bold px-5">
-              Kalender
-            </Link>
-            <p className="text-[#56A095]">|</p>
-
-            <Link to="" className="text-l text-gray-400 hover:text-[#56A095] hover:font-bold px-5">
-              Aktuelles
-            </Link>
-            <p className="text-[#56A095]">|</p>
-
-            <Link to="" className="text-l text-gray-400 hover:text-[#56A095] hover:font-bold px-5">
-              Score
-            </Link>
-          </div>
-        </div>
-      </nav>
-    );
-}
 
 
 export default function Homepage() {
     return (
         
         <div className="relative">
-            <Navbar />
+    
 
             <div className="flex justify-center items-center h-screen ">
 

@@ -1,0 +1,14 @@
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px; 
+    margin-top: 90px;
+  }
+  
+  .centered-image {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
