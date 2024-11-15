@@ -14,13 +14,21 @@ const Navbar = () => {
             <div className="navbar-right">
                 <div className="navbar-flex">
                     <div className="navbar-links">
-                        <a href="/#/study-buddies-web/" className="navbar-link">Home</a>
+                        <a href="/#/study-buddies-web/" className="navbar-link">
+                            <div className="text-lg">Home</div>
+                        </a>
                         <span className="navbar-separator">|</span>
-                        <a href="/#/study-buddies-web/calendar" className="navbar-link">Kalender</a>
+                        <a href="/#/study-buddies-web/calendar" className="navbar-link">
+                            <div className="text-lg">Kalender</div>
+                        </a>
                         <span className="navbar-separator">|</span>
-                        <a href="/#/study-buddies-web/score" className="navbar-link">Score</a>
+                        <a href="/#/study-buddies-web/score" className="navbar-link">
+                            <div className="text-lg">Score</div>
+                        </a>
                         <span className="navbar-separator">|</span>
-                        <a href="/#/study-buddies-web/current" className="navbar-link">Aktuelles</a>
+                        <a href="/#/study-buddies-web/current" className="navbar-link">
+                            <div className="text-lg">Aktuelles</div>
+                        </a>
                     </div>
                 </div>
             </div>

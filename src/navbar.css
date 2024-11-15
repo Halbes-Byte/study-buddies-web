@@ -43,7 +43,7 @@
     padding: 8px;
   }
   
-  .navbar-link:hover {
+  .navbar-link:hover, .navbar-link:focus {
     color: #56A095;
     font-weight: bold;
   }

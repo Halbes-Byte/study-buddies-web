@@ -11,7 +11,7 @@ function App() {
         <ThemeProvider theme={customTheme}>
             <CssBaseline/>
             <GlobalStyles styles={{html: {WebkitFontSmoothing: "auto"}}}/>
-            <HashRouter>
+            <HashRouter basename="/">
                 <Navbar/>
                 <RefineWrapper/>
             </HashRouter>
