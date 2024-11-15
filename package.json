@@ -1,10 +1,10 @@
 {
   "name": "study-buddies-web-new",
   "version": "0.1.0",
-  "homepage": "https://halbes-byte.github.io/study-buddies-web/",
-  "calendar": "https://halbes-byte.github.io/study-buddies-web/calendar",
-  "score": "https://halbes-byte.github.io/study-buddies-web/score",
-  "current": "https://halbes-byte.github.io/study-buddies-web/current",
+  "homepage": "https://halbes-byte.github.io/#/study-buddies-web/",
+  "calendar": "https://halbes-byte.github.io/#/study-buddies-web/calendar",
+  "score": "https://halbes-byte.github.io/#/study-buddies-web/score",
+  "current": "https://halbes-byte.github.io/#/study-buddies-web/current",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.3",
