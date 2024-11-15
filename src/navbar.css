@@ -5,7 +5,7 @@
     align-items: center;
     background-color: #151821;
     color: #949494;
-    height: 100px;
+    height: 65px;
   }
   
     .navbar-left {
@@ -14,7 +14,7 @@
   }
   
   .picture {
-    height: 60px;
+    height: 40px;
     filter: invert(1); 
     margin-left: 140px;
   }

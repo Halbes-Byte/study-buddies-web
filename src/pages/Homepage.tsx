@@ -1,12 +1,9 @@
 import '../index.css';
 import logo from '../data//halbesByte.jpeg';
-import titelbild from '../data//titelbild.png';
+import title_img from '../data//titelbild.png';
 import menu from '../data//menu-button.svg';
 import React from "react";
 import {Link} from "react-router-dom";
-
-
-
 
 
 
@@ -22,7 +19,7 @@ export default function Homepage() {
 
                 <div className="flex flex-row justify-between gap-10">
                     <h1 className="text-7xl font-bold text-gray-300">Study-Buddies</h1>
-                    <img className="h-20 transform scale-x-[-1]" src={titelbild} alt={"titelbild"}/>
+                    <img className="h-20 transform scale-x-[-1]" src={title_img} alt={"titelbild"}/>
                 </div>
                 <p className="text-xl font-medium text-gray-300">Finde deinen Study-Buddy für deine Study-Party</p>
                 
