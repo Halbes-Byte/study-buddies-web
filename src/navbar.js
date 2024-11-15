@@ -12,13 +12,13 @@ const Navbar = () => {
       <div className="navbar-right">
         <div className="navbar-flex">
           <div className="navbar-links">
-            <a href="/pages/Homepage" className="navbar-link">Home</a>
+            <a href="/" className="navbar-link">Home</a>
             <span className="navbar-separator">|</span>
-            <a href="/pages/Calendar" className="navbar-link">Kalender</a>
+            <a href="/calendar" className="navbar-link">Kalender</a>
             <span className="navbar-separator">|</span>
-            <a href="/pages/Score" className="navbar-link">Score</a>
+            <a href="/score" className="navbar-link">Score</a>
             <span className="navbar-separator">|</span>
-            <a href="/pages/Current" className="navbar-link">Aktuelles</a>
+            <a href="/current" className="navbar-link">Aktuelles</a>
           </div>
         </div>
       </div>
