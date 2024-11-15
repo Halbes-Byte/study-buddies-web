@@ -14,11 +14,11 @@ export default function Homepage() {
                             Study-Party</p>
                         <div className="px-0 py-0 flex flex-row justify-start gap-7 h-12">
                             <button
-                                className="px-5 py-1 bg-[#598BB1] text-[#4BC2FE] rounded-full transform transition-all duration-300 hover:scale-x-110"> {/* Hintergrundfarbe mit Tailwind */}
+                                className="px-5 py-1 bg-[#598BB1] text-[#d4deff] rounded-full transform transition-all duration-300 hover:scale-x-110"> {/* Hintergrundfarbe mit Tailwind */}
                                 Erstelle einen Termin
                             </button>
                             <button
-                                className="px-5 py-1 bg-[#56A095] text-[#2EF6D9] rounded-full transform transition-all duration-300 hover:scale-x-110"> {/* Hintergrundfarbe mit Tailwind */}
+                                className="px-5 py-1 bg-[#56A095] text-[#e8fcf6] rounded-full transform transition-all duration-300 hover:scale-x-110"> {/* Hintergrundfarbe mit Tailwind */}
                                 Finde einen Lernpartner
                             </button>
                         </div>
