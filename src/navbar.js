@@ -14,11 +14,11 @@ const Navbar = () => {
           <div className="navbar-links">
             <a href="/pages/Homepage" className="navbar-link">Home</a>
             <span className="navbar-separator">|</span>
-            <a href="/pages/Kalender" className="navbar-link">Kalender</a>
+            <a href="/pages/Calendar" className="navbar-link">Kalender</a>
             <span className="navbar-separator">|</span>
             <a href="/pages/Score" className="navbar-link">Score</a>
             <span className="navbar-separator">|</span>
-            <a href="/pages/Aktuelles" className="navbar-link">Aktuelles</a>
+            <a href="/pages/Current" className="navbar-link">Aktuelles</a>
           </div>
         </div>
       </div>
