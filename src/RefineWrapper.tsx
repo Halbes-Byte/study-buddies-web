@@ -15,10 +15,10 @@ export default function RefineWrapper() {
 function CustomRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<Homepage/>}/>
-            <Route path="/calendar" element={<Calendar/>}/>
-            <Route path="/score" element={<Score/>}/>
-            <Route path="/current" element={<Current/>}/>
+            <Route path="/study-buddies-web/" element={<Homepage/>}/>
+            <Route path="/study-buddies-web/calendar" element={<Calendar/>}/>
+            <Route path="/study-buddies-web/score" element={<Score/>}/>
+            <Route path="/study-buddies-web/current" element={<Current/>}/>
         </Routes>
     );
 }
