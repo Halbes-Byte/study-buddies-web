@@ -1,5 +1,6 @@
 import React from 'react';
-import {Button, Dialog, DialogActions, DialogContent} from "@mui/material";
+import { Dialog, DialogActions, DialogContent} from "@mui/material";
+import {CuteButton} from "../components/CuteButton";
 
 interface MeetingFormProps {
     open: boolean;
@@ -23,8 +24,8 @@ export function MeetingForm({ open, onClose }: MeetingFormProps)  {
             </form>
         </DialogContent>
         <DialogActions>
-            <Button onClick={onClose} variant={"outlined"}>Abbrechen</Button>
-            <Button type={"submit"} variant={"contained"}>Speichern</Button>
+            <CuteButton onClick={onClose} text={"Abbrechen"} textColor={"#CAE8FF"} bgColor={"#425E74"} size={"text-base"}/>
+            <CuteButton onClick={() => {}} text={"Speichern"} textColor={"#DCFFFA"} bgColor={"#506D69"} size={"text-2xl"}/>
         </DialogActions>
     </Dialog>
 }
