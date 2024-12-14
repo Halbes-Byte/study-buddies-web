@@ -1,8 +1,11 @@
 import React from 'react';
 import './navbar.css';
 import pinguin from './data/penguin-48226_1280.svg';
+import {NavbarComponent} from "./components/NavbarComponent";
+import {useLocation} from "react-router-dom";
 
 const Navbar = () => {
+
     return (
         <nav className="navbar">
             <div className="flex justify-self-start">
@@ -14,21 +17,13 @@ const Navbar = () => {
             <div className="navbar-right">
                 <div className="navbar-flex">
                     <div className="navbar-links">
-                        <a href="/#/study-buddies-web/" className="navbar-link">
-                            <div className="text-lg">Home</div>
-                        </a>
+                        <NavbarComponent text={"Home"} path={"/#/study-buddies-web/"} isActive={IsActive("home")}/>
                         <span className="navbar-separator">|</span>
-                        <a href="/#/study-buddies-web/calendar" className="navbar-link">
-                            <div className="text-lg">Kalender</div>
-                        </a>
+                        <NavbarComponent text={"Kalender"} path={"/#/study-buddies-web/calendar"} isActive={IsActive("calendar")}/>
                         <span className="navbar-separator">|</span>
-                        <a href="/#/study-buddies-web/score" className="navbar-link">
-                            <div className="text-lg">Score</div>
-                        </a>
+                        <NavbarComponent text={"Score"} path={"/#/study-buddies-web/score"} isActive={IsActive("score")}/>
                         <span className="navbar-separator">|</span>
-                        <a href="/#/study-buddies-web/current" className="navbar-link">
-                            <div className="text-lg">Aktuelles</div>
-                        </a>
+                        <NavbarComponent text={"Aktuelles"} path={"/#/study-buddies-web/current"} isActive={IsActive("current")}/>
                     </div>
                 </div>
             </div>
@@ -37,3 +32,11 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+function IsActive(path: string): boolean {
+    const location = useLocation();
+    if(location.pathname.endsWith("study-buddies-web/") && path === "home")
+        return true;
+
+    return location.pathname.includes(path);
+}

@@ -20,3 +20,7 @@ function App() {
 }
 
 export default App;
+
+export enum Resources {
+    MEETING = "meeting"
+}

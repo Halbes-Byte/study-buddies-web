@@ -1,7 +1,6 @@
 import '../index.css';
 import React from "react";
 import beispielbild from '../data//beispielbild_score.png';
-
 import '../styles/Score.css';
 
 export default function Score() {

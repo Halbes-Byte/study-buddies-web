@@ -1,7 +1,7 @@
 {
   "name": "study-buddies-web-new",
   "version": "0.1.0",
-  "homepage": "https://halbes-byte.github.io/study-buddies-web/",
+  "homepage": "https://halbes-byte.github.io/#/study-buddies-web/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.3",
@@ -9,6 +9,7 @@
     "@mui/lab": "^6.0.0-beta.14",
     "@mui/material": "^6.1.6",
     "@mui/x-data-grid": "^7.22.1",
+    "@pankod/refine-react-hook-form": "^3.39.0",
     "@refinedev/core": "^4.55.0",
     "@refinedev/mui": "^5.21.0",
     "@testing-library/jest-dom": "^5.17.0",
