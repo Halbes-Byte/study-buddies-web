@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogActions, DialogTitle, IconButton, DialogContent} from "@mui/material";
 import {CuteButton} from "../components/CuteButton";
 import CloseIconPath from '../data/close_icon_red.png';
@@ -8,7 +8,42 @@ interface MeetingFormProps {
     onClose: () => void;
 }
 
-export function MeetingForm({ open, onClose }: MeetingFormProps)  {
+export function MeetingForm({ open, onClose }: MeetingFormProps) {
+
+    const [meetingTitle, setMeetingTitle] = useState('');
+    const [meetingDescription, setMeetingDescription] = useState('');
+    const [meetingRoom, setMeetingRoom] = useState('');
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault(); 
+        
+        const meetingData = {
+            title: meetingTitle,
+            description: meetingDescription,
+            room: meetingRoom,
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/pfadangeben', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(meetingData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Fehler beim Speichern des Meetings');
+            }
+
+            alert('Meeting erfolgreich gespeichert!');
+            onClose(); 
+        } catch (error) {
+            console.error('Fehler:', error);
+            alert('Es gab einen Fehler beim Speichern des Meetings.');
+        }
+    };
+
 
 
     return <Dialog open={open} onClose={onClose} sx={{
@@ -40,7 +75,9 @@ export function MeetingForm({ open, onClose }: MeetingFormProps)  {
                     type="text"
                     placeholder="Hier Titel oder Fach eingeben"
                     className="mt-1 block bg-[#333C4F] w-full px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
-                />
+                    value={meetingTitle}
+                    onChange={(e) => setMeetingTitle(e.target.value)} 
+               />
             
 
             <label htmlFor="meeting-description" className="block text-lg font-medium text-white">Beschreibung</label>
@@ -49,6 +86,8 @@ export function MeetingForm({ open, onClose }: MeetingFormProps)  {
                     type="text"
                     placeholder="Hier könnte Ihre Beschreibung stehen"
                     className="mt-1 block bg-[#333C4F] w-full px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                    value={meetingDescription}
+                    onChange={(e) => setMeetingDescription(e.target.value)} 
                 />
             
 
@@ -83,9 +122,9 @@ export function MeetingForm({ open, onClose }: MeetingFormProps)  {
                     type="text"
                     placeholder="Format: XX.129"
                     className="mt-1 block bg-[#333C4F] w-1/3 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                    value={meetingRoom}
+                    onChange={(e) => setMeetingRoom(e.target.value)}
                 />
-            
-
             </form>
         </DialogContent>
         <DialogActions>
