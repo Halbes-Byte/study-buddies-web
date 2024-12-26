@@ -27,14 +27,10 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
     const [date2, setDate2] = useState<Dayjs | null>(dayjs());
 
     const handleDate1Change = (newDate: Dayjs | null) => {
-        console.log(newDate);
         if (newDate) {
             setDate1(newDate);
             setDate2(newDate);
         }
-        console.log(date2);
-        console.log(date1);
-
     };
 
     const handleDate2Change = (newDate: Dayjs | null) => {
@@ -81,50 +77,53 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                 maxWidth: "50vw",
                 minWidth: "250px",
                 bgcolor: "#1C212C",
+                padding: "8px",
             },
         },
     }}>
         <DialogTitle sx={{color: "#FFFFFF", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-            <span>Neues Meeting</span>
+            <span className={"font-bold text-2xl"}>Neues Meeting</span>
         </DialogTitle>
 
         <DialogContent>
             <form onSubmit={() => {
             }}>
-                <label htmlFor="meeting-title" className="block text-lg font-medium text-white">Titel / Fach</label>
+                <label htmlFor="meeting-title" className="font-semibold block text-lg  text-white">Titel /
+                    Fach</label>
                 <input
                     id="meeting-title"
                     type="text"
                     placeholder="Hier Titel oder Fach eingeben"
-                    className="mt-1 text-gray-300 block bg-[#333C4F] w-full px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                    className="mx-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
                     value={meetingTitle}
                     onChange={(e) => setMeetingTitle(e.target.value)}
                 />
 
                 <label htmlFor="meeting-description"
-                       className="block text-lg font-medium text-white">Beschreibung</label>
-                <input
+                       className="font-semibold block text-lg text-white">Beschreibung</label>
+                <textarea
                     id="meeting-description"
-                    type="text"
                     placeholder="Hier könnte Ihre Beschreibung stehen"
-                    className="mt-1 text-gray-300 block bg-[#333C4F] w-full px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                    className="ml-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-2 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs placeholder:pl-3 pl-4 py-2"
                     value={meetingDescription}
                     onChange={(e) => setMeetingDescription(e.target.value)}
                 />
 
-
-                <CuteButton text={"Link hinzufügen"} textColor={"#CAE8FF"} bgColor={"#3D6C65"} size={"text-base"}/>
+                <div className={"ml-5"}>
+                    <CuteButton text={"Link hinzufügen"} textColor={"#CAE8FF"} bgColor={"#3D6C65"} size={"text-base"}/>
+                </div>
 
                 {/* TODO dieser Button tut noch nichts*/}
 
 
-                <label htmlFor="Time Span" className="mt-8 block text-lg font-medium text-white">Zeitraum</label>
+                <label htmlFor="Time Span"
+                       className="font-semibold mt-8 block text-lg text-white">Zeitraum</label>
                 <LocalizationProvider
                     dateAdapter={AdapterDayjs}
                     adapterLocale="de"
                     localeText={deDE.components.MuiLocalizationProvider.defaultProps.localeText}
                 >
-                    <div className={"flex-row flex mt-2 w-80 items-center gap-2"}>
+                    <div className={"ml-5 flex-row flex mt-2 w-80 items-center gap-2"}>
 
                         <label htmlFor="From"
                                className="mr-2 block text-bs font-medium text-white text-center">Von</label>
@@ -177,7 +176,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                     adapterLocale="de"
                     localeText={deDE.components.MuiLocalizationProvider.defaultProps.localeText}
                 >
-                    <div className={"flex-row mt-4 flex w-80 h-12 items-center gap-2"}>
+                    <div className={"ml-5 flex-row mt-4 flex w-80 h-12 items-center gap-2"}>
                         <label htmlFor="To"
                                className="mr-3 block text-bs font-medium text-white ">Bis</label>
                         <DatePicker
@@ -223,7 +222,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                             ampm={false} format="HH:mm" defaultValue={dayjs().hour(12).minute(0).second(0)}/>
                     </div>
                 </LocalizationProvider>
-                <div className={"flex-row mt-4 flex h-12 items-center gap-2"}>
+                <div className={"ml-5 flex-row mt-1 flex h-12 items-center gap-2"}>
 
                     <label htmlFor="Repeat"
                            className="mr-2 block text-bs font-medium text-white text-center">Wiederholen</label>
@@ -241,12 +240,12 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                     </select>
                 </div>
 
-                <label htmlFor="room" className="block text-lg font-medium text-white">Raum</label>
+                <label htmlFor="room" className="font-semibold block text-lg text-white">Raum</label>
                 <input
                     id="room"
                     type="text"
                     placeholder="Format: XX.129"
-                    className="mt-1 text-gray-300 block bg-[#333C4F] w-1/3 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-550 placeholder:text-xs"
+                    className="ml-5 font-semibold mt-1 text-gray-300 block bg-[#333C4F] w-1/3 px-2 py-1 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-550 placeholder:text-xs"
                     value={meetingRoom}
                     onChange={(e) => setMeetingRoom(e.target.value)}
                 />
