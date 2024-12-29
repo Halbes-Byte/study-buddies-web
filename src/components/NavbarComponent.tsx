@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export function NavbarComponent(props: {
     text: string;
@@ -12,8 +13,8 @@ export function NavbarComponent(props: {
         className += " text-[#949494]";
     }
     return (
-        <a href={props.path} className={className}>
+        <Link to={props.path} className={className}>
             <div className="text-lg">{props.text}</div>
-        </a>
+        </Link>
     )
 }
