@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/study-buddies-web/static/css/main.4d78503b.css",
-    "main.js": "/study-buddies-web/static/js/main.57131fc4.js",
+    "main.css": "/study-buddies-web/static/css/main.2a3df4b8.css",
+    "main.js": "/study-buddies-web/static/js/main.00224205.js",
     "static/js/453.3b0b8f1b.chunk.js": "/study-buddies-web/static/js/453.3b0b8f1b.chunk.js",
     "static/media/titelbild.png": "/study-buddies-web/static/media/titelbild.fd317fbf738f14dc5ebf.png",
     "static/media/beispielbild_score.png": "/study-buddies-web/static/media/beispielbild_score.8d383dc59acfdd9562c6.png",
-    "static/media/penguin-48226_1280.svg": "/study-buddies-web/static/media/penguin-48226_1280.5f449b1964909561595e9e45d7f853ae.svg",
+    "static/media/penguin-48226_1280.svg": "/study-buddies-web/static/media/penguin-48226_1280.f75f27c4ef2a0cb99081c12e5d79038d.svg",
     "index.html": "/study-buddies-web/index.html",
-    "main.4d78503b.css.map": "/study-buddies-web/static/css/main.4d78503b.css.map",
-    "main.57131fc4.js.map": "/study-buddies-web/static/js/main.57131fc4.js.map",
+    "main.2a3df4b8.css.map": "/study-buddies-web/static/css/main.2a3df4b8.css.map",
+    "main.00224205.js.map": "/study-buddies-web/static/js/main.00224205.js.map",
     "453.3b0b8f1b.chunk.js.map": "/study-buddies-web/static/js/453.3b0b8f1b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4d78503b.css",
-    "static/js/main.57131fc4.js"
+    "static/css/main.2a3df4b8.css",
+    "static/js/main.00224205.js"
   ]
 }
