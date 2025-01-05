@@ -4,7 +4,7 @@ export function CuteButton(props: {
     bgColor: string;
     textColor: string;
     text: string;
-    onClick?: () => void | undefined;
+    onClick?: () => void | undefined | Promise<void>;
     size?: string | undefined;
 }) {
     const textSize = props.size || "text-xl";

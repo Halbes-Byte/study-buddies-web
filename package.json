@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "homepage": "https://halbes-byte.github.io/study-buddies-web/",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -14,6 +15,7 @@
     "@pankod/refine-react-hook-form": "^3.39.0",
     "@refinedev/core": "^4.55.0",
     "@refinedev/mui": "^5.21.0",
+    "@tanstack/react-query": "^4.36.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -21,6 +23,7 @@
     "@types/node": "^16.18.119",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "axios": "^1.7.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
@@ -56,8 +59,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-env": "^7.26.0",
     "autoprefixer": "^10.4.20",
+    "babel-loader": "^9.2.1",
     "gh-pages": "^6.2.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14"

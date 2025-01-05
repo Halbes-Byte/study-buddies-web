@@ -10,6 +10,11 @@ import {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {deDE} from "@mui/x-date-pickers/locales";
+import { createMeeting } from "../api/MeetingApi";
+import axios from "axios";
+import {useForm} from "@pankod/refine-react-hook-form";
+import {defaultMeetingDto, MeetingDto} from "../dtos/MeetingDto";
+import {HttpError} from "@refinedev/core";
 
 interface MeetingFormProps {
     open: boolean;
@@ -21,10 +26,24 @@ dayjs.locale('de');
 export function MeetingForm({open, onClose}: MeetingFormProps) {
 
     const [meetingTitle, setMeetingTitle] = useState('');
+    const [repeatable, setRepeatable] = useState('Nie');
     const [meetingDescription, setMeetingDescription] = useState('');
     const [meetingRoom, setMeetingRoom] = useState('');
-    const [date1, setDate1] = useState<Dayjs | null>(dayjs());
-    const [date2, setDate2] = useState<Dayjs | null>(dayjs());
+    const [date1, setDate1] = useState<Dayjs>(dayjs());
+    const [time1, setTime1] = useState<Dayjs>(dayjs().hour(12).minute(0).second(0));
+    const [date2, setDate2] = useState<Dayjs>(dayjs());
+    const [time2, setTime2] = useState<Dayjs>(dayjs().hour(12).minute(0).second(0));
+
+    const methods = useForm<MeetingDto, HttpError>({
+        refineCoreProps: {
+            redirect: "show",
+        },
+        defaultValues: defaultMeetingDto
+    });
+    const {
+        handleSubmit,
+        refineCore: { onFinish },
+    } = methods;
 
     const handleDate1Change = (newDate: Dayjs | null) => {
         if (newDate) {
@@ -38,28 +57,42 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
             setDate2(newDate);
         }
     };
+    const handleTime1Change = (newTime: Dayjs | null) => {
+        if (newTime) {
+            setTime1(newTime);
+            setTime2(newTime);
+        }
+    };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleTime2Change = (newTime: Dayjs | null) => {
+        if (newTime) {
+            setTime2(newTime);
+        }
+    };
 
-        const meetingData = {
+    const handleRepeatChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setRepeatable(event.target.value);
+    };
+
+    const handleClick = async () => {
+        await handleSubmit(async (values) => {
+            await onFinish({
+                ...values,
+            });
+        })();
+
+        const meetingData: MeetingDto = {
             title: meetingTitle,
             description: meetingDescription,
-            room: meetingRoom,
+            links: "",
+            place: meetingRoom,
+            date_from: date1.hour(time1.hour()).minute(time1.minute()).format("DD-MM-YYYY:HH:mm") || "",
+            date_until: date2.hour(time2.hour()).minute(time2.minute()).format("DD-MM-YYYY:HH:mm") || "",
+            repeatable: repeatable,
         };
 
         try {
-            const response = await fetch('http://localhost:8080/pfadangeben', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(meetingData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Fehler beim Speichern des Meetings');
-            }
+            await createMeeting(axios, meetingData);
 
             alert('Meeting erfolgreich gespeichert!');
             onClose();
@@ -167,7 +200,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                                     },
                                 }
                             }}
-                            ampm={false} format="HH:mm" defaultValue={dayjs().hour(12).minute(0).second(0)}/>
+                            ampm={false} format="HH:mm" value={time1} onChange={handleTime1Change}/>
                     </div>
                 </LocalizationProvider>
 
@@ -219,7 +252,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                                     },
                                 }
                             }}
-                            ampm={false} format="HH:mm" defaultValue={dayjs().hour(12).minute(0).second(0)}/>
+                            ampm={false} format="HH:mm" value={time2} onChange={handleTime2Change}/>
                     </div>
                 </LocalizationProvider>
                 <div className={"ml-5 flex-row mt-1 flex h-12 items-center gap-2"}>
@@ -232,6 +265,8 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                         style={{
                             borderRadius: '20px',
                         }}
+                        value={repeatable}
+                        onChange={handleRepeatChange}
                     >
                         <option value="never">Nie</option>
                         <option value="daily">Täglich</option>
@@ -254,8 +289,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
         <DialogActions>
             <CuteButton onClick={onClose} text={"Abbrechen"} textColor={"#CAE8FF"} bgColor={"#425E74"}
                         size={"text-base"}/>
-            <CuteButton onClick={() => {
-            }} text={"Speichern"} textColor={"#DCFFFA"} bgColor={"#506D69"} size={"text-2xl"}/>
+            <CuteButton onClick={handleClick} text={"Speichern"} textColor={"#DCFFFA"} bgColor={"#506D69"} size={"text-2xl"}/>
         </DialogActions>
     </Dialog>
 }

@@ -7,3 +7,13 @@ export type MeetingDto = {
     repeatable: string,
     place: string
 }
+
+export const defaultMeetingDto: MeetingDto = ({
+    title: "",
+    description: "",
+    links: "",
+    date_from: "",
+    date_until: "",
+    repeatable: "",
+    place: ""
+});
