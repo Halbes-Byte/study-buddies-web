@@ -20,7 +20,7 @@ export default function Calender() {
             }
         };
         fetchMeetings();
-    },);
+    }, [isDialogOpen]);
 
     const openMeetingForm = () => {
         setDialogOpen(true);
@@ -31,13 +31,16 @@ export default function Calender() {
     };
 
     return (
-        <div className={"flex flex-row justify-end my-4 mx-8 h-10"}>
-            <CuteButton bgColor={"#598BB1"} textColor={"#ffffff"} text={"Termin eintragen"} onClick={openMeetingForm}/>
-            <MeetingForm open={isDialogOpen} onClose={closeMeetingForm} />
-            <div>
-                <pre>{JSON.stringify(meetings, null, 2)}</pre>
+        <>
+            <div className={"flex flex-row justify-end my-4 mx-8 h-10"}>
+                <CuteButton bgColor={"#598BB1"} textColor={"#ffffff"} text={"Termin eintragen"}
+                            onClick={openMeetingForm}/>
             </div>
-        </div>
+            <MeetingForm open={isDialogOpen} onClose={closeMeetingForm}/>
+            <div className={"flex flex-row justify-center"}>
+                <pre className={"text-cyan-50 self-center"}>{JSON.stringify(meetings, null, 2)}</pre>
+            </div>
+        </>
     );
 }
 

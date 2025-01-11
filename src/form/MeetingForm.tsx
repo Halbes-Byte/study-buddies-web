@@ -10,7 +10,7 @@ import {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {deDE} from "@mui/x-date-pickers/locales";
-import { createMeeting } from "../api/MeetingApi";
+import {createMeeting} from "../api/MeetingApi";
 import axios from "axios";
 import {useForm} from "@pankod/refine-react-hook-form";
 import {defaultMeetingDto, MeetingDto} from "../dtos/MeetingDto";
@@ -26,7 +26,7 @@ dayjs.locale('de');
 export function MeetingForm({open, onClose}: MeetingFormProps) {
 
     const [meetingTitle, setMeetingTitle] = useState('');
-    const [repeatable, setRepeatable] = useState('Nie');
+    const [repeatable, setRepeatable] = useState('never');
     const [meetingDescription, setMeetingDescription] = useState('');
     const [meetingRoom, setMeetingRoom] = useState('');
     const [date1, setDate1] = useState<Dayjs>(dayjs());
@@ -42,7 +42,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
     });
     const {
         handleSubmit,
-        refineCore: { onFinish },
+        refineCore: {onFinish},
     } = methods;
 
     const handleDate1Change = (newDate: Dayjs | null) => {
@@ -93,8 +93,6 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
 
         try {
             await createMeeting(axios, meetingData);
-
-            alert('Meeting erfolgreich gespeichert!');
             onClose();
         } catch (error) {
             console.error('Fehler:', error);
@@ -121,7 +119,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
         <DialogContent>
             <form onSubmit={() => {
             }}>
-                <label htmlFor="meeting-title" className="font-semibold block text-lg  text-white">Titel /
+                <label htmlFor="meeting-title" className="font-semibold block text-lg text-white">Titel /
                     Fach</label>
                 <input
                     id="meeting-title"
@@ -143,7 +141,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                 />
 
                 <div className={"ml-5"}>
-                    <CuteButton text={"Link hinzufügen"} textColor={"#CAE8FF"} bgColor={"#3D6C65"} size={"text-base"}/>
+                    <CuteButton text={"Link hinzufügen"} textColor={"#cbe6e3"} bgColor={"#3D6C65"} size={"text-base"}/>
                 </div>
 
                 {/* TODO dieser Button tut noch nichts*/}
@@ -175,7 +173,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                                         sx: {
                                             paddingLeft: '8px',
                                             paddingRight: '8px',
-                                            color: '#9fa3a8',
+                                            color: '#e2e8f0',
                                         }
                                     },
                                 }
@@ -195,7 +193,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                                         sx: {
                                             paddingLeft: '8px',
                                             paddingRight: '8px',
-                                            color: '#9fa3a8',
+                                            color: '#e2e8f0',
                                         }
                                     },
                                 }
@@ -227,7 +225,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                                         sx: {
                                             paddingLeft: '8px',
                                             paddingRight: '8px',
-                                            color: '#9fa3a8',
+                                            color: '#e2e8f0',
                                         }
                                     },
                                 }
@@ -247,7 +245,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                                         sx: {
                                             paddingLeft: '8px',
                                             paddingRight: '8px',
-                                            color: '#9fa3a8',
+                                            color: '#e2e8f0',
                                         }
                                     },
                                 }
@@ -280,7 +278,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                     id="room"
                     type="text"
                     placeholder="Format: XX.129"
-                    className="ml-5 font-semibold mt-1 text-gray-300 block bg-[#333C4F] w-1/3 px-2 py-1 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-550 placeholder:text-xs"
+                    className="ml-5 mt-1 text-gray-300 block bg-[#333C4F] w-1/3 px-2 py-1 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-550 placeholder:text-xs"
                     value={meetingRoom}
                     onChange={(e) => setMeetingRoom(e.target.value)}
                 />
@@ -289,7 +287,8 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
         <DialogActions>
             <CuteButton onClick={onClose} text={"Abbrechen"} textColor={"#CAE8FF"} bgColor={"#425E74"}
                         size={"text-base"}/>
-            <CuteButton onClick={handleClick} text={"Speichern"} textColor={"#DCFFFA"} bgColor={"#506D69"} size={"text-2xl"}/>
+            <CuteButton onClick={handleClick} text={"Speichern"} textColor={"#e3f1ef"} bgColor={"#506D69"}
+                        size={"text-2xl"}/>
         </DialogActions>
     </Dialog>
 }
