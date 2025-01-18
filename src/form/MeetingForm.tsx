@@ -84,7 +84,6 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
         const meetingData: MeetingDto = {
             title: meetingTitle,
             description: meetingDescription,
-            links: "",
             place: meetingRoom,
             date_from: date1.hour(time1.hour()).minute(time1.minute()).format("DD-MM-YYYY:HH:mm") || "",
             date_until: date2.hour(time2.hour()).minute(time2.minute()).format("DD-MM-YYYY:HH:mm") || "",
@@ -139,12 +138,6 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                     value={meetingDescription}
                     onChange={(e) => setMeetingDescription(e.target.value)}
                 />
-
-                <div className={"ml-5"}>
-                    <CuteButton text={"Link hinzufügen"} textColor={"#cbe6e3"} bgColor={"#3D6C65"} size={"text-base"}/>
-                </div>
-
-                {/* TODO dieser Button tut noch nichts*/}
 
 
                 <label htmlFor="Time Span"
