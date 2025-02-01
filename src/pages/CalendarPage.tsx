@@ -5,8 +5,9 @@ import {MeetingForm} from "../form/MeetingForm";
 import {getMeetings} from "../api/MeetingApi";
 import axios from "axios";
 import {MeetingDto} from "../dtos/MeetingDto";
+import CalendarComponent from "../components/CalendarComponent";
 
-export default function Calender() {
+export default function CalenderPage() {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [meetings, setMeetings] = useState<MeetingDto[] | null>(null);
 
@@ -37,8 +38,8 @@ export default function Calender() {
                             onClick={openMeetingForm}/>
             </div>
             <MeetingForm open={isDialogOpen} onClose={closeMeetingForm}/>
-            <div className={"flex flex-row justify-center"}>
-                <pre className={"text-cyan-50 self-center"}>{JSON.stringify(meetings, null, 2)}</pre>
+            <div className="flex flex-col justify-center mx-10">
+                <CalendarComponent/>
             </div>
         </>
     );

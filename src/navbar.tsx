@@ -1,5 +1,5 @@
 import React from "react";
-import "./navbar.css";
+import "./styles/navbar.css";
 import pinguin from "./data/penguin-48226_1280.svg";
 import { NavbarComponent } from "./components/NavbarComponent";
 import { useLocation, Link} from "react-router-dom";
@@ -7,13 +7,13 @@ import { useLocation, Link} from "react-router-dom";
 const Navbar = () => {
     return (
         <nav className="navbar">
-            <div className="flex justify-self-start">
+            <div className="flex justify-self-start ml-20">
                 <Link to="/">
                     <img className="picture" src={pinguin} alt="Pinguin" />
                 </Link>
             </div>
 
-            <div className="navbar-right">
+            <div className="navbar-right mr-20">
                 <div className="navbar-flex">
                     <div className="navbar-links">
                         <NavbarComponent
@@ -35,9 +35,9 @@ const Navbar = () => {
                         />
                         <span className="navbar-separator">|</span>
                         <NavbarComponent
-                            text="Aktuelles"
-                            path="/current"
-                            isActive={IsActive("/current")}
+                            text="Dein Studium"
+                            path="/settings"
+                            isActive={IsActive("/settings")}
                         />
                     </div>
                 </div>

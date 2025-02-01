@@ -1,0 +1,17 @@
+.fc-day-today {
+    background-color: #A5B1AE !important;
+    color: black;
+}
+
+.fc-theme-standard td, .fc-theme-standard th {
+    border-color: black !important;
+}
+
+.fc-toolbar-title {
+    color: lightgray;
+}
+
+.fc-timegrid-slot-label {
+    background-color: #165B51 !important;
+    color: lightgray;
+}
