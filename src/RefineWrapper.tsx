@@ -20,7 +20,7 @@ function CustomRoutes() {
             <Route path="/study-buddies-web/calendar" element={<Calendar/>}/>
             <Route path="/study-buddies-web/score" element={<Score/>}/>
             <Route path="/study-buddies-web/current" element={<Settings/>}/>
-            <Route path="*" element={<Page404 />}></Route>
+            <Route path="*" element={<Page404/>}></Route>
         </Routes>
     );
 }
