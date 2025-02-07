@@ -1,0 +1,92 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background-color: #1C212C;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 50vw;
+    min-width: 250px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+input, textarea, select {
+    background-color: #333C4F;
+    color: #e2e8f0;
+    padding: 10px;
+    width: 100%;
+    border-radius: 20px;
+    border: 1px solid #333C4F;
+    margin-top: 5px;
+}
+
+textarea {
+    height: 120px;
+    resize: none;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #9fa3a8;
+}
+
+select {
+    font-size: 1rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.button.cancel {
+    background-color: #425E74;
+    color: #CAE8FF;
+}
+
+.button.save {
+    background-color: #506D69;
+    color: #e3f1ef;
+    font-size: 1.25rem;
+}
+
+.date-time-input {
+    width: 140px;
+}
+
+.date-picker, .time-picker {
+    background-color: #333C4F;
+    color: #e2e8f0;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #333C4F;
+    margin-top: 5px;
+}
+
+.date-picker::placeholder, .time-picker::placeholder {
+    color: #9fa3a8;
+}
