@@ -7,6 +7,14 @@ export type MeetingDto = {
     place: string
 }
 
+export interface Meeting {
+    title: string;
+    start: string;
+    end: string;
+    description: string;
+    room: string;
+  }
+  
 export const defaultMeetingDto: MeetingDto = ({
     title: "",
     description: "",
