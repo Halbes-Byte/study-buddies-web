@@ -11,8 +11,7 @@ export default function CalenderPage() {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [meetings, setMeetings] = useState<MeetingDto[] | null>(null);
 
-    useEffect(() => {
-        const fetchMeetings = async () => {
+    useEffect(() => {const fetchMeetings = async () => {
             try {
                 const response = await getMeetings(axios);
                 setMeetings(response);
@@ -23,8 +22,7 @@ export default function CalenderPage() {
         fetchMeetings();
     }, [isDialogOpen]);
 
-    const openMeetingForm = () => {
-        setDialogOpen(true);
+    const openMeetingForm = () => { setDialogOpen(true);
     };
 
     const closeMeetingForm = () => {

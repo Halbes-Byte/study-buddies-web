@@ -1,47 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import Modal from './Modal';
-import { MeetingDto } from '../dtos/MeetingDto';  
+import { MeetingDto } from '../dtos/MeetingDto';
 
 export default function CalendarComponent() {
-  const [selectedMeeting, setSelectedMeeting] = useState<MeetingDto | null>(null); 
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [selectedMeeting, setSelectedMeeting] = useState<MeetingDto | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [events, setEvents] = useState<any[]>([]);
+
+  const fetchMeetings = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/meeting'); 
+      const meetings = await response.json();
+      const parsedEvents = meetings.map((meeting: any) => ({
+        title: meeting.title,
+        start: new Date(meeting.date_from).toISOString(),
+        end: new Date(meeting.date_until).toISOString(),
+        description: meeting.description,
+        room: meeting.place,
+      }));
+      setEvents(parsedEvents);
+    } catch (error) {
+      console.error('Error fetching meetings:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMeetings();
+  }, []);
 
   const Eventhandler = (info: any) => {
     const { event } = info;
-
     const title = event.title;
     const date_from = new Date(event.start).toLocaleString();
     const date_until = new Date(event.end).toLocaleString();
     const description = event.extendedProps?.description || '';
     const place = event.extendedProps?.room || '';
-
     setSelectedMeeting({
       title,
       date_from,
       date_until,
       description,
       place,
-      repeatable: 'false' 
+      repeatable: 'false',
     });
-
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const convertMeetingToDto = (meeting: MeetingDto): MeetingDto => {
-    return {
-      title: meeting.title,
-      description: meeting.description,
-      date_from: meeting.date_from,
-      date_until: meeting.date_until,
-      repeatable: 'false', 
-      place: meeting.place
-    };
   };
 
   return (
@@ -71,18 +79,13 @@ export default function CalendarComponent() {
           day: 'Tag',
           week: 'Woche',
         }}
-        events={[
-          { title: 'Meeting 1', start: '2025-02-03T10:30:00', end: '2025-02-03T12:00:00', description: 'Vorbereitung für Prüfung am 16.03.', room: 'HQ.102' },
-          { title: 'Meeting 2', start: '2025-02-03T11:30:00', end: '2025-02-03T14:00:00', description: 'Wiederholung des Stoffes Vorlesung Algorithmen 1', room: 'HQ.406' },
-          { title: 'Meeting 3', start: '2025-02-03T09:30:00', end: '2025-02-03T11:00:00', description: 'Übung vom 06.01. vorbereiten', room: 'HQ.411' },
-        ]}
-        eventClick={Eventhandler} 
+        events={events}
+        eventClick={Eventhandler}
       />
-
       {selectedMeeting && (
         <Modal
-          isOpen={isModalOpen} 
-          meeting={convertMeetingToDto(selectedMeeting)} 
+          isOpen={isModalOpen}
+          meeting={selectedMeeting}
           onClose={closeModal}
         />
       )}
