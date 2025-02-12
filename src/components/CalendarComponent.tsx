@@ -11,20 +11,23 @@ export default function CalendarComponent() {
 
   const fetchMeetings = async () => {
     try {
-      const response = await fetch('http://localhost:8080/meeting'); 
+      const response = await fetch('http://localhost:8080/meeting');
+      if (!response.ok) throw new Error(`HTTP-Fehler: ${response.status}`);
+  
       const meetings = await response.json();
-      const parsedEvents = meetings.map((meeting: any) => ({
-        title: meeting.title,
-        start: new Date(meeting.date_from).toISOString(),
-        end: new Date(meeting.date_until).toISOString(),
-        description: meeting.description,
-        room: meeting.place,
-      }));
-      setEvents(parsedEvents);
+      setEvents(meetings.map(({ title, date_from, date_until, description, place }: any) => ({
+        title,
+        start: new Date(date_from).toISOString(),
+        end: new Date(date_until).toISOString(),
+        description,
+        room: place,
+      })));
     } catch (error) {
-      console.error('Error fetching meetings:', error);
+      console.error('Fehler beim Abrufen der Meetings:', error);
     }
   };
+  
+  
 
   useEffect(() => {
     fetchMeetings();
