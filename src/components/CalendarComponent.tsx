@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import Modal from './Modal';
 import { MeetingDto } from '../dtos/MeetingDto';
+import '../styles/Calendar.css';
 
 export default function CalendarComponent() {
   const [selectedMeeting, setSelectedMeeting] = useState<MeetingDto | null>(null);
