@@ -16,7 +16,6 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
     const fetchMeetings = async () => {
         try {
             const response = await fetch('http://localhost:8080/meeting');
-            if (!response.ok) throw new Error(`HTTP-Fehler: ${response.status}`);
 
             const meetings = await response.json();
             setEvents(meetings.map(({title, date_from, date_until, description, place}: any) => ({
@@ -27,7 +26,7 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
                 room: place,
             })));
         } catch (error) {
-            console.error('Fehler beim Abrufen der Meetings:', error);
+            alert(error);
         }
     };
 
