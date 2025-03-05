@@ -18,19 +18,19 @@ export default function Homepage() {
     return (
         <div className=" h-screen relative items-center justify-center justify-items-center grid">
             <div className="h-[70%] relative self-start grid justify-items-center">
-                <div className="grid grid-cols-4 gap-1 justify-self-end">
+                <div className="md:grid px-5 flex grid-cols-4 gap-1 justify-self-end">
 
                     <div className="flex flex-col gap-3 justify-self-end grid-cols-subgrid  col-span-2 self-center">
-                        <h1 className="text-7xl font-bold text-gray-300 text-center">Study-Buddies</h1>
+                        <h1 className="md:text-7xl text-5xl font-bold text-gray-300 text-center">Study-Buddies</h1>
                         <p className="text-xl font-medium text-gray-300 text-center">Finde deinen Study-Buddy für deine
                             Study-Party</p>
                         <div className="px-0 py-0 flex flex-row justify-start gap-7 h-12">
-                            <CuteButton bgColor={"#598BB1"} textColor={"#d4deff"} text={"Erstelle einen Termin"} onClick={openMeetingForm}/>
-                            <CuteButton bgColor={"#56A095"} textColor={"#e8fcf6"} text={"Finde einen Lernpartner"} onClick={() => {} }/>
+                            <CuteButton bgColor={"#598BB1"} classname={"lg:text-xl text-lg"} textColor={"#d4deff"} text={"Erstelle einen Termin"} onClick={openMeetingForm}/>
+                            <CuteButton bgColor={"#56A095"} classname={"lg:text-xl text-lg"} textColor={"#e8fcf6"} text={"Finde einen Lernpartner"} onClick={() => {} }/>
                         </div>
                     </div>
 
-                    <div className="w-[150%] self-center justify-self-start">
+                    <div className="md:w-[150%] self-center md:block hidden justify-self-start">
 
                         <img className="object-cover overflow-visible justify-self-start self-center" src={title_img} alt={"titelbild"}/>
                     </div>

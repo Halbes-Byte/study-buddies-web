@@ -5,11 +5,10 @@ export function CuteButton(props: {
     textColor: string;
     text: string;
     onClick?: () => void | undefined | Promise<void>;
-    size?: string | undefined;
+    classname?: string | undefined;
 }) {
-    const textSize = props.size || "text-xl";
-    const className = `px-5 py-1 rounded-full transform transition-all duration-300` +
-        `hover:scale-x-105 hover:scale-y-105 ${textSize}`;
+    const className = `px-5 py-2 h-fit rounded-full transform transition-all duration-300` +
+        `hover:scale-x-105 hover:scale-y-105 ${props.classname}`;
     return (
         <button
             className={className}

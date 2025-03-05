@@ -10,7 +10,6 @@
 
 .navbar-left {
     display: flex;
-
 }
 
 .picture {
@@ -46,6 +45,5 @@
 
 .navbar-separator {
     color: #56A095;
-    padding: 5px;
 }
   

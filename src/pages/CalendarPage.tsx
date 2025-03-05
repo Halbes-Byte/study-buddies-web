@@ -1,28 +1,14 @@
 import '../index.css';
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {CuteButton} from "../components/CuteButton";
 import {MeetingForm} from "../form/MeetingForm";
-import {getMeetings} from "../api/MeetingApi";
-import axios from "axios";
-import {MeetingDto} from "../dtos/MeetingDto";
 import CalendarComponent from "../components/CalendarComponent";
 
 export default function CalenderPage() {
     const [isDialogOpen, setDialogOpen] = useState(false);
-    const [meetings, setMeetings] = useState<MeetingDto[] | null>(null);
 
-    useEffect(() => {const fetchMeetings = async () => {
-            try {
-                const response = await getMeetings(axios);
-                setMeetings(response);
-            } catch (err) {
-                alert(err);
-            }
-        };
-        fetchMeetings();
-    }, [isDialogOpen]);
-
-    const openMeetingForm = () => { setDialogOpen(true);
+    const openMeetingForm = () => {
+        setDialogOpen(true);
     };
 
     const closeMeetingForm = () => {
@@ -32,12 +18,12 @@ export default function CalenderPage() {
     return (
         <>
             <div className={"flex flex-row justify-end my-4 mx-8 h-10"}>
-                <CuteButton bgColor={"#598BB1"} textColor={"#ffffff"} text={"Termin eintragen"}
+                <CuteButton bgColor={"#598BB1"} textColor={"#ffffff"} text={"Termin eintragen"} classname={"md:text-xl sm:text-lg tex-sm"}
                             onClick={openMeetingForm}/>
             </div>
             <MeetingForm open={isDialogOpen} onClose={closeMeetingForm}/>
-            <div className="flex flex-col justify-center mx-10">
-                <CalendarComponent/>
+            <div className="flex overflow-hidden flex-col justify-center sm:mx-10 mx-3">
+                <CalendarComponent isDialogOpen={isDialogOpen} />
             </div>
         </>
     );

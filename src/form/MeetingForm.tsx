@@ -279,9 +279,9 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
         </DialogContent>
         <DialogActions>
             <CuteButton onClick={onClose} text={"Abbrechen"} textColor={"#CAE8FF"} bgColor={"#425E74"}
-                        size={"text-base"}/>
+                        classname={"text-base"}/>
             <CuteButton onClick={handleClick} text={"Speichern"} textColor={"#e3f1ef"} bgColor={"#506D69"}
-                        size={"text-2xl"}/>
+                        classname={"text-2xl"}/>
         </DialogActions>
     </Dialog>
 }

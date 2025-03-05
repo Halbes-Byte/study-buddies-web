@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/Modal.css';
-import { CuteButton } from "../components/CuteButton";
+import { CuteButton } from "./CuteButton";
 import { MeetingDto } from "../dtos/MeetingDto"; 
 
 interface ModalProps {
@@ -33,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, meeting, onClose }) => {
                 </div>
 
                 <div className="mt-auto flex justify-end">
-                    <CuteButton onClick={onClose} text={"Schließen"} textColor={"#CAE8FF"} bgColor={"#425E74"} size={"text-base"} />
+                    <CuteButton onClick={onClose} text={"Schließen"} textColor={"#CAE8FF"} bgColor={"#425E74"} classname={"text-base"} />
                 </div>
 
             </div>
