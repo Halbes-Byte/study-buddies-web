@@ -1,9 +1,9 @@
-import { KeycloakClient } from '@react-keycloak/keycloak-ts';
+import Keycloak from "keycloak-js";
 
-const keycloak = new KeycloakClient({
-    url: 'http://keycloak-server/auth',
-    realm: 'studdy-buddies',
-    clientId: 'studdy-buddies-web'
+const keycloak = new Keycloak({
+    url: 'http://localhost:7070',
+    realm: 'study-buddies-realm',
+    clientId: 'keycloak-client'
 });
 
 export default keycloak;

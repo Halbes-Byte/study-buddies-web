@@ -15,7 +15,16 @@ import keycloak from "./Keycloak";
 
 function App() {
     return (
-        <ReactKeycloakProvider authClient={keycloak}>
+        <ReactKeycloakProvider
+            authClient={keycloak}
+            initOptions={{ onLoad: 'login-required', checkLoginIframe: false }}
+            onEvent={(event, error) => {
+                console.log(`Keycloak Event: ${event}`, error);
+                if (event === 'onAuthError') {
+                    console.error('Authentication Error:', error);
+                }
+            }}
+        >
             <ThemeProvider theme={customTheme}>
                 <CssBaseline/>
                 <GlobalStyles styles={{html: {WebkitFontSmoothing: "auto"}}}/>
