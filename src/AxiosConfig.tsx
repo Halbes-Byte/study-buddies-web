@@ -1,11 +1,11 @@
 import axios from 'axios';
-import keycloak from "./Keycloak";
+/*import keycloak from "./Keycloak";*/
 
 const axiosInstance = axios.create({
     baseURL: 'http://localhost:8080',
 });
 
-axiosInstance.interceptors.request.use(
+/*axiosInstance.interceptors.request.use(
     async (config) => {
         const token = keycloak.token;
         if (token) {
@@ -17,6 +17,6 @@ axiosInstance.interceptors.request.use(
     (error) => {
         return Promise.reject(error);
     }
-);
+);*/
 
 export default axiosInstance;
