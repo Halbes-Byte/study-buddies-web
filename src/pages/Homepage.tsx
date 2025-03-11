@@ -3,22 +3,12 @@ import title_img from '../data//titelbild.png';
 import React, {useState} from "react";
 import {CuteButton} from "../components/CuteButton";
 import {MeetingForm} from "../form/MeetingForm";
-import axiosInstance from "../AxiosConfig";
 
 export default function Homepage() {
     const [isDialogOpen, setDialogOpen] = useState(false);
 
     const openMeetingForm = () => {
         setDialogOpen(true);
-    };
-
-    const getHello = async () => {
-        try {
-            const response = await axiosInstance.get('/hello');
-            console.log(response);
-        } catch (error) {
-            alert(error);
-        }
     };
 
     const closeMeetingForm = () => {
@@ -38,7 +28,8 @@ export default function Homepage() {
                             <CuteButton bgColor={"#598BB1"} classname={"lg:text-xl text-lg"} textColor={"#d4deff"}
                                         text={"Erstelle einen Termin"} onClick={openMeetingForm}/>
                             <CuteButton bgColor={"#56A095"} classname={"lg:text-xl text-lg"} textColor={"#e8fcf6"}
-                                        text={"Finde einen Lernpartner"} onClick={getHello}/>
+                                        text={"Finde einen Lernpartner"} onClick={() => {
+                            }}/>
                         </div>
                     </div>
 
