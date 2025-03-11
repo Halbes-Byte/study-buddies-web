@@ -4,14 +4,14 @@ import {Routes, Route} from "react-router-dom";
 import {customTheme} from "./customTheme";
 import React from "react";
 import Navbar from "./components/Navbar";
-import {ReactKeycloakProvider} from '@react-keycloak/web'
+// import {ReactKeycloakProvider} from '@react-keycloak/web'
 
 import CalenderPage from './pages/CalendarPage';
 import Homepage from './pages/Homepage';
-import Settings from './pages/Settings';
+import Settings from './pages/YourStudies';
 import Page404 from './pages/Page404';
 import Score from './pages/Score';
-/*import keycloak from "./Keycloak";*/
+// import keycloak from "./Keycloak";
 
 function App() {
     return (

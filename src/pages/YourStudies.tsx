@@ -5,8 +5,8 @@ import SettingsModal from "../components/SettingsModal";
 
 const filterMeetingsForCurrentWeek = (meetings: any[]) => {
     const currentDate = new Date();
-    const startOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 1)); 
-    const endOfWeek = new Date(currentDate.setDate(startOfWeek.getDate() + 6)); 
+    const startOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 1));
+    const endOfWeek = new Date(currentDate.setDate(startOfWeek.getDate() + 6));
 
     return meetings.filter((meeting) => {
         const meetingDate = new Date(meeting.start);
@@ -21,7 +21,7 @@ const subjects = [
     { name: "Software Engineering", date: "27.01.2025", time: "14:00", room: "KA.046", progress: 80 },
 ];
 
-export default function Layout() {
+export default function YourStudies() {
     const [weeklyMeetings, setWeeklyMeetings] = useState<any[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -33,7 +33,7 @@ export default function Layout() {
             const filteredMeetings = filterMeetingsForCurrentWeek(meetings);
             setWeeklyMeetings(filteredMeetings);
         } catch (error) {
-            alert("Fehler beim Abrufen der Meetings: " + error);
+            //alert("Fehler beim Abrufen der Meetings: " + error);
         }
     };
 
@@ -50,10 +50,10 @@ export default function Layout() {
     };
 
     return (
-        <div className="flex h-screen">
-            <div className="w-1/3 bg-[#1C212C] text-white p-4 fixed top-16 h-[calc(100vh-4rem)]">
-                <div className="ml-20">
-                    <h1 className="md:text-5xl font-bold text-gray-300 text-left mt-40">Mein Studium</h1>
+        <div className="flex flex-row full items-between overflow-hidden mt-16">
+            <div className="w-1/3 bg-[#1C212C] flex text-white p-4">
+                <div className="ml-20 w-full">
+                    <h1 className="md:text-5xl font-bold text-gray-300 text-left mt-24">Mein Studium</h1>
                     <p className="text-xl font-medium text-white text-left mt-3">Aktuelle Module</p>
                     <div className="p-4 mr-20 mt-2">
                         <table className="w-full border-collapse">
@@ -67,15 +67,15 @@ export default function Layout() {
                         </table>
                     </div>
                     <div className="mt-3">
-                        <CuteButton bgColor="#598BB1" classname="lg:text-xl text-lg" textColor="#d4deff" text="Erstelle einen Termin" />
+                        <CuteButton bgColor="#598BB1" classname="lg:text-xl text-lg" textColor="#d4deff" text="Module verwalten" />
                     </div>
                 </div>
             </div>
 
             <div className="fixed left-1/3 top-[180px] bottom-[110px] w-[1px] bg-[#1C7E70]"></div>
 
-            <div className="ml-[33.33%] flex-grow overflow-y-auto p-4 mt-16 h-screen">
-                <div className="h-[200vh] bg-[#1C212C] p-4">
+            <div className="w-2/3 flex overflow-y-auto p-4 mb-16 overflow-auto justify-center">
+                <div className=" p-4 w-full">
                     <div className="ml-[90px] mr-[170px]">
                         <p className="text-2xl font-bold text-white text-left mt-3 mb-7">Prüfungstermine</p>
 

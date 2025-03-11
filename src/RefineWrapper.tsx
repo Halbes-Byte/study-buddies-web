@@ -3,7 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Calendar from "./pages/CalendarPage";
 import Score from "./pages/Score";
-import Settings from "./pages/Settings";
+import Settings from "./pages/YourStudies";
 import Page404 from "./pages/Page404";
 
 
