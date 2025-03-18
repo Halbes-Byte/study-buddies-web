@@ -6,6 +6,8 @@ import {MeetingDto} from '../dtos/MeetingDto';
 import '../styles/Calendar.css';
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import {getMeetings} from "../api/MeetingApi";
+import axiosInstance from "../AxiosConfig";
 
 export default function CalendarComponent(props: { isDialogOpen: boolean }) {
     const [selectedMeeting, setSelectedMeeting] = useState<MeetingDto | null>(null);
@@ -15,10 +17,9 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
 
     const fetchMeetings = async () => {
         try {
-            const response = await fetch('http://localhost:8080/meeting');
+            const response = await getMeetings(axiosInstance);
 
-            const meetings = await response.json();
-            setEvents(meetings.map(({title, date_from, date_until, description, place}: any) => ({
+            setEvents(response.map(({title, date_from, date_until, description, place}: any) => ({
                 title,
                 start: new Date(date_from).toISOString(),
                 end: new Date(date_until).toISOString(),

@@ -11,10 +11,10 @@ import dayjs from 'dayjs';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {deDE} from "@mui/x-date-pickers/locales";
 import {createMeeting} from "../api/MeetingApi";
-import axios from "axios";
 import {useForm} from "@pankod/refine-react-hook-form";
 import {defaultMeetingDto, MeetingDto} from "../dtos/MeetingDto";
 import {HttpError} from "@refinedev/core";
+import axiosInstance from "../AxiosConfig";
 
 interface MeetingFormProps {
     open: boolean;
@@ -91,7 +91,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
         };
 
         try {
-            await createMeeting(axios, meetingData);
+            await createMeeting(axiosInstance, meetingData);
             onClose();
         } catch (error) {
             console.error('Fehler:', error);
