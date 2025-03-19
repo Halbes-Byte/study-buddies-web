@@ -15,78 +15,93 @@
     background-color: #1C212C;
     padding: 20px;
     border-radius: 8px;
-    width: 400px;
+    width: 650px;
     max-width: 50vw;
     min-width: 250px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.modal-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #FFFFFF;
-}
-
-input, textarea, select {
-    background-color: #333C4F;
-    color: #e2e8f0;
-    padding: 10px;
-    width: 100%;
-    border-radius: 20px;
-    border: 1px solid #333C4F;
-    margin-top: 5px;
-}
-
-textarea {
-    height: 120px;
-    resize: none;
-}
-
-input::placeholder, textarea::placeholder {
-    color: #9fa3a8;
-}
-
-select {
-    font-size: 1rem;
-}
-
-.modal-footer {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.button {
-    padding: 10px 20px;
-    border-radius: 20px;
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+}
+
+.checkbox-group input[type="checkbox"] {
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    background-color: #465370;
+    border-radius: 4px;
     cursor: pointer;
-    font-weight: bold;
+    display: inline-block;
+    position: relative;
 }
 
-.button.cancel {
-    background-color: #425E74;
-    color: #CAE8FF;
+.checkbox-group input[type="checkbox"]:checked::after {
+    content: "✔";
+    font-size: 50px;
+    color: #2EF6D9;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: transparent; 
 }
 
-.button.save {
-    background-color: #506D69;
-    color: #e3f1ef;
-    font-size: 1.25rem;
+.checkbox-item {
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: transparent;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    position: relative;
 }
 
-.date-time-input {
-    width: 140px;
+.delete-btn {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
 }
 
-.date-picker, .time-picker {
-    background-color: #333C4F;
-    color: #e2e8f0;
+.add-checkbox-container, .add-chapter-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 20px; 
+}
+
+.add-checkbox-btn, .add-chapter-btn {
+    background-color: #2EF6D9;
+    color: white;
+    cursor: pointer;
     padding: 10px;
-    border-radius: 20px;
-    border: 1px solid #333C4F;
-    margin-top: 5px;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    font-size: 16px;
+    display: inline-flex; 
+    align-items: center;
 }
 
-.date-picker::placeholder, .time-picker::placeholder {
-    color: #9fa3a8;
+.add-chapter-container {
+    color: white;
 }
