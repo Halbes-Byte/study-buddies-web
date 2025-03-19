@@ -105,7 +105,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
             "& .MuiPaper-root": {
                 width: "100%",
                 maxWidth: "50vw",
-                minWidth: "250px",
+                minWidth: "300px",
                 bgcolor: "#1C212C",
                 padding: "8px",
             },
@@ -116,15 +116,15 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
         </DialogTitle>
 
         <DialogContent>
-            <form onSubmit={() => {
+            <form className={"overflow-x-hidden"} onSubmit={() => {
             }}>
                 <label htmlFor="meeting-title" className="font-semibold block text-lg text-white">Titel /
                     Fach</label>
                 <input
                     id="meeting-title"
                     type="text"
-                    placeholder="Hier Titel oder Fach eingeben"
-                    className="mx-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                    placeholder="Titel oder Fach"
+                    className="mx-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-10 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
                     value={meetingTitle}
                     onChange={(e) => setMeetingTitle(e.target.value)}
                 />
@@ -134,7 +134,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                 <textarea
                     id="meeting-description"
                     placeholder="Hier könnte Ihre Beschreibung stehen"
-                    className="ml-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-2 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs placeholder:pl-3 pl-4 py-2"
+                    className="ml-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-10 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs placeholder:py-1 py-2"
                     value={meetingDescription}
                     onChange={(e) => setMeetingDescription(e.target.value)}
                 />
@@ -147,10 +147,11 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                     adapterLocale="de"
                     localeText={deDE.components.MuiLocalizationProvider.defaultProps.localeText}
                 >
-                    <div className={"ml-5 flex-row flex mt-2 w-80 items-center gap-2"}>
+                    <div className={"ml-5 flex-row flex mt-2 w-80 items-center gap-2 md:mb-0 mb-8"}>
 
                         <label htmlFor="From"
                                className="mr-2 block text-bs font-medium text-white text-center">Von</label>
+                        <div className="flex md:flex-row flex-col gap-2">
                         <DatePicker
                             className="mt-1 block bg-[#333C4F] w-36 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
                             sx={{
@@ -192,6 +193,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                                 }
                             }}
                             ampm={false} format="HH:mm" value={time1} onChange={handleTime1Change}/>
+                        </div>
                     </div>
                 </LocalizationProvider>
 
@@ -200,50 +202,52 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                     adapterLocale="de"
                     localeText={deDE.components.MuiLocalizationProvider.defaultProps.localeText}
                 >
-                    <div className={"ml-5 flex-row mt-4 flex w-80 h-12 items-center gap-2"}>
+                    <div className={"ml-5 flex-row mt-4 flex w-80 h-12 items-center gap-2 md:mb-0 mb-8"}>
                         <label htmlFor="To"
                                className="mr-3 block text-bs font-medium text-white ">Bis</label>
-                        <DatePicker
-                            sx={{
-                                '& .MuiIconButton-root': {
-                                    color: '#9fa3a8',
-                                },
-                            }}
-                            minDate={dayjs()}
-                            className="mt-1 block bg-[#333C4F] w-36 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
-                            slotProps={{
-                                textField: {
-                                    size: 'small', variant: 'standard', InputProps: {
-                                        disableUnderline: true,
-                                        sx: {
-                                            paddingLeft: '8px',
-                                            paddingRight: '8px',
-                                            color: '#e2e8f0',
-                                        }
+                        <div className="flex md:flex-row flex-col gap-2 ">
+                            <DatePicker
+                                sx={{
+                                    '& .MuiIconButton-root': {
+                                        color: '#9fa3a8',
                                     },
-                                }
-                            }}
-                            format="DD.MM.YYYY" defaultValue={date2} value={date2} onChange={handleDate2Change}/>
-                        <TimePicker
-                            sx={{
-                                '& .MuiIconButton-root': {
-                                    color: '#9fa3a8',
-                                },
-                            }}
-                            className="mt-1 block bg-[#333C4F] w-24 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
-                            slotProps={{
-                                textField: {
-                                    size: 'small', variant: 'standard', InputProps: {
-                                        disableUnderline: true,
-                                        sx: {
-                                            paddingLeft: '8px',
-                                            paddingRight: '8px',
-                                            color: '#e2e8f0',
-                                        }
+                                }}
+                                minDate={dayjs()}
+                                className="mt-1 block bg-[#333C4F] w-36 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                                slotProps={{
+                                    textField: {
+                                        size: 'small', variant: 'standard', InputProps: {
+                                            disableUnderline: true,
+                                            sx: {
+                                                paddingLeft: '8px',
+                                                paddingRight: '8px',
+                                                color: '#e2e8f0',
+                                            }
+                                        },
+                                    }
+                                }}
+                                format="DD.MM.YYYY" defaultValue={date2} value={date2} onChange={handleDate2Change}/>
+                            <TimePicker
+                                sx={{
+                                    '& .MuiIconButton-root': {
+                                        color: '#9fa3a8',
                                     },
-                                }
-                            }}
-                            ampm={false} format="HH:mm" value={time2} onChange={handleTime2Change}/>
+                                }}
+                                className="mt-1 block bg-[#333C4F] w-24 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                                slotProps={{
+                                    textField: {
+                                        size: 'small', variant: 'standard', InputProps: {
+                                            disableUnderline: true,
+                                            sx: {
+                                                paddingLeft: '8px',
+                                                paddingRight: '8px',
+                                                color: '#e2e8f0',
+                                            }
+                                        },
+                                    }
+                                }}
+                                ampm={false} format="HH:mm" value={time2} onChange={handleTime2Change}/>
+                        </div>
                     </div>
                 </LocalizationProvider>
                 <div className={"ml-5 flex-row mt-1 flex h-12 items-center gap-2"}>
@@ -270,8 +274,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                 <input
                     id="room"
                     type="text"
-                    placeholder="Format: XX.129"
-                    className="ml-5 mt-1 text-gray-300 block bg-[#333C4F] w-1/3 px-2 py-1 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-550 placeholder:text-xs"
+                    className="ml-5 mt-1 text-gray-300 block bg-[#333C4F] w-2/3 px-10 py-1 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-550 placeholder:text-xs"
                     value={meetingRoom}
                     onChange={(e) => setMeetingRoom(e.target.value)}
                 />
