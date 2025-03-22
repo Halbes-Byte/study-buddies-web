@@ -152,47 +152,47 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                         <label htmlFor="From"
                                className="mr-2 block text-bs font-medium text-white text-center">Von</label>
                         <div className="flex md:flex-row flex-col gap-2">
-                        <DatePicker
-                            className="mt-1 block bg-[#333C4F] w-36 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
-                            sx={{
-                                '& .MuiIconButton-root': {
-                                    color: '#9fa3a8',
-                                },
-                            }}
-                            minDate={dayjs()}
-                            slotProps={{
-                                textField: {
-                                    size: 'small', variant: 'standard', InputProps: {
-                                        disableUnderline: true,
-                                        sx: {
-                                            paddingLeft: '8px',
-                                            paddingRight: '8px',
-                                            color: '#e2e8f0',
-                                        }
+                            <DatePicker
+                                className="mt-1 block bg-[#333C4F] w-36 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                                sx={{
+                                    '& .MuiIconButton-root': {
+                                        color: '#9fa3a8',
                                     },
-                                }
-                            }}
-                            format="DD.MM.YYYY" defaultValue={date1} value={date1} onChange={handleDate1Change}/>
-                        <TimePicker
-                            className="mt-1 block bg-[#333C4F] w-24 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
-                            sx={{
-                                '& .MuiIconButton-root': {
-                                    color: '#9fa3a8',
-                                },
-                            }}
-                            slotProps={{
-                                textField: {
-                                    size: 'small', variant: 'standard', InputProps: {
-                                        disableUnderline: true,
-                                        sx: {
-                                            paddingLeft: '8px',
-                                            paddingRight: '8px',
-                                            color: '#e2e8f0',
-                                        }
+                                }}
+                                minDate={dayjs()}
+                                slotProps={{
+                                    textField: {
+                                        size: 'small', variant: 'standard', InputProps: {
+                                            disableUnderline: true,
+                                            sx: {
+                                                paddingLeft: '8px',
+                                                paddingRight: '8px',
+                                                color: '#e2e8f0',
+                                            }
+                                        },
+                                    }
+                                }}
+                                format="DD.MM.YYYY" defaultValue={date1} value={date1} onChange={handleDate1Change}/>
+                            <TimePicker
+                                className="mt-1 block bg-[#333C4F] w-24 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                                sx={{
+                                    '& .MuiIconButton-root': {
+                                        color: '#9fa3a8',
                                     },
-                                }
-                            }}
-                            ampm={false} format="HH:mm" value={time1} onChange={handleTime1Change}/>
+                                }}
+                                slotProps={{
+                                    textField: {
+                                        size: 'small', variant: 'standard', InputProps: {
+                                            disableUnderline: true,
+                                            sx: {
+                                                paddingLeft: '8px',
+                                                paddingRight: '8px',
+                                                color: '#e2e8f0',
+                                            }
+                                        },
+                                    }
+                                }}
+                                ampm={false} format="HH:mm" value={time1} onChange={handleTime1Change}/>
                         </div>
                     </div>
                 </LocalizationProvider>
