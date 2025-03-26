@@ -8,10 +8,12 @@ import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {getMeetings} from "../api/MeetingApi";
 import axiosInstance from "../AxiosConfig";
+import {MeetingForm} from "../form/MeetingForm";
 
 export default function CalendarComponent(props: { isDialogOpen: boolean }) {
     const [selectedMeeting, setSelectedMeeting] = useState<MeetingDto | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isMeetingFormOpen, setIsMeetingFormOpen] = useState(false);
     const [events, setEvents] = useState<any[]>([]);
     const mdAndUp = useMediaQuery(useTheme().breakpoints.up('md'));
 
@@ -19,12 +21,14 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
         try {
             const response = await getMeetings(axiosInstance);
 
-            setEvents(response.map(({title, date_from, date_until, description, place}: any) => ({
+            setEvents(response.map(({id, title, date_from, date_until, description, place, repeatable}: MeetingDto) => ({
+                id,
                 title,
                 start: new Date(date_from).toISOString(),
                 end: new Date(date_until).toISOString(),
                 description,
                 room: place,
+                repeatable: repeatable
             })));
         } catch (error) {
             alert(error);
@@ -33,22 +37,25 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
 
     useEffect(() => {
         fetchMeetings();
-    }, [props.isDialogOpen]);
+    }, [props.isDialogOpen, isMeetingFormOpen]);
 
     const Eventhandler = (info: any) => {
         const {event} = info;
+        const id = event.id;
         const title = event.title;
         const date_from = new Date(event.start).toLocaleString();
         const date_until = new Date(event.end).toLocaleString();
         const description = event.extendedProps?.description || '';
         const place = event.extendedProps?.room || '';
+        const repeatable = event.extendedProps?.repeatable || 'never';
         setSelectedMeeting({
+            id,
             title,
             date_from,
             date_until,
             description,
             place,
-            repeatable: 'false',
+            repeatable: repeatable,
         });
         setIsModalOpen(true);
     };
@@ -92,8 +99,13 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
                     isOpen={isModalOpen}
                     meeting={selectedMeeting}
                     onClose={closeModal}
+                    setIsMeetingFormOpen={setIsMeetingFormOpen}
                 />
             )}
+            {selectedMeeting && isMeetingFormOpen &&
+                <MeetingForm open={true} onClose={() => setIsMeetingFormOpen(false)} meeting={selectedMeeting}/>
+            }
+
         </div>
     );
 }

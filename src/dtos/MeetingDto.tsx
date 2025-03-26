@@ -1,4 +1,4 @@
-export type MeetingDto = {
+export type CreateMeetingDto = {
     title: string,
     description: string,
     date_from: string,
@@ -7,19 +7,12 @@ export type MeetingDto = {
     place: string
 }
 
-export interface Meeting {
-    title: string;
-    start: string;
-    end: string;
-    description: string;
-    room: string;
-  }
-  
-export const defaultMeetingDto: MeetingDto = ({
-    title: "",
-    description: "",
-    date_from: "",
-    date_until: "",
-    repeatable: "",
-    place: ""
-});
+export type MeetingDto = {
+    id: number,
+    title: string,
+    description: string,
+    date_from: string,
+    date_until: string,
+    repeatable: string,
+    place: string
+}

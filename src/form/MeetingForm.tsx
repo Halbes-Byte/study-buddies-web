@@ -10,40 +10,31 @@ import {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {deDE} from "@mui/x-date-pickers/locales";
-import {createMeeting} from "../api/MeetingApi";
-import {useForm} from "@pankod/refine-react-hook-form";
-import {defaultMeetingDto, MeetingDto} from "../dtos/MeetingDto";
-import {HttpError} from "@refinedev/core";
+import {createMeeting, deleteMeeting, updateMeeting} from "../api/MeetingApi";
+import {CreateMeetingDto, MeetingDto} from "../dtos/MeetingDto";
 import axiosInstance from "../AxiosConfig";
 
 interface MeetingFormProps {
     open: boolean;
     onClose: () => void;
+    meeting?: MeetingDto;
 }
 
 dayjs.locale('de');
 
-export function MeetingForm({open, onClose}: MeetingFormProps) {
+export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
+    const dateFrom = dayjs(meeting?.date_from, "D.M.YYYY, H:mm:ss");
+    const dateUntil = dayjs(meeting?.date_until, "D.M.YYYY, H:mm:ss");
 
-    const [meetingTitle, setMeetingTitle] = useState('');
-    const [repeatable, setRepeatable] = useState('never');
-    const [meetingDescription, setMeetingDescription] = useState('');
-    const [meetingRoom, setMeetingRoom] = useState('');
-    const [date1, setDate1] = useState<Dayjs>(dayjs());
-    const [time1, setTime1] = useState<Dayjs>(dayjs().hour(12).minute(0).second(0));
-    const [date2, setDate2] = useState<Dayjs>(dayjs());
-    const [time2, setTime2] = useState<Dayjs>(dayjs().hour(12).minute(0).second(0));
+    const [meetingTitle, setMeetingTitle] = useState(meeting ? meeting.title : "");
+    const [repeatable, setRepeatable] = useState(meeting ? meeting.repeatable : "never");
+    const [meetingDescription, setMeetingDescription] = useState(meeting ? meeting.description : '');
+    const [meetingRoom, setMeetingRoom] = useState(meeting ? meeting.place : '');
+    const [date1, setDate1] = useState<Dayjs>(meeting ? dateFrom : dayjs());
+    const [time1, setTime1] = useState<Dayjs>(meeting ? dateFrom : dayjs().hour(12).minute(0).second(0));
+    const [date2, setDate2] = useState<Dayjs>(meeting ? dateUntil : dayjs());
+    const [time2, setTime2] = useState<Dayjs>(meeting ? dateUntil : dayjs().hour(13).minute(0).second(0));
 
-    const methods = useForm<MeetingDto, HttpError>({
-        refineCoreProps: {
-            redirect: "show",
-        },
-        defaultValues: defaultMeetingDto
-    });
-    const {
-        handleSubmit,
-        refineCore: {onFinish},
-    } = methods;
 
     const handleDate1Change = (newDate: Dayjs | null) => {
         if (newDate) {
@@ -60,7 +51,7 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
     const handleTime1Change = (newTime: Dayjs | null) => {
         if (newTime) {
             setTime1(newTime);
-            setTime2(newTime);
+            setTime2(newTime.add(1, 'hour'));
         }
     };
 
@@ -74,14 +65,18 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
         setRepeatable(event.target.value);
     };
 
-    const handleClick = async () => {
-        await handleSubmit(async (values) => {
-            await onFinish({
-                ...values,
-            });
-        })();
+    const handleDelete = async () => {
+        try {
+            await deleteMeeting(axiosInstance, meeting!!.id);
+            onClose();
+        } catch (error) {
+            console.error('Fehler:', error);
+            alert('Es gab einen Fehler beim Löschen des Meetings.');
+        }
+    }
 
-        const meetingData: MeetingDto = {
+    const handleSave = async () => {
+        const meetingData: CreateMeetingDto = {
             title: meetingTitle,
             description: meetingDescription,
             place: meetingRoom,
@@ -91,7 +86,11 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
         };
 
         try {
-            await createMeeting(axiosInstance, meetingData);
+            if (meeting) {
+                await updateMeeting(axiosInstance, meeting.id, meetingData);
+            } else {
+                await createMeeting(axiosInstance, meetingData);
+            }
             onClose();
         } catch (error) {
             console.error('Fehler:', error);
@@ -133,8 +132,9 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
                        className="font-semibold block text-lg text-white">Beschreibung</label>
                 <textarea
                     id="meeting-description"
+                    rows={3}
                     placeholder="Hier könnte Ihre Beschreibung stehen"
-                    className="ml-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-10 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs placeholder:py-1 py-2"
+                    className="ml-5 resize-none mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-10 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs placeholder:py-1 py-2"
                     value={meetingDescription}
                     onChange={(e) => setMeetingDescription(e.target.value)}
                 />
@@ -281,10 +281,19 @@ export function MeetingForm({open, onClose}: MeetingFormProps) {
             </form>
         </DialogContent>
         <DialogActions>
-            <CuteButton onClick={onClose} text={"Abbrechen"} textColor={"#CAE8FF"} bgColor={"#425E74"}
-                        classname={"text-base"}/>
-            <CuteButton onClick={handleClick} text={"Speichern"} textColor={"#e3f1ef"} bgColor={"#506D69"}
-                        classname={"text-2xl"}/>
+            <div className={"flex flex-row gap-4 w-full items-center"}>
+                {meeting && (
+                    <CuteButton onClick={handleDelete} text={"Meeting Löschen"} textColor={"#f2f2f2"}
+                                bgColor={"#974242"}
+                                classname={"text-xl"}/>
+                )}
+                <div className={"gap-2 ml-auto flex items-center"}>
+                    <CuteButton onClick={onClose} text={"Abbrechen"} textColor={"#CAE8FF"} bgColor={"#425E74"}
+                                classname={"text-base"}/>
+                    <CuteButton onClick={handleSave} text={"Speichern"} textColor={"#e3f1ef"} bgColor={"#506D69"}
+                                classname={"text-2xl"}/>
+                </div>
+            </div>
         </DialogActions>
     </Dialog>
 }

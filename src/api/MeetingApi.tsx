@@ -1,15 +1,25 @@
-import {MeetingDto} from "../dtos/MeetingDto";
-import { AxiosInstance } from "axios";
+import {CreateMeetingDto, MeetingDto} from "../dtos/MeetingDto";
+import {AxiosInstance} from "axios";
 import {handleErrorResponse, handleSuccessResponse} from "./ErrorHandling";
 import {Resources} from "../App";
 
-export function createMeeting(axios: AxiosInstance, meetingDto: MeetingDto): Promise<MeetingDto> {
+export function createMeeting(axios: AxiosInstance, meetingDto: CreateMeetingDto): Promise<CreateMeetingDto> {
     return axios.post(`/${Resources.MEETING}`, meetingDto)
         .then(handleSuccessResponse, handleErrorResponse);
 }
 
+export function updateMeeting(axios: AxiosInstance, meetingId: number, meetingDto: CreateMeetingDto): Promise<CreateMeetingDto> {
+    return axios.put(`/${Resources.MEETING}?id=${meetingId}`, meetingDto)
+        .then(handleSuccessResponse, handleErrorResponse);
+}
+
+export function deleteMeeting(axios: AxiosInstance, meetingId: number): Promise<CreateMeetingDto> {
+    return axios.delete(`/${Resources.MEETING}?id=${meetingId}`)
+        .then(handleSuccessResponse, handleErrorResponse);
+}
+
 export function getMeetings(axios: AxiosInstance): Promise<MeetingDto[]> {
-    const url = "/meeting";
+    const url = `/${Resources.MEETING}`;
     return axios.get(url)
         .then(handleSuccessResponse, handleErrorResponse)
         .then((listRes) => {

@@ -1,23 +1,24 @@
 import React from 'react';
 import '../styles/Modal.css';
-import { CuteButton } from "./CuteButton";
-import { MeetingDto } from "../dtos/MeetingDto"; 
+import {CuteButton} from "./CuteButton";
+import {CreateMeetingDto} from "../dtos/MeetingDto";
 
 interface ModalProps {
     isOpen: boolean;
-    meeting: MeetingDto | null; 
+    meeting: CreateMeetingDto | null;
     onClose: () => void;
+    setIsMeetingFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, meeting, onClose }) => {
-    if (!isOpen || !meeting) return null; 
+const Modal: React.FC<ModalProps> = ({isOpen, meeting, onClose, setIsMeetingFormOpen}) => {
+    if (!isOpen || !meeting) return null;
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content max-w-[90%] w-[450px]" onClick={(e) => e.stopPropagation()}>
 
                 <h2 className="font-bold text-2xl text-white mb-4">{meeting.title}</h2>
 
-                <div className="flex flex-wrap gap-4 mb-4">
+                <div className="flex flex-col gap-4 mb-4">
                     <p className="text-bs font-medium text-white">
                         <strong className="text-[#CAE8FF] font-semibold">Start:</strong> {meeting.date_from}
                     </p>
@@ -32,8 +33,21 @@ const Modal: React.FC<ModalProps> = ({ isOpen, meeting, onClose }) => {
                     </p>
                 </div>
 
-                <div className="mt-auto flex justify-end">
-                    <CuteButton onClick={onClose} text={"Schließen"} textColor={"#CAE8FF"} bgColor={"#425E74"} classname={"text-base"} />
+                <div className="flex flex-row gap-4 mb-4 justify-end mt-auto">
+                    <div>
+                        <CuteButton onClick={onClose} text={"Abbrechen"} textColor={"#CAE8FF"} bgColor={"#425E74"}
+                                    classname={"text-base"}/>
+                    </div>
+                    <div>
+                        <CuteButton
+                            onClick={() => {
+                                onClose();
+                                setIsMeetingFormOpen(true)
+                            }}
+                            text={"Meeting Bearbeiten"} textColor={"#e3f1ef"}
+                            bgColor={"#506D69"}
+                            classname={"text-base"}/>
+                    </div>
                 </div>
 
             </div>
