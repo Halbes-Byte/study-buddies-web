@@ -25,7 +25,7 @@ export default function Homepage() {
                         <p className="text-xl font-medium text-gray-300 text-center">Finde deinen Study-Buddy für deine
                             Study-Party</p>
                         <div className="px-0 py-0 flex flex-row justify-start gap-7 h-12">
-                            <CuteButton bgColor={"#598BB1"} classname={"lg:text-xl text-lg"} textColor={"#d4deff"}
+                            <CuteButton bgColor={"#598BB1"} classname={"lg:text-xl text-lg"} textColor={"#e6ebfc"}
                                         text={"Erstelle einen Termin"} onClick={openMeetingForm}/>
                             <CuteButton bgColor={"#56A095"} classname={"lg:text-xl text-lg"} textColor={"#e8fcf6"}
                                         text={"Finde einen Lernpartner"} onClick={() => {

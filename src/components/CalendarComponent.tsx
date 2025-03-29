@@ -21,14 +21,26 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
         try {
             const response = await getMeetings(axiosInstance);
 
-            setEvents(response.map(({id, title, date_from, date_until, description, place, repeatable}: MeetingDto) => ({
-                id,
+            setEvents(response.map(({
+                                        id,
+                                        title,
+                                        date_from,
+                                        date_until,
+                                        description,
+                                        place,
+                                        repeatable,
+                                        member,
+                                        creator
+                                    }: MeetingDto) => ({
+                id: id,
                 title,
                 start: new Date(date_from).toISOString(),
                 end: new Date(date_until).toISOString(),
                 description,
                 room: place,
-                repeatable: repeatable
+                repeatable: repeatable,
+                creator: creator,
+                member: member,
             })));
         } catch (error) {
             alert(error);
@@ -48,14 +60,18 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
         const description = event.extendedProps?.description || '';
         const place = event.extendedProps?.room || '';
         const repeatable = event.extendedProps?.repeatable || 'never';
+        const creator = event.extendedProps?.creator || '';
+        const member = event.extendedProps?.member || [];
         setSelectedMeeting({
-            id,
+            id: id,
             title,
             date_from,
             date_until,
             description,
             place,
             repeatable: repeatable,
+            creator: creator,
+            member: member,
         });
         setIsModalOpen(true);
     };

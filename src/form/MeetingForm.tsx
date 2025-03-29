@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dialog, DialogActions, DialogTitle, DialogContent} from "@mui/material";
 import {CuteButton} from "../components/CuteButton";
 import {
@@ -13,6 +13,7 @@ import {deDE} from "@mui/x-date-pickers/locales";
 import {createMeeting, deleteMeeting, updateMeeting} from "../api/MeetingApi";
 import {CreateMeetingDto, MeetingDto} from "../dtos/MeetingDto";
 import axiosInstance from "../AxiosConfig";
+import {getModules} from "../api/ModuleApi";
 
 interface MeetingFormProps {
     open: boolean;
@@ -34,7 +35,20 @@ export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
     const [time1, setTime1] = useState<Dayjs>(meeting ? dateFrom : dayjs().hour(12).minute(0).second(0));
     const [date2, setDate2] = useState<Dayjs>(meeting ? dateUntil : dayjs());
     const [time2, setTime2] = useState<Dayjs>(meeting ? dateUntil : dayjs().hour(13).minute(0).second(0));
+    const [moduleNames, setModuleNames] = useState<string[]>([]);
 
+    useEffect(() => {
+        fetchModuleNames();
+    })
+
+    const fetchModuleNames = async () => {
+        try {
+            const response = await getModules(axiosInstance);
+            setModuleNames(response);
+        } catch (error) {
+            //alert("Error fetching user modules:" + error);
+        }
+    }
 
     const handleDate1Change = (newDate: Dayjs | null) => {
         if (newDate) {
@@ -68,7 +82,7 @@ export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
     const handleDelete = async () => {
         try {
             await deleteMeeting(axiosInstance, meeting!!.id);
-            onClose();
+            closeAndReset();
         } catch (error) {
             console.error('Fehler:', error);
             alert('Es gab einen Fehler beim Löschen des Meetings.');
@@ -91,13 +105,27 @@ export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
             } else {
                 await createMeeting(axiosInstance, meetingData);
             }
-            onClose();
+            closeAndReset();
         } catch (error) {
-            console.error('Fehler:', error);
             alert('Es gab einen Fehler beim Speichern des Meetings.');
         }
     };
 
+    const closeAndReset = () => {
+        resetFormFields();
+        onClose();
+    }
+
+    const resetFormFields = () => {
+        setMeetingTitle("");
+        setMeetingDescription("");
+        setMeetingRoom("");
+        setDate1(dayjs);
+        setDate2(dayjs);
+        setTime1(dayjs);
+        setTime2(dayjs);
+        setRepeatable("never");
+    };
 
     return <Dialog open={open} onClose={onClose} sx={{
         "& .MuiDialog-container": {
@@ -115,18 +143,36 @@ export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
         </DialogTitle>
 
         <DialogContent>
-            <form className={"overflow-x-hidden"} onSubmit={() => {
+            <form className={"overflow-x-hidden"} onSubmit={(e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                if (!form.checkValidity()) {
+                    alert("Bitte alle erforderlichen Felder ausfüllen!");
+                    return;
+                }
+                handleSave();
             }}>
-                <label htmlFor="meeting-title" className="font-semibold block text-lg text-white">Titel /
-                    Fach</label>
-                <input
-                    id="meeting-title"
-                    type="text"
-                    placeholder="Titel oder Fach"
-                    className="mx-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-10 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
-                    value={meetingTitle}
-                    onChange={(e) => setMeetingTitle(e.target.value)}
-                />
+                <label htmlFor="meeting-title" className="font-semibold block text-lg text-white">Modulname</label>
+
+
+                <div>
+                    <input
+                        id="meeting-title"
+                        list="fruits"
+                        required={true}
+                        type="text"
+                        placeholder="Exakten Modulnamen eingeben oder auswählen"
+                        className="mx-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-10 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                        value={meetingTitle}
+                        onChange={(e) => setMeetingTitle(e.target.value)}
+                    />
+                    <datalist id="fruits">
+                        {moduleNames.map((option) => (
+                            <option key={option} className={"w-full"} value={option}/>
+                        ))}
+                    </datalist>
+                </div>
+
 
                 <label htmlFor="meeting-description"
                        className="font-semibold block text-lg text-white">Beschreibung</label>
@@ -172,7 +218,8 @@ export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
                                         },
                                     }
                                 }}
-                                format="DD.MM.YYYY" defaultValue={date1} value={date1} onChange={handleDate1Change}/>
+                                format="DD.MM.YYYY" defaultValue={date1} value={date1}
+                                onChange={handleDate1Change}/>
                             <TimePicker
                                 className="mt-1 block bg-[#333C4F] w-24 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
                                 sx={{
@@ -226,7 +273,8 @@ export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
                                         },
                                     }
                                 }}
-                                format="DD.MM.YYYY" defaultValue={date2} value={date2} onChange={handleDate2Change}/>
+                                format="DD.MM.YYYY" defaultValue={date2} value={date2}
+                                onChange={handleDate2Change}/>
                             <TimePicker
                                 sx={{
                                     '& .MuiIconButton-root': {
@@ -260,6 +308,7 @@ export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
                         style={{
                             borderRadius: '20px',
                         }}
+                        required={true}
                         value={repeatable}
                         onChange={handleRepeatChange}
                     >
@@ -273,27 +322,29 @@ export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
                 <label htmlFor="room" className="font-semibold block text-lg text-white">Raum</label>
                 <input
                     id="room"
+                    required={true}
                     type="text"
                     className="ml-5 mt-1 text-gray-300 block bg-[#333C4F] w-2/3 px-10 py-1 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-550 placeholder:text-xs"
                     value={meetingRoom}
                     onChange={(e) => setMeetingRoom(e.target.value)}
                 />
+                <DialogActions>
+                    <div className={"flex flex-row gap-4 w-full items-center"}>
+                        {meeting && (
+                            <CuteButton onClick={handleDelete} text={"Meeting Löschen"} textColor={"#f2f2f2"}
+                                        bgColor={"#974242"}
+                                        classname={"text-xl"}/>
+                        )}
+                        <div className={"gap-2 ml-auto flex items-center"}>
+                            <CuteButton onClick={closeAndReset} text={"Abbrechen"} textColor={"#e6ebfc"}
+                                        bgColor={"#425E74"}
+                                        classname={"text-base"}/>
+                            <CuteButton type={"submit"} text={"Speichern"} textColor={"#e3f1ef"} bgColor={"#506D69"}
+                                        classname={"text-2xl"}/>
+                        </div>
+                    </div>
+                </DialogActions>
             </form>
         </DialogContent>
-        <DialogActions>
-            <div className={"flex flex-row gap-4 w-full items-center"}>
-                {meeting && (
-                    <CuteButton onClick={handleDelete} text={"Meeting Löschen"} textColor={"#f2f2f2"}
-                                bgColor={"#974242"}
-                                classname={"text-xl"}/>
-                )}
-                <div className={"gap-2 ml-auto flex items-center"}>
-                    <CuteButton onClick={onClose} text={"Abbrechen"} textColor={"#CAE8FF"} bgColor={"#425E74"}
-                                classname={"text-base"}/>
-                    <CuteButton onClick={handleSave} text={"Speichern"} textColor={"#e3f1ef"} bgColor={"#506D69"}
-                                classname={"text-2xl"}/>
-                </div>
-            </div>
-        </DialogActions>
     </Dialog>
 }
