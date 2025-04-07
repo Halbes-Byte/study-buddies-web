@@ -4,7 +4,7 @@ import {Routes, Route} from "react-router-dom";
 import {customTheme} from "./customTheme";
 import React from "react";
 import Navbar from "./components/Navbar";
-import {ReactKeycloakProvider} from '@react-keycloak/web'
+//import {ReactKeycloakProvider} from '@react-keycloak/web'
 
 import CalenderPage from './pages/CalendarPage';
 import Homepage from './pages/Homepage';
@@ -45,6 +45,8 @@ function App() {
 
 export enum Resources {
     MEETING = "meeting",
+    USER = "user",
+    MODULES = "modules",
 }
 
 
