@@ -132,7 +132,7 @@ export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
             "& .MuiPaper-root": {
                 width: "100%",
                 maxWidth: "50vw",
-                minWidth: "300px",
+                minWidth: "350px",
                 bgcolor: "#1C212C",
                 padding: "8px",
             },
@@ -329,18 +329,20 @@ export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
                     onChange={(e) => setMeetingRoom(e.target.value)}
                 />
                 <DialogActions>
-                    <div className={"flex flex-row gap-4 w-full items-center"}>
+                    <div className={"flex lg:flex-row gap-4 w-full items-center flex-col"}>
                         {meeting && (
-                            <CuteButton onClick={handleDelete} text={"Meeting Löschen"} textColor={"#f2f2f2"}
-                                        bgColor={"#974242"}
-                                        classname={"text-xl"}/>
+                            <div className={"flex lg:justify-start justify-end w-full"}>
+                                <CuteButton onClick={handleDelete} text={"Meeting Löschen"} textColor={"#f2f2f2"}
+                                            bgColor={"#974242"}
+                                            classname={"text-xl"}/>
+                            </div>
                         )}
                         <div className={"gap-2 ml-auto flex items-center"}>
                             <CuteButton onClick={closeAndReset} text={"Abbrechen"} textColor={"#e6ebfc"}
                                         bgColor={"#425E74"}
-                                        classname={"text-base"}/>
+                                        classname={"md:text-base text-sm"}/>
                             <CuteButton type={"submit"} text={"Speichern"} textColor={"#e3f1ef"} bgColor={"#506D69"}
-                                        classname={"text-2xl"}/>
+                                        classname={"md:text-2xl text-xl"}/>
                         </div>
                     </div>
                 </DialogActions>
