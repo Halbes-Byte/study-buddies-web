@@ -2,17 +2,27 @@ import '../index.css';
 import title_img from '../data//titelbild.png';
 import React, {useState} from "react";
 import {CuteButton} from "../components/CuteButton";
-import {MeetingForm} from "../form/MeetingForm";
+import {CreateOrUpdateMeetingForm} from "../form/CreateOrUpdateMeetingForm";
+import {SearchMeetingForm} from "../form/SearchMeetingForm";
 
 export default function Homepage() {
-    const [isDialogOpen, setDialogOpen] = useState(false);
+    const [isCreateMeetingDialogOpen, setCreateMeetingDialogOpen] = useState(false);
+    const [isSearchMeetingDialogOpen, setSearchMeetingDialogOpen] = useState(false);
 
-    const openMeetingForm = () => {
-        setDialogOpen(true);
+    const openCreateMeetingForm = () => {
+        setCreateMeetingDialogOpen(true);
     };
 
-    const closeMeetingForm = () => {
-        setDialogOpen(false);
+    const closeCreateMeetingForm = () => {
+        setCreateMeetingDialogOpen(false);
+    };
+
+    const openSearchMeetingForm = () => {
+        setSearchMeetingDialogOpen(true);
+    };
+
+    const closeSearchMeetingForm = () => {
+        setSearchMeetingDialogOpen(false);
     };
 
     return (
@@ -26,10 +36,9 @@ export default function Homepage() {
                             Study-Party</p>
                         <div className="px-0 py-0 flex flex-row justify-start gap-7 h-12">
                             <CuteButton bgColor={"#598BB1"} classname={"lg:text-xl text-lg"} textColor={"#e6ebfc"}
-                                        text={"Erstelle einen Termin"} onClick={openMeetingForm}/>
+                                        text={"Erstelle einen Termin"} onClick={openCreateMeetingForm}/>
                             <CuteButton bgColor={"#56A095"} classname={"lg:text-xl text-lg"} textColor={"#e8fcf6"}
-                                        text={"Finde einen Lernpartner"} onClick={() => {
-                            }}/>
+                                        text={"Finde einen Lernpartner"} onClick={openSearchMeetingForm}/>
                         </div>
                     </div>
 
@@ -40,7 +49,8 @@ export default function Homepage() {
                     </div>
                 </div>
             </div>
-            <MeetingForm open={isDialogOpen} onClose={closeMeetingForm}/>
+            <CreateOrUpdateMeetingForm open={isCreateMeetingDialogOpen} onClose={closeCreateMeetingForm}/>
+            <SearchMeetingForm open={isSearchMeetingDialogOpen} onClose={closeSearchMeetingForm}/>
         </div>
     );
 }

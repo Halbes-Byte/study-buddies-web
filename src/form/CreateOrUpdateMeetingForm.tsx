@@ -23,7 +23,7 @@ interface MeetingFormProps {
 
 dayjs.locale('de');
 
-export function MeetingForm({open, onClose, meeting}: MeetingFormProps) {
+export function CreateOrUpdateMeetingForm({open, onClose, meeting}: MeetingFormProps) {
     const dateFrom = dayjs(meeting?.date_from, "D.M.YYYY, H:mm:ss");
     const dateUntil = dayjs(meeting?.date_until, "D.M.YYYY, H:mm:ss");
 

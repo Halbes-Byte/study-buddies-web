@@ -1,32 +1,43 @@
 import '../index.css';
 import React, {useState} from "react";
 import {CuteButton} from "../components/CuteButton";
-import {MeetingForm} from "../form/MeetingForm";
+import {CreateOrUpdateMeetingForm} from "../form/CreateOrUpdateMeetingForm";
 import CalendarComponent from "../components/CalendarComponent";
+import {SearchMeetingForm} from "../form/SearchMeetingForm";
 
 export default function CalenderPage() {
-    const [isDialogOpen, setDialogOpen] = useState(false);
+    const [isCreateMeetingDialogOpen, setCreateMeetingDialogOpen] = useState(false);
+    const [isSearchMeetingDialogOpen, setSearchMeetingDialogOpen] = useState(false);
 
-    const openMeetingForm = () => {
-        setDialogOpen(true);
+    const openCreateMeetingForm = () => {
+        setCreateMeetingDialogOpen(true);
     };
 
-    const closeMeetingForm = () => {
-        setDialogOpen(false);
+    const closeCreateMeetingForm = () => {
+        setCreateMeetingDialogOpen(false);
+    };
+
+    const openSearchMeetingForm = () => {
+        setSearchMeetingDialogOpen(true);
+    };
+
+    const closeSearchMeetingForm = () => {
+        setSearchMeetingDialogOpen(false);
     };
 
     return (
         <>
             <div className={"flex flex-row gap-4 justify-end my-4 md:mx-8 h-10"}>
-                <CuteButton bgColor={"#598BB1"} textColor={"#ffffff"} text={"Termin eintragen"} classname={"md:text-xl sm:text-base text-sm"}
-                            onClick={openMeetingForm}/>
+                <CuteButton bgColor={"#598BB1"} textColor={"#ffffff"} text={"Termin eintragen"}
+                            classname={"md:text-xl sm:text-base text-sm"}
+                            onClick={openCreateMeetingForm}/>
                 <CuteButton bgColor={"#56A095"} textColor={"#e8fcf6"} classname={"md:text-xl sm:text-base text-sm"}
-                            text={"Finde ein Meeting"} onClick={() => {
-                }}/>
+                            text={"Finde ein Meeting"} onClick={openSearchMeetingForm}/>
             </div>
-            <MeetingForm open={isDialogOpen} onClose={closeMeetingForm}/>
+            <CreateOrUpdateMeetingForm open={isCreateMeetingDialogOpen} onClose={closeCreateMeetingForm}/>
+            <SearchMeetingForm open={isSearchMeetingDialogOpen} onClose={closeSearchMeetingForm}/>
             <div className="flex overflow-hidden flex-col justify-center sm:mx-10 mx-3">
-                <CalendarComponent isDialogOpen={isDialogOpen} />
+                <CalendarComponent isDialogOpen={isCreateMeetingDialogOpen}/>
             </div>
         </>
     );

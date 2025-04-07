@@ -8,7 +8,7 @@ import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {getMeetings} from "../api/MeetingApi";
 import axiosInstance from "../AxiosConfig";
-import {MeetingForm} from "../form/MeetingForm";
+import {CreateOrUpdateMeetingForm} from "../form/CreateOrUpdateMeetingForm";
 
 export default function CalendarComponent(props: { isDialogOpen: boolean }) {
     const [selectedMeeting, setSelectedMeeting] = useState<MeetingDto | null>(null);
@@ -119,7 +119,8 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
                 />
             )}
             {selectedMeeting && isMeetingFormOpen &&
-                <MeetingForm open={true} onClose={() => setIsMeetingFormOpen(false)} meeting={selectedMeeting}/>
+                <CreateOrUpdateMeetingForm open={true} onClose={() => setIsMeetingFormOpen(false)}
+                                           meeting={selectedMeeting}/>
             }
 
         </div>
