@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Dialog, DialogTitle, DialogContent, IconButton, Select, MenuItem} from "@mui/material";
-import dayjs from 'dayjs';
-import {MeetingDto} from "../dtos/MeetingDto";
 import CloseIconPath from '../data/close_icon_red.png';
 import {getModules} from "../api/ModuleApi";
 import axiosInstance from "../AxiosConfig";
@@ -9,12 +7,9 @@ import axiosInstance from "../AxiosConfig";
 interface MeetingFormProps {
     open: boolean;
     onClose: () => void;
-    meeting?: MeetingDto;
 }
 
-dayjs.locale('de');
-
-export function SearchMeetingForm({open, onClose, meeting}: MeetingFormProps) {
+export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
     const [modulNames, setModuleNames] = useState<string[]>([]);
 
     const fetchModuleNames = async () => {
