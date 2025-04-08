@@ -16,37 +16,14 @@ const subjects = [
 ];
 
 export default function YourStudies() {
-    const [weeklyMeetings, setWeeklyMeetings] = useState<any[]>([]);
+    const [weeklyMeetings, setWeeklyMeetings] = useState<MeetingDto[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [user, setUser] = useState<UserDto | undefined>();
 
     const fetchMeetings = async () => {
         try {
             const response = await getMeetingsOfWeek(axiosInstance);
-
-            const meetings = response.map(({
-                                               id,
-                                               title,
-                                               date_from,
-                                               date_until,
-                                               description,
-                                               place,
-                                               repeatable,
-                                               member,
-                                               creator
-                                           }: MeetingDto) => ({
-                id: id,
-                title,
-                start: new Date(date_from).toISOString(),
-                end: new Date(date_until).toISOString(),
-                description,
-                room: place,
-                repeatable: repeatable,
-                creator: creator,
-                member: member,
-            }));
-
-            setWeeklyMeetings(meetings);
+            setWeeklyMeetings(response);
         } catch (error) {
             alert("Fehler beim Abrufen der Meetings: " + error);
         }
@@ -151,15 +128,15 @@ export default function YourStudies() {
                             <tr key={index}>
                                 <td className="px-1 py-1 text-[#9B9B9B]">{meeting.title}</td>
                                 <td className="px-1 py-1 text-[#2AB19D]">
-                                    {new Date(meeting.start).toLocaleDateString()}
+                                    {new Date(meeting.date_from).toLocaleDateString()}
                                 </td>
                                 <td className="px-1 py-1 text-[#9B9B9B]">
-                                    {new Date(meeting.start).toLocaleTimeString([], {
+                                    {new Date(meeting.date_from).toLocaleTimeString([], {
                                         hour: '2-digit',
                                         minute: '2-digit'
                                     })}
                                 </td>
-                                <td className="px-1 py-1 text-[#9B9B9B]">{meeting.room}</td>
+                                <td className="px-1 py-1 text-[#9B9B9B]">{meeting.place}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -172,13 +149,13 @@ export default function YourStudies() {
                                     {meeting.title}
                                 </p>
                                 <p className="text-[#2AB19D] inline">
-                                    {new Date(meeting.start).toLocaleDateString()}
+                                    {new Date(meeting.date_from).toLocaleDateString()}
                                 </p>
                                 <p className="text-[#9B9B9B] inline ml-2">
-                                    {new Date(meeting.start).toLocaleTimeString([], {
+                                    {new Date(meeting.date_from).toLocaleTimeString([], {
                                         hour: '2-digit',
                                         minute: '2-digit'
-                                    })} {meeting.room}
+                                    })} {meeting.place}
                                 </p>
                             </div>
                         ))}

@@ -35,3 +35,12 @@ export function getMeetingsOfWeek(axios: AxiosInstance): Promise<MeetingDto[]> {
             return listRes;
         });
 }
+
+export function getMeetingsForModule(axios: AxiosInstance, module: string): Promise<MeetingDto[]> {
+    const url = `/${Resources.MEETING}?module=${module}`;
+    return axios.get(url)
+        .then(handleSuccessResponse, handleErrorResponse)
+        .then((listRes) => {
+            return listRes;
+        });
+}

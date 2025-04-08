@@ -9,43 +9,38 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import {getMeetings} from "../api/MeetingApi";
 import axiosInstance from "../AxiosConfig";
 import {CreateOrUpdateMeetingForm} from "../form/CreateOrUpdateMeetingForm";
+import {EventSourceInput} from '@fullcalendar/core';
 
 export default function CalendarComponent(props: { isDialogOpen: boolean }) {
     const [selectedMeeting, setSelectedMeeting] = useState<MeetingDto | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isMeetingFormOpen, setIsMeetingFormOpen] = useState(false);
-    const [events, setEvents] = useState<any[]>([]);
+    const [events, setEvents] = useState<MeetingDto[]>([]);
     const mdAndUp = useMediaQuery(useTheme().breakpoints.up('md'));
 
     const fetchMeetings = async () => {
         try {
             const response = await getMeetings(axiosInstance);
-
-            setEvents(response.map(({
-                                        id,
-                                        title,
-                                        date_from,
-                                        date_until,
-                                        description,
-                                        place,
-                                        repeatable,
-                                        member,
-                                        creator
-                                    }: MeetingDto) => ({
-                id: id,
-                title,
-                start: new Date(date_from).toISOString(),
-                end: new Date(date_until).toISOString(),
-                description,
-                room: place,
-                repeatable: repeatable,
-                creator: creator,
-                member: member,
-            })));
+            setEvents(response);
         } catch (error) {
             alert(error);
         }
     };
+
+    function mapMeetingsToEvents(meetings: MeetingDto[]): EventSourceInput {
+        return meetings.map(meeting => ({
+            id: meeting.id.toString(),
+            title: meeting.title,
+            start: new Date(meeting.date_from).toISOString(),
+            end: new Date(meeting.date_until).toISOString(),
+            description: meeting.description,
+            room: meeting.place,
+            repeatable: meeting.repeatable,
+            creator: meeting.creator,
+            member: meeting.member,
+        }))
+    }
+
 
     useEffect(() => {
         fetchMeetings();
@@ -107,7 +102,7 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
                     day: 'Tag',
                     week: 'Woche',
                 }}
-                events={events}
+                events={mapMeetingsToEvents(events)}
                 eventClick={Eventhandler}
             />
             {selectedMeeting && (

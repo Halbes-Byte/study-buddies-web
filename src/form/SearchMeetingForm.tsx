@@ -1,8 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {Dialog, DialogTitle, DialogContent, IconButton, Select, MenuItem} from "@mui/material";
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    IconButton,
+    Select,
+    MenuItem,
+    SelectChangeEvent,
+    Grid2
+} from "@mui/material";
 import CloseIconPath from '../data/close_icon_red.png';
 import {getModules} from "../api/ModuleApi";
 import axiosInstance from "../AxiosConfig";
+import {getMeetingsForModule} from "../api/MeetingApi";
+import {MeetingDto} from "../dtos/MeetingDto";
+import MeetingSearchResult from "../components/MeetingSearchResult";
 
 interface MeetingFormProps {
     open: boolean;
@@ -11,9 +23,12 @@ interface MeetingFormProps {
 
 export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
     const [modulNames, setModuleNames] = useState<string[]>([]);
+    const [meetings, setMeetings] = useState<MeetingDto[]>([]);
+    const [module, setModule] = useState<string | undefined>();
 
     const fetchModuleNames = async () => {
         try {
+            setModuleNames(["GDI", "AlgoDat"]);
             const response = await getModules(axiosInstance);
             setModuleNames(response);
         } catch (error) {
@@ -21,9 +36,29 @@ export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
         }
     }
 
+    const fetchMeetings = async () => {
+        try {
+            if (module === undefined) {
+                return;
+            }
+            const response = await getMeetingsForModule(axiosInstance, module);
+            setMeetings(response);
+        } catch (error) {
+            alert("Fehler beim Abrufen der Meetings: " + error);
+        }
+    };
+
     useEffect(() => {
         fetchModuleNames();
-    })
+    }, [])
+
+    useEffect(() => {
+        fetchMeetings();
+    }, [module])
+
+    const handleSelectChange = (event: SelectChangeEvent) => {
+        setModule(event.target.value as string);
+    };
 
     return <Dialog open={open} onClose={onClose} sx={{
         "& .MuiDialog-container": {
@@ -50,7 +85,7 @@ export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
         </DialogTitle>
 
         <DialogContent>
-            <form className={"overflow-x-hidden"} onSubmit={(e) => {
+            <form className={"overflow-y-visible"} onSubmit={(e) => {
                 e.preventDefault();
                 const form = e.currentTarget;
                 if (!form.checkValidity()) {
@@ -61,9 +96,11 @@ export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    variant={"filled"}
+                    variant={"outlined"}
                     label="Modul"
-                    sx={{width: "50%", minWidth: "240px", color: "#ffffff", bgcolor: "#333C4F"}}
+                    value={module ? module : ""}
+                    onChange={handleSelectChange}
+                    sx={{width: "50%", minWidth: "240px", color: "#ffffff", bgcolor: "#333C4F", borderColor: "#333C4F"}}
                 >
                     {modulNames.map((module, i) => (
                         <MenuItem
@@ -73,8 +110,15 @@ export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
                             {module}
                         </MenuItem>
                     ))}
-
                 </Select>
+                <Grid2 container spacing={3} className={"my-5 overflow-y-scroll"}>
+                    {meetings.map((meeting) => (
+                        <Grid2 size={{xs: 12, lg: 4, md: 6}} key={meeting.id}>
+                            <MeetingSearchResult meeting={meeting}/>
+                        </Grid2>
+                    ))}
+                </Grid2>
+
             </form>
         </DialogContent>
     </Dialog>
