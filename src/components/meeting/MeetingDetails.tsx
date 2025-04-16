@@ -1,17 +1,26 @@
 import React from 'react';
-import '../styles/Modal.css';
-import {CuteButton} from "./CuteButton";
-import {CreateMeetingDto} from "../dtos/MeetingDto";
+import '../../styles/Modal.css';
+import {CuteButton} from "../CuteButton";
+import {CreateMeetingDto} from "../../dtos/MeetingDto";
 
 interface ModalProps {
     isOpen: boolean;
     meeting: CreateMeetingDto | null;
     onClose: () => void;
-    setIsMeetingFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    openMeetingForm: () => void;
+    openChooseMeetingModal: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({isOpen, meeting, onClose, setIsMeetingFormOpen}) => {
+const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMeetingForm, openChooseMeetingModal}) => {
     if (!isOpen || !meeting) return null;
+
+    const updateMeeting = () => {
+        onClose();
+        if (meeting.repeatable !== "NEVER")
+            openChooseMeetingModal();
+        else
+            openMeetingForm();
+    }
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content max-w-[90%] w-[450px]" onClick={(e) => e.stopPropagation()}>
@@ -20,10 +29,10 @@ const Modal: React.FC<ModalProps> = ({isOpen, meeting, onClose, setIsMeetingForm
 
                 <div className="flex flex-col gap-4 mb-4">
                     <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Start:</strong> {meeting.date_from}
+                        <strong className="text-[#CAE8FF] font-semibold">Start:</strong> {meeting.dateFrom}
                     </p>
                     <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Ende:</strong> {meeting.date_until}
+                        <strong className="text-[#CAE8FF] font-semibold">Ende:</strong> {meeting.dateUntil}
                     </p>
                     <p className="text-bs font-medium text-white">
                         <strong className="text-[#CAE8FF] font-semibold">Beschreibung:</strong> {meeting.description}
@@ -33,20 +42,16 @@ const Modal: React.FC<ModalProps> = ({isOpen, meeting, onClose, setIsMeetingForm
                     </p>
                 </div>
 
-                <div className="flex flex-row gap-4 mb-4 justify-end mt-auto">
+                <div className="flex flex-row gap-4 mb-4 justify-end mt-auto items-center">
                     <div>
-                        <CuteButton onClick={onClose} text={"Abbrechen"} textColor={"#CAE8FF"} bgColor={"#425E74"}
-                                    classname={"text-base"}/>
+                        <CuteButton onClick={onClose} text={"Abbrechen"} bgColor={"#598BB1"} textColor={"#e6ebfc"}
+                                    classname={"md:text-base text-sm"}/>
                     </div>
                     <div>
                         <CuteButton
-                            onClick={() => {
-                                onClose();
-                                setIsMeetingFormOpen(true)
-                            }}
-                            text={"Meeting Bearbeiten"} textColor={"#e3f1ef"}
-                            bgColor={"#506D69"}
-                            classname={"text-base"}/>
+                            onClick={updateMeeting}
+                            text={"Meeting Bearbeiten"} bgColor={"#56A095"} textColor={"#e8fcf6"}
+                            classname={"md:text-lg text-base"}/>
                     </div>
                 </div>
 
@@ -55,4 +60,4 @@ const Modal: React.FC<ModalProps> = ({isOpen, meeting, onClose, setIsMeetingForm
     );
 };
 
-export default Modal;
+export default MeetingDetails;

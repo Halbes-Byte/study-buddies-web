@@ -28,7 +28,7 @@ export default function CalenderPage() {
     return (
         <>
             <div className={"flex flex-row gap-4 justify-end my-4 md:mx-8 h-10"}>
-                <CuteButton bgColor={"#598BB1"} textColor={"#ffffff"} text={"Termin eintragen"}
+                <CuteButton bgColor={"#598BB1"} textColor={"#e6ebfc"} text={"Termin eintragen"}
                             classname={"md:text-xl sm:text-base text-sm"}
                             onClick={openCreateMeetingForm}/>
                 <CuteButton bgColor={"#56A095"} textColor={"#e8fcf6"} classname={"md:text-xl sm:text-base text-sm"}

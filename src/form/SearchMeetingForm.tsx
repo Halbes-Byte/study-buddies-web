@@ -14,7 +14,7 @@ import {getModules} from "../api/ModuleApi";
 import axiosInstance from "../AxiosConfig";
 import {getMeetingsForModule} from "../api/MeetingApi";
 import {MeetingDto} from "../dtos/MeetingDto";
-import MeetingSearchResult from "../components/MeetingSearchResult";
+import MeetingSearchResult from "../components/meeting/MeetingSearchResult";
 
 interface MeetingFormProps {
     open: boolean;

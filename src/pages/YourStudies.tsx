@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {CuteButton} from "../components/CuteButton";
 import ProgressBar from "../components/Progressbar";
-import SettingsModal from "../components/SettingsModal";
+import ModuleProgressSettings from "../components/ModuleProgressSettings";
 import {getMeetingsOfWeek} from "../api/MeetingApi";
 import axiosInstance from "../AxiosConfig";
 import {MeetingDto} from "../dtos/MeetingDto";
-import {getUser} from "../api/UserApi";
+import {getUser, updateUsername} from "../api/UserApi";
 import {UserDto} from "../dtos/UserDto";
 
 const subjects = [
@@ -19,6 +19,8 @@ export default function YourStudies() {
     const [weeklyMeetings, setWeeklyMeetings] = useState<MeetingDto[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [user, setUser] = useState<UserDto | undefined>();
+    const [editProfile, setEditProfile] = useState(false);
+    const [profileName, setProfileName] = useState(user?.username);
 
     const fetchMeetings = async () => {
         try {
@@ -31,10 +33,10 @@ export default function YourStudies() {
 
     const fetchUserInfo = async () => {
         try {
-            const user = await getUser(axiosInstance);
-            setUser(user);
+            const response = await getUser(axiosInstance);
+            setUser(response);
         } catch (error) {
-            //alert("Fehler beim Abrufen der UserDaten: " + error);
+            alert("Fehler beim Abrufen der UserDaten: " + error);
         }
     }
 
@@ -42,6 +44,19 @@ export default function YourStudies() {
         fetchMeetings();
         fetchUserInfo();
     }, []);
+
+    const editProfileMode = (mode: boolean) => {
+        setProfileName(user?.username);
+        setEditProfile(mode);
+    }
+
+    const saveProfileModifications = () => {
+        if (!profileName) {
+            return;
+        }
+        updateUsername(axiosInstance, profileName);
+        editProfileMode(false);
+    }
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -54,17 +69,40 @@ export default function YourStudies() {
     return (
         <div
             className="flex lg:justify-between justify-start lg:flex-row flex-col overflow-y-scroll lg:items-start items-center lg:mt-12 mt-4 h-full">
-            <div className="lg:w-[40%] w-[80%] bg-[#1C212C] text-white sm:p-4 mb-12">
-                <div className="lg:ml-16 ml-4 w-full">
+            <div className="lg:w-[40%] w-[80%] bg-[#1C212C] text-white sm:p-4 mb-12 lg:ml-16 ml-4 ">
+                <div className="w-full">
                     <h1 className="md:text-5xl text-4xl font-bold text-gray-300 text-left mt-16">Mein
                         Studium</h1>
                     <p className="text-xl font-medium text-white text-left mt-3">Mein Profil</p>
                     <div className="p-4 lg:mr-20 mr-8 mt-2">
-                        <p className="py-2 border-b border-[#4B708C] text-gray-300">Name: {user?.name}</p>
+                        {editProfile ? (
+                            <input
+                                id="profileName"
+                                type="text"
+                                placeholder={"Name"}
+                                className="text-gray-300 block bg-[#333C4F] w-full px-10 py-2 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-550 placeholder:text-xs"
+                                value={profileName}
+                                onChange={(e) => setProfileName(e.target.value)}
+                            />
+                        ) : (
+                            <p className="py-2 border-b border-[#4B708C] text-gray-300">Name: {user?.username}</p>
+                        )}
                     </div>
                     <div className="mt-3 mb-8">
-                        <CuteButton bgColor="#598BB1" classname="lg:text-lg text-base" textColor="#e6ebfc"
-                                    text="Profil verwalten"/>
+                        {editProfile ? (
+                            <div className={"flex items-center w-full gap-2 lg:pr-20 pr-8"}>
+                                <CuteButton classname="lg:text-base text-sm ml-auto" bgColor={"#598BB1"}
+                                            textColor={"#e6ebfc"} onClick={() => editProfileMode(false)}
+                                            text="Abbrechen"/>
+                                <CuteButton classname="lg:text-lg text-base" bgColor={"#56A095"} textColor={"#e8fcf6"}
+                                            onClick={saveProfileModifications}
+                                            text="Speichern"/>
+                            </div>
+                        ) : (
+                            <CuteButton bgColor="#598BB1" classname="lg:text-lg text-base" textColor="#e6ebfc"
+                                        text="Profil verwalten" onClick={() => editProfileMode(true)}/>
+                        )}
+
                     </div>
                     <p className="text-xl font-medium text-white text-left mt-3">Aktuelle Module</p>
                     <div className="p-4 lg:mr-20 mr-8 mt-2">
@@ -128,10 +166,10 @@ export default function YourStudies() {
                             <tr key={index}>
                                 <td className="px-1 py-1 text-[#9B9B9B]">{meeting.title}</td>
                                 <td className="px-1 py-1 text-[#2AB19D]">
-                                    {new Date(meeting.date_from).toLocaleDateString()}
+                                    {new Date(meeting.dateFrom).toLocaleDateString()}
                                 </td>
                                 <td className="px-1 py-1 text-[#9B9B9B]">
-                                    {new Date(meeting.date_from).toLocaleTimeString([], {
+                                    {new Date(meeting.dateFrom).toLocaleTimeString([], {
                                         hour: '2-digit',
                                         minute: '2-digit'
                                     })}
@@ -149,10 +187,10 @@ export default function YourStudies() {
                                     {meeting.title}
                                 </p>
                                 <p className="text-[#2AB19D] inline">
-                                    {new Date(meeting.date_from).toLocaleDateString()}
+                                    {new Date(meeting.dateFrom).toLocaleDateString()}
                                 </p>
                                 <p className="text-[#9B9B9B] inline ml-2">
-                                    {new Date(meeting.date_from).toLocaleTimeString([], {
+                                    {new Date(meeting.dateFrom).toLocaleTimeString([], {
                                         hour: '2-digit',
                                         minute: '2-digit'
                                     })} {meeting.place}
@@ -173,7 +211,10 @@ export default function YourStudies() {
                 </div>
             </div>
 
-            {isModalOpen && <SettingsModal isOpen={isModalOpen} onClose={closeModal}/>}
+            {
+                isModalOpen && <ModuleProgressSettings isOpen={isModalOpen} onClose={closeModal}/>
+            }
         </div>
-    );
+    )
+        ;
 }

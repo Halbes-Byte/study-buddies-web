@@ -1,9 +1,12 @@
+import {ChangeType} from "../enum/ChangeType";
+
 export type MeetingDto = {
     id: number,
+    superId: number,
     title: string,
     description: string,
-    date_from: string,
-    date_until: string,
+    dateFrom: string,
+    dateUntil: string,
     repeatable: string,
     place: string,
     creator: string,
@@ -13,8 +16,9 @@ export type MeetingDto = {
 export type CreateMeetingDto = {
     title: string,
     description: string,
-    date_from: string,
-    date_until: string,
+    dateFrom: string,
+    dateUntil: string,
     repeatable: string,
-    place: string
+    place: string,
+    changeType?: ChangeType,
 }

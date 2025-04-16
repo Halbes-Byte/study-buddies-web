@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 export function NavbarComponent(props: {
     text: string;
@@ -7,7 +7,7 @@ export function NavbarComponent(props: {
     isActive: boolean;
 }) {
     let className = "sm:p-2 hover:text-[#56A095] hover:font-bold focus:text-[#56A095] focus:font-bold";
-    if(props.isActive) {
+    if (props.isActive) {
         className += " text-[#56A095] font-bold";
     } else {
         className += " text-[#949494]";

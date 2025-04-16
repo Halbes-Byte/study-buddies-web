@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import Modal from './Modal';
+import MeetingDetails from './meeting/MeetingDetails';
 import {MeetingDto} from '../dtos/MeetingDto';
 import '../styles/Calendar.css';
 import {useTheme} from '@mui/material/styles';
@@ -10,11 +10,14 @@ import {getMeetings} from "../api/MeetingApi";
 import axiosInstance from "../AxiosConfig";
 import {CreateOrUpdateMeetingForm} from "../form/CreateOrUpdateMeetingForm";
 import {EventSourceInput} from '@fullcalendar/core';
+import {ChooseMeetingForm} from "../form/ChooseMeetingForm";
 
 export default function CalendarComponent(props: { isDialogOpen: boolean }) {
     const [selectedMeeting, setSelectedMeeting] = useState<MeetingDto | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isMeetingFormOpen, setIsMeetingFormOpen] = useState(false);
+    const [isChooseMeetingOpen, setChooseMeetingOpen] = useState(false);
+    const [onlyThisMeeting, setOnlyThisMeeting] = useState(true);
     const [events, setEvents] = useState<MeetingDto[]>([]);
     const mdAndUp = useMediaQuery(useTheme().breakpoints.up('md'));
 
@@ -30,9 +33,10 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
     function mapMeetingsToEvents(meetings: MeetingDto[]): EventSourceInput {
         return meetings.map(meeting => ({
             id: meeting.id.toString(),
+            superId: meeting.superId.toString(),
             title: meeting.title,
-            start: new Date(meeting.date_from).toISOString(),
-            end: new Date(meeting.date_until).toISOString(),
+            start: new Date(meeting.dateFrom).toISOString(),
+            end: new Date(meeting.dateUntil).toISOString(),
             description: meeting.description,
             room: meeting.place,
             repeatable: meeting.repeatable,
@@ -40,7 +44,6 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
             member: meeting.member,
         }))
     }
-
 
     useEffect(() => {
         fetchMeetings();
@@ -52,16 +55,19 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
         const title = event.title;
         const date_from = new Date(event.start).toLocaleString();
         const date_until = new Date(event.end).toLocaleString();
+        const superId = event.extendedProps?.superId || '';
         const description = event.extendedProps?.description || '';
         const place = event.extendedProps?.room || '';
         const repeatable = event.extendedProps?.repeatable || 'never';
         const creator = event.extendedProps?.creator || '';
         const member = event.extendedProps?.member || [];
+        console.log(event);
         setSelectedMeeting({
             id: id,
+            superId: superId,
             title,
-            date_from,
-            date_until,
+            dateFrom: date_from,
+            dateUntil: date_until,
             description,
             place,
             repeatable: repeatable,
@@ -106,18 +112,22 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
                 eventClick={Eventhandler}
             />
             {selectedMeeting && (
-                <Modal
+                <MeetingDetails
                     isOpen={isModalOpen}
                     meeting={selectedMeeting}
                     onClose={closeModal}
-                    setIsMeetingFormOpen={setIsMeetingFormOpen}
+                    openMeetingForm={() => setIsMeetingFormOpen(true)}
+                    openChooseMeetingModal={() => setChooseMeetingOpen(true)}
                 />
             )}
             {selectedMeeting && isMeetingFormOpen &&
                 <CreateOrUpdateMeetingForm open={true} onClose={() => setIsMeetingFormOpen(false)}
-                                           meeting={selectedMeeting}/>
+                                           meeting={selectedMeeting} onlyThisMeeting={onlyThisMeeting}/>
             }
-
+            {isChooseMeetingOpen &&
+                <ChooseMeetingForm onClose={() => setChooseMeetingOpen(false)} setOnlyThisMeeting={setOnlyThisMeeting}
+                                   openMeetingForm={() => setIsMeetingFormOpen(true)}/>
+            }
         </div>
     );
 }

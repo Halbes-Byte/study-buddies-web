@@ -3,28 +3,28 @@ import {ThemeProvider} from "@mui/material/styles";
 import {Routes, Route} from "react-router-dom";
 import {customTheme} from "./customTheme";
 import React from "react";
-import Navbar from "./components/Navbar";
-//import {ReactKeycloakProvider} from '@react-keycloak/web'
+import Navbar from "./components/navbar/Navbar";
+import {ReactKeycloakProvider} from '@react-keycloak/web'
 
 import CalenderPage from './pages/CalendarPage';
 import Homepage from './pages/Homepage';
 import Settings from './pages/YourStudies';
 import Page404 from './pages/Page404';
 import Score from './pages/Score';
-/*import keycloak from "./Keycloak";*/
+import keycloak from "./Keycloak";
 
 function App() {
     return (
-        /*<ReactKeycloakProvider
+        <ReactKeycloakProvider
             authClient={keycloak}
-            initOptions={{ onLoad: 'login-required', checkLoginIframe: false }}
+            initOptions={{onLoad: 'login-required', checkLoginIframe: false}}
             onEvent={(event, error) => {
                 console.log(`Keycloak Event: ${event}`, error);
                 if (event === 'onAuthError') {
                     console.error('Authentication Error:', error);
                 }
             }}
-        >*/
+        >
             <ThemeProvider theme={customTheme}>
                 <CssBaseline/>
                 <GlobalStyles styles={{html: {WebkitFontSmoothing: "auto"}}}/>
@@ -39,7 +39,7 @@ function App() {
                     </Routes>
                 </div>
             </ThemeProvider>
-       /*</ReactKeycloakProvider>*/
+        </ReactKeycloakProvider>
     );
 }
 

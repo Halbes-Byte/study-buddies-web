@@ -10,7 +10,6 @@ export function CuteButton(props: {
 }) {
     const className = `px-5 py-2 h-fit rounded-full transform transition-all duration-300` +
         `hover:scale-x-105 hover:scale-y-105 ${props.classname}`;
-    console.log(props.type);
     return (
         <button
             className={className}

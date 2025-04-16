@@ -1,6 +1,6 @@
 import React from "react";
-import "../styles/navbar.css";
-import pinguin from "../data/penguin-48226_1280.svg";
+import "../../styles/navbar.css";
+import pinguin from "../../data/penguin-48226_1280.svg";
 import {Link} from "react-router-dom";
 import {NavbarButtons} from "./NavbarButtons";
 

@@ -14,18 +14,20 @@ import {createMeeting, deleteMeeting, updateMeeting} from "../api/MeetingApi";
 import {CreateMeetingDto, MeetingDto} from "../dtos/MeetingDto";
 import axiosInstance from "../AxiosConfig";
 import {getModules} from "../api/ModuleApi";
+import {ChangeType} from "../enum/ChangeType";
 
 interface MeetingFormProps {
     open: boolean;
     onClose: () => void;
     meeting?: MeetingDto;
+    onlyThisMeeting?: boolean
 }
 
 dayjs.locale('de');
 
-export function CreateOrUpdateMeetingForm({open, onClose, meeting}: MeetingFormProps) {
-    const dateFrom = dayjs(meeting?.date_from, "D.M.YYYY, H:mm:ss");
-    const dateUntil = dayjs(meeting?.date_until, "D.M.YYYY, H:mm:ss");
+export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeting}: MeetingFormProps) {
+    const dateFrom = dayjs(meeting?.dateFrom, "D.M.YYYY, H:mm:ss");
+    const dateUntil = dayjs(meeting?.dateUntil, "D.M.YYYY, H:mm:ss");
 
     const [meetingTitle, setMeetingTitle] = useState(meeting ? meeting.title : "");
     const [repeatable, setRepeatable] = useState(meeting ? meeting.repeatable : "never");
@@ -39,7 +41,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting}: MeetingFormP
 
     useEffect(() => {
         fetchModuleNames();
-    })
+    }, [])
 
     const fetchModuleNames = async () => {
         try {
@@ -90,13 +92,20 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting}: MeetingFormP
     }
 
     const handleSave = async () => {
+        var changeType;
+        if (onlyThisMeeting)
+            changeType = ChangeType.OCCURRENCE;
+        else
+            changeType = ChangeType.SERIES;
+
         const meetingData: CreateMeetingDto = {
             title: meetingTitle,
             description: meetingDescription,
             place: meetingRoom,
-            date_from: date1.hour(time1.hour()).minute(time1.minute()).format("DD-MM-YYYY:HH:mm") || "",
-            date_until: date2.hour(time2.hour()).minute(time2.minute()).format("DD-MM-YYYY:HH:mm") || "",
+            dateFrom: date1.hour(time1.hour()).minute(time1.minute()).format("DD-MM-YYYY:HH:mm") || "",
+            dateUntil: date2.hour(time2.hour()).minute(time2.minute()).format("DD-MM-YYYY:HH:mm") || "",
             repeatable: repeatable,
+            changeType: changeType
         };
 
         try {
@@ -153,12 +162,10 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting}: MeetingFormP
                 handleSave();
             }}>
                 <label htmlFor="meeting-title" className="font-semibold block text-lg text-white">Modulname</label>
-
-
                 <div>
                     <input
                         id="meeting-title"
-                        list="fruits"
+                        list="modules"
                         required={true}
                         type="text"
                         placeholder="Exakten Modulnamen eingeben oder auswählen"
@@ -166,7 +173,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting}: MeetingFormP
                         value={meetingTitle}
                         onChange={(e) => setMeetingTitle(e.target.value)}
                     />
-                    <datalist id="fruits">
+                    <datalist id="modules">
                         {moduleNames.map((option) => (
                             <option key={option} className={"w-full"} value={option}/>
                         ))}
@@ -312,10 +319,10 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting}: MeetingFormP
                         value={repeatable}
                         onChange={handleRepeatChange}
                     >
-                        <option value="never">Nie</option>
-                        <option value="daily">Täglich</option>
-                        <option value="weekly">Wöchentlich</option>
-                        <option value="monthly">Monatlich</option>
+                        <option value="NEVER">Nie</option>
+                        <option value="DAILY">Täglich</option>
+                        <option value="WEEKLY">Wöchentlich</option>
+                        <option value="MONTHLY">Monatlich</option>
                     </select>
                 </div>
 
@@ -338,10 +345,10 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting}: MeetingFormP
                             </div>
                         )}
                         <div className={"gap-2 ml-auto flex items-center"}>
-                            <CuteButton onClick={closeAndReset} text={"Abbrechen"} textColor={"#e6ebfc"}
-                                        bgColor={"#425E74"}
+                            <CuteButton onClick={closeAndReset} text={"Abbrechen"} bgColor={"#598BB1"}
+                                        textColor={"#e6ebfc"}
                                         classname={"md:text-base text-sm"}/>
-                            <CuteButton type={"submit"} text={"Speichern"} textColor={"#e3f1ef"} bgColor={"#506D69"}
+                            <CuteButton type={"submit"} text={"Speichern"} bgColor={"#56A095"} textColor={"#e8fcf6"}
                                         classname={"md:text-2xl text-xl"}/>
                         </div>
                     </div>

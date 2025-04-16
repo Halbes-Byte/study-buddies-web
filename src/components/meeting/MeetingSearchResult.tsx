@@ -1,5 +1,5 @@
-import {MeetingDto} from "../dtos/MeetingDto";
-import {CuteButton} from "./CuteButton";
+import {MeetingDto} from "../../dtos/MeetingDto";
+import {CuteButton} from "../CuteButton";
 import React from "react";
 
 export default function MeetingSearchResult(props: { meeting: MeetingDto }) {
@@ -7,7 +7,7 @@ export default function MeetingSearchResult(props: { meeting: MeetingDto }) {
         <div className="bg-[#333C4F] p-4 flex flex-col gap-4">
             <div>
                 <div className="text-white">
-                    {new Date(props.meeting.date_from).toLocaleString('de-DE', {
+                    {new Date(props.meeting.dateFrom).toLocaleString('de-DE', {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric',
@@ -15,7 +15,7 @@ export default function MeetingSearchResult(props: { meeting: MeetingDto }) {
                         minute: '2-digit',
                     })}
                     {" - "}
-                    {new Date(props.meeting.date_until).toLocaleString('de-DE', {
+                    {new Date(props.meeting.dateUntil).toLocaleString('de-DE', {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric',

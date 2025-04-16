@@ -19,7 +19,7 @@ interface Chapter {
     checkboxes: Checkbox[];
 }
 
-const Modal: React.FC<ModalProps> = ({isOpen, onClose}) => {
+const ModuleProgressSettings: React.FC<ModalProps> = ({isOpen, onClose}) => {
     const [chapters, setChapters] = useState<Chapter[]>([
         {
             id: 1,
@@ -171,14 +171,12 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose}) => {
                     <CuteButton
                         onClick={onClose}
                         text={'Abbrechen'}
-                        textColor={'#CAE8FF'}
-                        bgColor={'#425E74'}
+                        bgColor={"#598BB1"} textColor={"#ffffff"}
                         classname={'text-base'}
                     />
                     <CuteButton
                         text={'Speichern'}
-                        textColor={'#e3f1ef'}
-                        bgColor={'#506D69'}
+                        bgColor={"#56A095"} textColor={"#e8fcf6"}
                         classname={'text-2xl'}
                     />
                 </div>
@@ -188,5 +186,4 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose}) => {
     );
 };
 
-export default Modal;
-
+export default ModuleProgressSettings;
