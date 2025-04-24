@@ -1,10 +1,9 @@
-import Keycloak from "keycloak-js";
+import Keycloak from 'keycloak-js';
 
-const keycloak = new Keycloak({
-  url: 'http://localhost:7070',
-  realm: 'study-buddies',
-  clientId: 'sb-backend'
+const keycloak = new (Keycloak as any)({
+    url: 'http://localhost:7070',
+    realm: 'study-buddies',
+    clientId: 'sb-backend'
 });
 
 export default keycloak;
-

@@ -11,7 +11,7 @@ import {UserDto} from "../dtos/UserDto";
 const subjects = [
     {name: "Algorithmen und Datenstrukturen", date: "17.02.2025", time: "10:30", room: "HQ.120", progress: 70},
     {name: "Mathematik III", date: "29.01.2025", time: "08:30", room: "KA.046", progress: 50},
-    {name: "Rechnerkommunikation", date: "15.02.2025", time: "08:30", room: "HQ.120", progress: 40},
+    {name: "Mensch-Computer-Interaktion", date: "15.02.2025", time: "08:30", room: "HQ.120", progress: 40},
     {name: "Software Engineering", date: "27.01.2025", time: "14:00", room: "KA.046", progress: 80},
 ];
 
@@ -22,10 +22,21 @@ export default function YourStudies() {
     const [editProfile, setEditProfile] = useState(false);
     const [profileName, setProfileName] = useState(user?.username);
 
+    const filterMeetingsForCurrentWeek = (meetings: MeetingDto[]) => {
+        const currentDate = new Date();
+        const startOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay() + 1));
+        const endOfWeek = new Date(currentDate.setDate(startOfWeek.getDate() + 6));
+
+        return meetings.filter((meeting) => {
+            const meetingDate = new Date(meeting.dateFrom);
+            return meetingDate >= startOfWeek && meetingDate <= endOfWeek;
+        });
+    };
+
     const fetchMeetings = async () => {
         try {
             const response = await getMeetingsOfWeek(axiosInstance);
-            setWeeklyMeetings(response);
+            setWeeklyMeetings(filterMeetingsForCurrentWeek(response));
         } catch (error) {
             alert("Fehler beim Abrufen der Meetings: " + error);
         }
