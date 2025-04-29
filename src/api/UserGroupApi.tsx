@@ -1,0 +1,18 @@
+import {AxiosInstance} from "axios";
+import {Resources} from "../App";
+import {handleErrorResponse, handleSuccessResponse} from "./ErrorHandling";
+
+
+export function joinStudyGroup(axios: AxiosInstance, meetingId: string): Promise<void> {
+    return axios.post(`/${Resources.USERGROUP}`, { meetingId })
+        .then(handleSuccessResponse, handleErrorResponse);
+}
+
+
+export async function getUserIdsForMeeting(axios: AxiosInstance, uuid: string): Promise<string[]> {
+   
+        const res = await axios.get(`/studygroup?uuid=${uuid}`);
+        const data = res.data;
+        const userIds = data.map((entry: { userId: string }) => entry.userId);
+        return userIds;
+}

@@ -1,7 +1,7 @@
 import {ChangeType} from "../enum/ChangeType";
 
 export type MeetingDto = {
-    id: number,
+    id: string,
     superId: number,
     title: string,
     description: string,

@@ -8,12 +8,12 @@ export function createMeeting(axios: AxiosInstance, meetingDto: CreateMeetingDto
         .then(handleSuccessResponse, handleErrorResponse);
 }
 
-export function updateMeeting(axios: AxiosInstance, meetingId: number, meetingDto: CreateMeetingDto): Promise<CreateMeetingDto> {
+export function updateMeeting(axios: AxiosInstance, meetingId: string, meetingDto: CreateMeetingDto): Promise<CreateMeetingDto> {
     return axios.put(`/${Resources.MEETING}?id=${meetingId}`, meetingDto)
         .then(handleSuccessResponse, handleErrorResponse);
 }
 
-export function deleteMeeting(axios: AxiosInstance, meetingId: number): Promise<CreateMeetingDto> {
+export function deleteMeeting(axios: AxiosInstance, meetingId: string): Promise<CreateMeetingDto> {
     return axios.delete(`/${Resources.MEETING}?id=${meetingId}`)
         .then(handleSuccessResponse, handleErrorResponse);
 }
@@ -44,3 +44,4 @@ export function getMeetingsForModule(axios: AxiosInstance, module: string): Prom
             return listRes;
         });
 }
+
