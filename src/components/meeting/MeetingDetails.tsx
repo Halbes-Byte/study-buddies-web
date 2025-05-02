@@ -4,7 +4,8 @@ import { CuteButton } from "../CuteButton";
 import { MeetingDto } from "../../dtos/MeetingDto";
 import { getUserIdsForMeeting } from "../../api/UserGroupApi";
 import axiosInstance from "../../AxiosConfig";
-import {joinStudyGroup} from "../../api/UserGroupApi"
+import { getUser } from "../../api/UserApi";
+import { UserDto } from "../../dtos/UserDto";
 
 interface ModalProps {
     isOpen: boolean;
@@ -15,8 +16,19 @@ interface ModalProps {
 }
 
 const MeetingDetails: React.FC<ModalProps> = ({ isOpen, meeting, onClose, openMeetingForm, openChooseMeetingModal }) => {
-
     const [userIds, setUserIds] = useState<string[]>([]);
+    const [myUser, setMyUser] = useState<UserDto | null>(null);  
+    const myUserId = myUser ? myUser.uuid : "";  
+       
+    useEffect(() => {
+        if (isOpen) {
+            getUser(axiosInstance)
+                .then(setMyUser)
+                .catch(err => {
+                    console.error("Fehler beim Laden des Nutzers:", err);
+                });
+        }
+    }, [isOpen]);
 
     useEffect(() => {
         if (isOpen && meeting) {
@@ -28,26 +40,19 @@ const MeetingDetails: React.FC<ModalProps> = ({ isOpen, meeting, onClose, openMe
         }
     }, [isOpen, meeting]);
 
-    if (!isOpen || !meeting) return null;
 
-    const updateMeeting = () => {
+     const updateMeeting = () => {
         onClose();
-        if (meeting.repeatable !== "NEVER")
-            openChooseMeetingModal();
-        else
-            openMeetingForm();
-    }
+        if (meeting?.repeatable !== "NEVER") openChooseMeetingModal();
+        else openMeetingForm();
+    };
 
-    const joinMeeting = () => {
-
-        joinStudyGroup(axiosInstance, meeting.id)
-
-    }
+    if (!isOpen || !meeting || !myUser) return null;
+if (!isOpen || !meeting || !myUser) return null;
 
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content max-w-[90%] w-[700px] relative p-7" onClick={(e) => e.stopPropagation()}>
-
                 <button
                     onClick={onClose}
                     className="absolute top-4 right-4 text-white text-xxl hover:text-red-400"
@@ -55,28 +60,31 @@ const MeetingDetails: React.FC<ModalProps> = ({ isOpen, meeting, onClose, openMe
                     ×
                 </button>
 
-                <h2 className="font-bold text-2xl text-white mb-4">{meeting.title}</h2>
+                <h2 className="font-bold text-2xl text-white mb-4">{meeting?.title}</h2>
 
                 <div className="flex flex-col gap-4 mb-4">
                     <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Start:</strong> {meeting.dateFrom}
+                        <strong className="text-[#CAE8FF] font-semibold">Start:</strong> {meeting?.dateFrom}
                     </p>
                     <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Ende:</strong> {meeting.dateUntil}
+                        <strong className="text-[#CAE8FF] font-semibold">Ende:</strong> {meeting?.dateUntil}
                     </p>
                     <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Beschreibung:</strong> {meeting.description}
+                        <strong className="text-[#CAE8FF] font-semibold">Beschreibung:</strong> {meeting?.description}
                     </p>
                     <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Raum:</strong> {meeting.place}
+                        <strong className="text-[#CAE8FF] font-semibold">Raum:</strong> {meeting?.place}
                     </p>
 
                     <p className="text-bs font-medium text-white">
                         <strong className="text-[#CAE8FF] font-semibold">Teilnehmer:</strong>
                     </p>
                     <ul className="text-white text-sm list-disc list-inside">
-                        {userIds.map(id => (<li key={id}>{id}</li>))}
-                        {userIds.length === 0 && <li>(noch keine Teilnehmer)</li>}
+                        <li key={meeting?.creator}>{meeting?.creator}</li>
+                        {userIds.map(id => (
+                            <li key={id}>{id}</li>
+                        ))}
+                        {userIds.length === 0 && <li>-</li>}
                     </ul>
                 </div>
 
@@ -85,22 +93,13 @@ const MeetingDetails: React.FC<ModalProps> = ({ isOpen, meeting, onClose, openMe
                         <CuteButton
                             onClick={updateMeeting}
                             text={"Meeting bearbeiten"}
-                            bgColor={"#598BB1"}
+                            bgColor={"#56A095"}
                             textColor={"#e6ebfc"}
                             classname={"md:text-base text-sm"}
                         />
                     </div>
-                    <div>
-                        <CuteButton
-                            onClick={joinMeeting}
-                            text={"Beitreten"}
-                            bgColor={"#56A095"}
-                            textColor={"#e8fcf6"}
-                            classname={"md:text-lg text-base"}
-                        />
-                    </div>
+                   
                 </div>
-
             </div>
         </div>
     );

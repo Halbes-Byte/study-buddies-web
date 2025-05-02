@@ -16,3 +16,11 @@ export async function getUserIdsForMeeting(axios: AxiosInstance, uuid: string): 
         const userIds = data.map((entry: { userId: string }) => entry.userId);
         return userIds;
 }
+
+
+    
+    export function leaveStudyGroup(axios: AxiosInstance, targetUUID: string): Promise<void> {
+        return axios.delete(`/${Resources.USERGROUP}`, {
+            params: { targetUUID }   })
+        .then(handleSuccessResponse, handleErrorResponse);
+    }

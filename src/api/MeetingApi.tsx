@@ -45,3 +45,11 @@ export function getMeetingsForModule(axios: AxiosInstance, module: string): Prom
         });
 }
 
+export function updateCreator(axios: AxiosInstance, meetingId: string, newCreatorId: string): Promise<CreateMeetingDto> {
+    const meetingUpdate = { creator: newCreatorId };
+
+    return axios.put(`/${Resources.MEETING}?id=${meetingId}`, meetingUpdate)
+        .then(handleSuccessResponse, handleErrorResponse);
+}
+
+
