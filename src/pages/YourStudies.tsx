@@ -5,8 +5,10 @@ import ModuleProgressSettings from "../components/ModuleProgressSettings";
 import {getMeetingsOfWeek} from "../api/MeetingApi";
 import axiosInstance from "../AxiosConfig";
 import {MeetingDto} from "../dtos/MeetingDto";
-import {getUser, updateUsername} from "../api/UserApi";
+import {getUser, updateUserModules, updateUsername} from "../api/UserApi";
 import {UserDto} from "../dtos/UserDto";
+import {ModuleDto} from "../dtos/ModuleDto";
+import {createModule, getModules} from "../api/ModuleApi";
 
 const subjects = [
     {name: "Algorithmen und Datenstrukturen", date: "17.02.2025", time: "10:30", room: "HQ.120", progress: 70},
@@ -20,7 +22,11 @@ export default function YourStudies() {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [user, setUser] = useState<UserDto | undefined>();
     const [editProfile, setEditProfile] = useState(false);
+    const [editModule, setEditModule] = useState(false);
     const [profileName, setProfileName] = useState(user?.username);
+    const [ownModules, setownModules] = useState<ModuleDto[]>([]);
+    const [allModules, setAllModules] = useState<ModuleDto[]>([]);
+    const [module, setModule] = useState<string>("");
 
     const filterMeetingsForCurrentWeek = (meetings: MeetingDto[]) => {
         const currentDate = new Date();
@@ -32,6 +38,15 @@ export default function YourStudies() {
             return meetingDate >= startOfWeek && meetingDate <= endOfWeek;
         });
     };
+
+    const fetchAllModules = async () => {
+        try {
+            const response = await getModules(axiosInstance);
+            setAllModules(response);
+        } catch (error) {
+            alert("Error fetching user modules:" + error);
+        }
+    }
 
     const fetchMeetings = async () => {
         try {
@@ -53,6 +68,7 @@ export default function YourStudies() {
 
     useEffect(() => {
         fetchMeetings();
+        fetchAllModules();
         fetchUserInfo();
     }, []);
 
@@ -67,11 +83,45 @@ export default function YourStudies() {
         }
         updateUsername(axiosInstance, profileName);
         editProfileMode(false);
+        fetchUserInfo();
+    }
+
+    const saveNewModule = async () => {
+        try {
+            await createModule(axiosInstance, module);
+            fetchAllModules();
+        } catch (error) {
+            alert("Error fetching user modules:" + error);
+        }
+    }
+
+    const saveModules = async () => {
+        try {
+            await updateUserModules(axiosInstance, ownModules);
+            fetchAllModules();
+        } catch (error) {
+            alert("Error fetching user modules:" + error);
+        }
+    }
+
+    const addModule = () => {
+        setownModules([...ownModules, {name: module}]);
+        setModule("");
+        if (!allModules.some(m => m.name === module.toUpperCase()))
+            saveNewModule();
+    }
+
+    const deleteModule = (moduleName: string) => {
+        setownModules(ownModules.filter(m => m.name !== moduleName));
     }
 
     const openModal = () => {
         setIsModalOpen(true);
     };
+
+    const editModulesMode = (mode: boolean) => {
+        setEditModule(mode);
+    }
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -119,17 +169,67 @@ export default function YourStudies() {
                     <div className="p-4 lg:mr-20 mr-8 mt-2">
                         <table className="w-full border-collapse">
                             <tbody>
-                            {subjects.map((subject, index) => (
-                                <tr key={index}>
-                                    <td className="py-2 border-b border-[#4B708C] text-gray-300">{subject.name}</td>
-                                </tr>
-                            ))}
+                            {editModule ? (
+                                <div className={"flex flex-col gap-4"}>
+                                    {ownModules.map((subject) => (
+                                        <div
+                                            className={"flex flex-row justify-between pr-4 py-1 border-b border-[#4B708C] text-gray-300"}>
+                                            <p>{subject.name}</p>
+                                            <button
+                                                onClick={() => deleteModule(subject.name)}
+                                            >
+                                                x
+                                            </button>
+                                        </div>
+                                    ))}
+                                    <input
+                                        id="module"
+                                        type="text"
+                                        placeholder={"Modul"}
+                                        className="text-gray-300 block bg-[#333C4F] w-full px-10 py-2 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-550 placeholder:text-xs"
+                                        value={module}
+                                        onChange={(e) => setModule(e.target.value)}
+                                    />
+
+                                    <datalist id="modules">
+                                        {allModules.map((module, index) => (
+                                            <option key={index} className={"w-full"} value={module.name}/>
+                                        ))}
+                                    </datalist>
+                                    <div className="flex flex-col w-full my-4">
+                                        <button
+                                            className="bg-[#2EF6D9] text-white cursor-pointer p-[10px] border-none w-[30px] h-[30px] rounded font-semibold text-[16px] inline-flex items-center"
+                                            onClick={() => addModule()}>
+                                            +
+                                        </button>
+                                    </div>
+
+                                </div>
+                            ) : (
+                                ownModules.map((subject, index) => (
+                                    <tr key={index}>
+                                        <td className="py-2 border-b border-[#4B708C] text-gray-300">{subject.name}</td>
+                                    </tr>
+                                ))
+
+                            )}
                             </tbody>
                         </table>
                     </div>
                     <div className="mt-3">
-                        <CuteButton bgColor="#598BB1" classname="lg:text-lg text-base" textColor="#e6ebfc"
-                                    text="Module verwalten"/>
+                        {editModule ? (
+                            <div className={"flex items-center w-full gap-2 lg:pr-20 pr-8"}>
+                                <CuteButton classname="lg:text-base text-sm ml-auto" bgColor={"#598BB1"}
+                                            textColor={"#e6ebfc"} onClick={() => editModulesMode(false)}
+                                            text="Abbrechen"/>
+                                <CuteButton classname="lg:text-lg text-base" bgColor={"#56A095"} textColor={"#e8fcf6"}
+                                            onClick={saveModules}
+                                            text="Speichern"/>
+                            </div>
+                        ) : (
+                            <CuteButton bgColor="#598BB1" classname="lg:text-lg text-base" textColor="#e6ebfc"
+                                        text="Module verwalten" onClick={() => editModulesMode(true)}/>
+                        )}
                     </div>
                 </div>
             </div>

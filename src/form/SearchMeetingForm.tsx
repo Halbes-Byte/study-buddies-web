@@ -15,6 +15,7 @@ import axiosInstance from "../AxiosConfig";
 import {getMeetingsForModule} from "../api/MeetingApi";
 import {MeetingDto} from "../dtos/MeetingDto";
 import MeetingSearchResult from "../components/meeting/MeetingSearchResult";
+import {ModuleDto} from "../dtos/ModuleDto";
 
 interface MeetingFormProps {
     open: boolean;
@@ -22,13 +23,12 @@ interface MeetingFormProps {
 }
 
 export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
-    const [modulNames, setModuleNames] = useState<string[]>([]);
+    const [modulNames, setModuleNames] = useState<ModuleDto[]>([]);
     const [meetings, setMeetings] = useState<MeetingDto[]>([]);
     const [module, setModule] = useState<string | undefined>();
 
     const fetchModuleNames = async () => {
         try {
-            setModuleNames(["GDI", "AlgoDat"]);
             const response = await getModules(axiosInstance);
             setModuleNames(response);
         } catch (error) {
@@ -105,9 +105,9 @@ export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
                     {modulNames.map((module, i) => (
                         <MenuItem
                             key={i}
-                            value={module}
+                            value={module.name}
                         >
-                            {module}
+                            {module.name}
                         </MenuItem>
                     ))}
                 </Select>

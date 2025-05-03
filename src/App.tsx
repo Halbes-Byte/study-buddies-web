@@ -46,7 +46,7 @@ function App() {
 export enum Resources {
     MEETING = "meeting",
     USER = "user",
-    MODULES = "modules",
+    MODULES = "module",
     USERGROUP = "studygroup"
 }
 

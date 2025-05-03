@@ -15,6 +15,7 @@ import {CreateMeetingDto, MeetingDto} from "../dtos/MeetingDto";
 import axiosInstance from "../AxiosConfig";
 import {getModules} from "../api/ModuleApi";
 import {ChangeType} from "../enum/ChangeType";
+import {ModuleDto} from "../dtos/ModuleDto";
 
 interface MeetingFormProps {
     open: boolean;
@@ -37,7 +38,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
     const [time1, setTime1] = useState<Dayjs>(meeting ? dateFrom : dayjs().hour(12).minute(0).second(0));
     const [date2, setDate2] = useState<Dayjs>(meeting ? dateUntil : dayjs());
     const [time2, setTime2] = useState<Dayjs>(meeting ? dateUntil : dayjs().hour(13).minute(0).second(0));
-    const [moduleNames, setModuleNames] = useState<string[]>([]);
+    const [moduleNames, setModuleNames] = useState<ModuleDto[]>([]);
 
     useEffect(() => {
         fetchModuleNames();
@@ -48,7 +49,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
             const response = await getModules(axiosInstance);
             setModuleNames(response);
         } catch (error) {
-            //alert("Error fetching user modules:" + error);
+            alert("Error fetching user modules:" + error);
         }
     }
 
@@ -163,21 +164,20 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
             }}>
                 <label htmlFor="meeting-title" className="font-semibold block text-lg text-white">Modulname</label>
                 <div>
-                    <input
+                    <select
                         id="meeting-title"
-                        list="modules"
-                        required={true}
-                        type="text"
-                        placeholder="Exakten Modulnamen eingeben oder auswählen"
-                        className="mx-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-10 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
+                        required
+                        className="mx-5 mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-10 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F]"
                         value={meetingTitle}
                         onChange={(e) => setMeetingTitle(e.target.value)}
-                    />
-                    <datalist id="modules">
-                        {moduleNames.map((option) => (
-                            <option key={option} className={"w-full"} value={option}/>
+                    >
+                        <option value="" disabled>Modul auswählen</option>
+                        {moduleNames.map((module, index) => (
+                            <option key={index} value={module.name}>
+                                {module.name}
+                            </option>
                         ))}
-                    </datalist>
+                    </select>
                 </div>
 
 
