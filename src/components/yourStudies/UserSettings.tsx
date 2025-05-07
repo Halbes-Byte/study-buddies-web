@@ -20,7 +20,6 @@ export default function UserSettings() {
         try {
             const response = await getModules(axiosInstance);
             setAllModules(response);
-            console.log(response);
         } catch (error) {
             alert("Error fetching user modules:" + error);
         }

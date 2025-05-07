@@ -19,7 +19,6 @@ function App() {
             authClient={keycloak}
             initOptions={{onLoad: 'login-required', checkLoginIframe: false}}
             onEvent={(event, error) => {
-                console.log(`Keycloak Event: ${event}`, error);
                 if (event === 'onAuthError') {
                     console.error('Authentication Error:', error);
                 }

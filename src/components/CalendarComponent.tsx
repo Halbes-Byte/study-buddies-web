@@ -61,7 +61,6 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
         const repeatable = event.extendedProps?.repeatable || 'never';
         const creator = event.extendedProps?.creator || '';
         const member = event.extendedProps?.member || [];
-        console.log(event);
         setSelectedMeeting({
             id: id,
             superId: superId,
