@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { MeetingDto } from "../../dtos/MeetingDto";
-import { UserDto } from "../../dtos/UserDto";
-import { getUser } from "../../api/UserApi";
-import { getUserIdsForMeeting, joinStudyGroup, leaveStudyGroup } from "../../api/UserGroupApi";
+import React, {useEffect, useState} from 'react';
+import {MeetingDto} from "../../dtos/MeetingDto";
+import {UserDto} from "../../dtos/UserDto";
+import {getUser} from "../../api/UserApi";
+import {getUserIdsForMeeting, joinStudyGroup, leaveStudyGroup} from "../../api/UserGroupApi";
 import axiosInstance from "../../AxiosConfig";
-import { CuteButton } from "../CuteButton";
-import { deleteMeeting, updateCreator } from '../../api/MeetingApi';
+import {CuteButton} from "../CuteButton";
+import {deleteMeeting, updateCreator} from '../../api/MeetingApi';
+import {Theme, Tooltip} from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface Props {
     meeting: MeetingDto;
 }
 
-export default function MeetingSearchResult({ meeting }: Props) {
+export default function MeetingSearchResult({meeting}: Props) {
     const [userIds, setUserIds] = useState<string[]>([]);
     const [myUser, setMyUser] = useState<UserDto | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const mdAndUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
 
     useEffect(() => {
         getUser(axiosInstance)
@@ -64,8 +67,8 @@ export default function MeetingSearchResult({ meeting }: Props) {
 
     return (
         <div className="bg-[#333C4F] p-4 flex flex-col gap-4">
-            <div>
-                <h2 className="font-bold text-2xl text-white mb-4">{meeting.title}</h2>
+            <div className="min-h-80">
+                <h2 className="font-bold text-2xl text-white mb-4 line-clamp-1">{meeting.title}</h2>
 
                 <div className="flex flex-col gap-4 mb-4">
                     <p className="text-bs font-medium text-white">
@@ -88,23 +91,47 @@ export default function MeetingSearchResult({ meeting }: Props) {
                             minute: '2-digit',
                         })}
                     </p>
-                    <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Beschreibung:</strong> {meeting.description}
+                    <p className="text-bs font-medium text-white break-words whitespace-normal md:line-clamp-2">
+                        <strong className="text-[#CAE8FF] font-semibold ">Beschreibung:</strong> {meeting.description}
                     </p>
-                    <p className="text-bs font-medium text-white">
+                    <p className="text-bs font-medium text-white break-words whitespace-normal md:line-clamp-2">
                         <strong className="text-[#CAE8FF] font-semibold">Raum:</strong> {meeting.place}
                     </p>
+                    {mdAndUp ? (
+                        <>
+                            <p className="text-bs font-medium text-white">
+                                <strong className="text-[#CAE8FF] font-semibold">Creator:</strong>
+                            </p>
+                            <Tooltip
+                                title={<>
+                                    <p>Alle Teilnehmenden:</p>
+                                    <ul style={{margin: 0, padding: 0, listStyle: 'inside'}}>
+                                        <li key={meeting.creator}>{meeting.creator}</li>
+                                        {userIds.map(id => (
+                                            <li key={id}>{id}</li>
+                                        ))}
 
-                    <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Teilnehmer:</strong>
-                    </p>
-                    <ul className="text-white text-sm list-disc list-inside">
-                        <li key={meeting.creator}>{meeting.creator}</li>
-                        {userIds.map(id => (
-                            <li key={id}>{id}</li>
-                        ))}
-                        {userIds.length === 0 && <li>-</li>}
-                    </ul>
+                                    </ul>
+                                </>}
+                            >
+                                <ul className="text-white text-sm list-disc list-inside line-clamp-1">
+                                    <li key={meeting.creator}>{meeting.creator}</li>
+                                </ul>
+                            </Tooltip>
+                        </>
+                    ) : (
+                        <>
+                            <p className="text-bs font-medium text-white">
+                                <strong className="text-[#CAE8FF] font-semibold">Teilnehmende:</strong>
+                            </p>
+                            <ul className="text-white text-sm list-disc list-inside">
+                                <li key={meeting.creator}>{meeting.creator}</li>
+                                {userIds.map(id => (
+                                    <li key={id}>{id}</li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
                 </div>
             </div>
 
@@ -148,5 +175,6 @@ export default function MeetingSearchResult({ meeting }: Props) {
                 )}
             </div>
         </div>
-    );
+    )
+        ;
 }
