@@ -32,7 +32,7 @@ export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
             const response = await getModules(axiosInstance);
             setModuleNames(response);
         } catch (error) {
-            //alert("Error fetching user modules:" + error);
+            console.error("Error fetching user modules:" + error);
         }
     }
 
@@ -44,7 +44,7 @@ export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
             const response = await getMeetingsForModule(axiosInstance, module);
             setMeetings(response);
         } catch (error) {
-            alert("Fehler beim Abrufen der Meetings: " + error);
+            console.error("Fehler beim Abrufen der Meetings: " + error);
         }
     };
 
@@ -89,7 +89,7 @@ export function SearchMeetingForm({open, onClose}: MeetingFormProps) {
                 e.preventDefault();
                 const form = e.currentTarget;
                 if (!form.checkValidity()) {
-                    alert("Bitte alle erforderlichen Felder ausfüllen!");
+                    console.error("Bitte alle erforderlichen Felder ausfüllen!");
                     return;
                 }
             }}>

@@ -32,7 +32,7 @@ export default function UserInfo() {
             const response = await getMeetingsOfWeek(axiosInstance);
             setWeeklyMeetings(filterMeetingsForCurrentWeek(response));
         } catch (error) {
-            alert("Fehler beim Abrufen der Meetings: " + error);
+            console.error("Fehler beim Abrufen der Meetings: " + error);
         }
     };
 

@@ -49,7 +49,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
             const response = await getModules(axiosInstance);
             setModuleNames(response);
         } catch (error) {
-            alert("Error fetching user modules:" + error);
+            console.error("Error fetching user modules:" + error);
         }
     }
 
@@ -157,7 +157,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
                 e.preventDefault();
                 const form = e.currentTarget;
                 if (!form.checkValidity()) {
-                    alert("Bitte alle erforderlichen Felder ausfüllen!");
+                    console.error("Bitte alle erforderlichen Felder ausfüllen!");
                     return;
                 }
                 handleSave();

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../../styles/Modal.css';
-import { CuteButton } from "../CuteButton";
-import { MeetingDto } from "../../dtos/MeetingDto";
-import { getUserIdsForMeeting } from "../../api/UserGroupApi";
+import {CuteButton} from "../CuteButton";
+import {MeetingDto} from "../../dtos/MeetingDto";
+import {getUserIdsForMeeting} from "../../api/UserGroupApi";
 import axiosInstance from "../../AxiosConfig";
-import { getUser } from "../../api/UserApi";
-import { UserDto } from "../../dtos/UserDto";
+import {getUser} from "../../api/UserApi";
+import {UserDto} from "../../dtos/UserDto";
 
 interface ModalProps {
     isOpen: boolean;
@@ -15,11 +15,10 @@ interface ModalProps {
     openChooseMeetingModal: () => void;
 }
 
-const MeetingDetails: React.FC<ModalProps> = ({ isOpen, meeting, onClose, openMeetingForm, openChooseMeetingModal }) => {
+const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMeetingForm, openChooseMeetingModal}) => {
     const [userIds, setUserIds] = useState<string[]>([]);
-    const [myUser, setMyUser] = useState<UserDto | null>(null);  
-    const myUserId = myUser ? myUser.uuid : "";  
-       
+    const [myUser, setMyUser] = useState<UserDto | null>(null);
+
     useEffect(() => {
         if (isOpen) {
             getUser(axiosInstance)
@@ -41,14 +40,14 @@ const MeetingDetails: React.FC<ModalProps> = ({ isOpen, meeting, onClose, openMe
     }, [isOpen, meeting]);
 
 
-     const updateMeeting = () => {
+    const updateMeeting = () => {
         onClose();
         if (meeting?.repeatable !== "NEVER") openChooseMeetingModal();
         else openMeetingForm();
     };
 
     if (!isOpen || !meeting || !myUser) return null;
-if (!isOpen || !meeting || !myUser) return null;
+    if (!isOpen || !meeting || !myUser) return null;
 
     return (
         <div className="modal-overlay" onClick={onClose}>
@@ -87,19 +86,19 @@ if (!isOpen || !meeting || !myUser) return null;
                         {userIds.length === 0 && <li>-</li>}
                     </ul>
                 </div>
-
-                <div className="flex flex-row gap-4 mb-4 justify-end mt-auto items-center">
-                    <div>
-                        <CuteButton
-                            onClick={updateMeeting}
-                            text={"Meeting bearbeiten"}
-                            bgColor={"#56A095"}
-                            textColor={"#e6ebfc"}
-                            classname={"md:text-base text-sm"}
-                        />
+                {meeting.creator == myUser.uuid && (
+                    <div className="flex flex-row gap-4 mb-4 justify-end mt-auto items-center">
+                        <div>
+                            <CuteButton
+                                onClick={updateMeeting}
+                                text={"Meeting bearbeiten"}
+                                bgColor={"#56A095"}
+                                textColor={"#e6ebfc"}
+                                classname={"md:text-base text-sm"}
+                            />
+                        </div>
                     </div>
-                   
-                </div>
+                )}
             </div>
         </div>
     );

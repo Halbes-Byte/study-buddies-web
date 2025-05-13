@@ -26,7 +26,7 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
             const response = await getMeetings(axiosInstance);
             setEvents(response);
         } catch (error) {
-            alert(error);
+            console.error(error);
         }
     };
 

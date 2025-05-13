@@ -21,7 +21,7 @@ export default function UserSettings() {
             const response = await getModules(axiosInstance);
             setAllModules(response);
         } catch (error) {
-            alert("Error fetching user modules:" + error);
+            console.error("Error fetching user modules:" + error);
         }
     }
 
@@ -31,7 +31,7 @@ export default function UserSettings() {
             setUser(response);
             setOwnModules(response.modules);
         } catch (error) {
-            alert("Fehler beim Abrufen der UserDaten: " + error);
+            console.error("Fehler beim Abrufen der UserDaten: " + error);
         }
     }
 
@@ -59,7 +59,7 @@ export default function UserSettings() {
             await createModule(axiosInstance, module);
             fetchAllModules();
         } catch (error) {
-            alert("Error fetching user modules:" + error);
+            console.error("Error fetching user modules:" + error);
         }
     }
 
@@ -69,7 +69,7 @@ export default function UserSettings() {
             fetchUserInfo();
             setEditModule(false);
         } catch (error) {
-            alert("Error fetching user modules:" + error);
+            console.error("Error fetching user modules:" + error);
         }
     }
 
