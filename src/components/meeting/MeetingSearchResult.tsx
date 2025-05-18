@@ -1,72 +1,75 @@
-import React, {useEffect, useState} from 'react';
-import {MeetingDto} from "../../dtos/MeetingDto";
-import {UserDto} from "../../dtos/UserDto";
-import {getUser} from "../../api/UserApi";
-import {getUserIdsForMeeting, joinStudyGroup, leaveStudyGroup} from "../../api/UserGroupApi";
-import axiosInstance from "../../AxiosConfig";
-import {CuteButton} from "../CuteButton";
-import {deleteMeeting, updateCreator} from '../../api/MeetingApi';
-import {Theme, Tooltip} from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import React, { ReactNode, useEffect, useState } from 'react';
+import { MeetingDto } from '../../dtos/MeetingDto';
+import { UserDto } from '../../dtos/UserDto';
+import { getUser } from '../../api/UserApi';
+import { getUserIdsForMeeting, joinStudyGroup, leaveStudyGroup } from '../../api/UserGroupApi';
+import axiosInstance from '../../AxiosConfig';
+import { CuteButton } from '../CuteButton';
+import { Theme, Tooltip } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { deleteMeeting, updateCreator } from '../../api/MeetingApi';
+
 
 interface Props {
-    meeting: MeetingDto;
+  meeting: MeetingDto;
+  isRepeatable?: boolean;
+  isExpanded?: boolean;
+  onToggle?: () => void;
+  children?: ReactNode;
 }
 
-export default function MeetingSearchResult({meeting}: Props) {
-    const [userIds, setUserIds] = useState<string[]>([]);
-    const [myUser, setMyUser] = useState<UserDto | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
-    const mdAndUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("md"));
+export default function MeetingSearchResult({
+  meeting,
+  isRepeatable,
+  isExpanded,
+  onToggle
+}: Props) {
+  const [userIds, setUserIds] = useState<string[]>([]);
+  const [myUser, setMyUser] = useState<UserDto | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const mdAndUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
-    useEffect(() => {
-        getUser(axiosInstance)
-            .then(setMyUser)
-            .catch(err => console.error(err));
-    }, []);
+  useEffect(() => {
+    getUser(axiosInstance).then(setMyUser).catch(console.error);
+  }, []);
 
-    useEffect(() => {
-        getUserIdsForMeeting(axiosInstance, meeting.id)
-            .then(setUserIds)
-            .catch(err => console.error(err));
-    }, [meeting.id]);
+  useEffect(() => {
+    getUserIdsForMeeting(axiosInstance, meeting.id)
+      .then(setUserIds)
+      .catch(console.error);
+  }, [meeting.id]);
 
-    if (!myUser) return null;
+  if (!myUser) return null;
 
-    const myUserId = myUser.uuid;
+  const myUserId = myUser.uuid;
+  const isMember = userIds.includes(myUserId);
+  const isCreator = meeting.creator === myUserId;
 
-    const joinMeeting = () => {
-        setLoading(true);
-        joinStudyGroup(axiosInstance, meeting.id)
-            .then(() => setUserIds(prev => [...prev, myUserId]))
-            .finally(() => setLoading(false));
-    };
+  
+  const join = () => {
+    setLoading(true);
+    joinStudyGroup(axiosInstance, meeting.id)
+      .then(() => setUserIds(prev => [...prev, myUserId]))
+      .finally(() => setLoading(false));
+  };
+  const leave = () => {
+    setLoading(true);
+    leaveStudyGroup(axiosInstance, meeting.id)
+      .then(() => setUserIds(prev => prev.filter(id => id !== myUserId)))
+      .finally(() => setLoading(false));
+  };
+  const leaveAsCreator = () => {
+    if (userIds.length === 0) {
+      deleteMeeting(axiosInstance, meeting.id)
+        .catch(console.error);
+    } else {
+      updateCreator(axiosInstance, meeting.id, userIds[0])
+        .catch(console.error);
+    }
+  };
 
-    const leaveMeeting = () => {
-        setLoading(true);
-        leaveStudyGroup(axiosInstance, meeting.id)
-            .then(() => setUserIds(prev => prev.filter(id => id !== myUserId)))
-            .finally(() => setLoading(false));
-    };
-
-    const leaveMeetingAsCreator = () => {
-        if (userIds.length === 0) {
-            deleteMeeting(axiosInstance, meeting.id)
-                .then(() => console.log("Meeting gelöscht"))
-                .catch(err => console.error(err));
-        } else {
-            const newCreatorId = userIds[0];
-            updateCreator(axiosInstance, meeting.id, newCreatorId)
-                .then(() => console.log("Creator geändert"))
-                .catch(err => console.error(err));
-        }
-    };
-
-    const isMember = userIds.includes(myUserId);
-    const isCreator = meeting.creator === myUserId;
-
-    return (
-        <div className="bg-[#333C4F] p-4 flex flex-col gap-4">
+  return (
+    <div className="bg-[#333C4F] p-4 flex flex-col gap-4">
             <div className="min-h-80">
                 <h2 className="font-bold text-2xl text-white mb-4 line-clamp-1">{meeting.title}</h2>
 
@@ -135,46 +138,53 @@ export default function MeetingSearchResult({meeting}: Props) {
                 </div>
             </div>
 
-            <div className="flex gap-4">
-                {!isMember && !isCreator && !loading && (
-                    <CuteButton
-                        onClick={joinMeeting}
-                        text={"Teilnehmen"}
-                        textColor={"#e8fcf6"}
-                        bgColor={"#56A095"}
-                        classname={"text-sm w-full"}
-                    />
-                )}
-                {loading && (
-                    <CuteButton
-                        text={"Lade..."}
-                        textColor={"#e8fcf6"}
-                        bgColor={"#56A095"}
-                        classname={"text-sm w-full"}
-                    />
-                )}
+      <div className="flex gap-2">
+        {!loading && !isMember && !isCreator && (
+          <CuteButton
+            onClick={join}
+            text={isRepeatable ? 'An allen Meetings teilnehmen' : 'Teilnehmen'}
+            textColor="#e8fcf6"
+            bgColor="#56A095"
+            classname="text-sm w-full"
+          />
+        )}
 
-                {isCreator && !loading && (
-                    <CuteButton
-                        onClick={leaveMeetingAsCreator}
-                        text={"Meeting verlassen"}
-                        textColor={"#e8fcf6"}
-                        bgColor={"#974242"}
-                        classname={"text-sm w-full"}
-                    />
-                )}
+        <div style={{ flex: onToggle ? 2 : 1 }}>
+          {!loading && isCreator && (
+            <CuteButton
+              onClick={leaveAsCreator}
+              text="Meeting verlassen"
+              textColor="#e8fcf6"
+              bgColor="#974242"
+              classname="text-sm w-full"
+            />
+          )}
 
-                {isMember && !isCreator && !loading && (
-                    <CuteButton
-                        onClick={leaveMeeting}
-                        text={"Meeting verlassen"}
-                        textColor={"#e8fcf6"}
-                        bgColor={"#974242"}
-                        classname={"text-sm w-full"}
-                    />
-                )}
-            </div>
+          {!loading && isMember && !isCreator && (
+            <CuteButton
+              onClick={leave}
+              text={isRepeatable ? 'Alle Meetings verlassen' : 'Meeting verlassen'}
+              textColor="#e8fcf6"
+              bgColor="#974242"
+              classname="text-sm w-full"
+            />
+          )}
+
+          {loading && <CuteButton text="Lade..." textColor="#e8fcf6" bgColor="#56A095" classname="text-sm w-full" />}
         </div>
-    )
-        ;
+
+        {onToggle && (
+          <div style={{ flex: 1 }}>
+            <CuteButton
+              onClick={onToggle}
+              text={isExpanded ? 'Einklappen' : 'Erweitern'}
+              textColor="#CAE8FF"
+              bgColor="#3A4A5F"
+              classname="text-sm w-full"
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
