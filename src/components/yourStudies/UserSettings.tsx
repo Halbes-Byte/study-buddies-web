@@ -8,13 +8,14 @@ import {createModule, getModules} from "../../api/ModuleApi";
 
 
 export default function UserSettings() {
-    const [user, setUser] = useState<UserDto | undefined>();
+    const [user, setUser] = useState<UserDto>();
     const [editProfile, setEditProfile] = useState(false);
     const [editModule, setEditModule] = useState(false);
     const [profileName, setProfileName] = useState(user?.username);
     const [ownModules, setOwnModules] = useState<ModuleDto[]>([]);
     const [allModules, setAllModules] = useState<ModuleDto[]>([]);
     const [module, setModule] = useState<string>("");
+    const [moduleEmptyAlert, setModuleEmptyAlert] = useState<boolean>(false);
 
     const fetchAllModules = async () => {
         try {
@@ -45,13 +46,13 @@ export default function UserSettings() {
         setEditProfile(mode);
     }
 
-    const saveProfileModifications = () => {
+    const saveProfileModifications = async () => {
         if (!profileName) {
             return;
         }
-        updateUsername(axiosInstance, profileName);
+        await updateUsername(axiosInstance, profileName);
         editProfileMode(false);
-        fetchUserInfo();
+        await fetchUserInfo();
     }
 
     const saveNewModule = async () => {
@@ -74,6 +75,11 @@ export default function UserSettings() {
     }
 
     const addModule = () => {
+        if (module?.length === 0) {
+            setModuleEmptyAlert(true);
+            return;
+        }
+        setModuleEmptyAlert(false);
         if (!ownModules.some(m => m.name.toUpperCase() === module.toUpperCase()))
             setOwnModules([...ownModules, {name: module}]);
         setModule("");
@@ -87,6 +93,7 @@ export default function UserSettings() {
     }
 
     const editModulesMode = (mode: boolean) => {
+        setModuleEmptyAlert(false);
         setOwnModules(user ? user.modules : []);
         setEditModule(mode);
     }
@@ -129,54 +136,56 @@ export default function UserSettings() {
                 </div>
                 <p className="text-xl font-medium text-white text-left mt-3">Aktuelle Module</p>
                 <div className="p-4 lg:mr-20 mr-8 mt-2">
-                    <table className="w-full border-collapse">
-                        <tbody>
-                        {editModule ? (
-                            <div className={"flex flex-col gap-4"}>
-                                {ownModules.map((subject) => (
-                                    <div
-                                        className={"flex flex-row justify-between pr-4 py-1 border-b border-[#4B708C] text-gray-300"}>
-                                        <p>{subject.name}</p>
+                    <div className="w-full border-collapse">
+                        <div>
+                            {editModule ? (
+                                <div className={"flex flex-col gap-4"}>
+                                    {ownModules.map((subject) => (
+                                        <div key={subject.name}
+                                             className={"flex flex-row justify-between pr-4 py-1 border-b border-[#4B708C] text-gray-300"}>
+                                            <p>{subject.name}</p>
+                                            <button
+                                                onClick={() => deleteModule(subject.name)}
+                                            >
+                                                x
+                                            </button>
+                                        </div>
+                                    ))}
+                                    <input
+                                        id="module"
+                                        type="text"
+                                        placeholder={"Modul"}
+                                        className={"text-gray-300 block bg-[#333C4F] w-full px-10 py-2 border rounded-full shadow-sm placeholder-gray-550 placeholder:text-xs "
+                                            + (moduleEmptyAlert ? "border-red-400" : "border-[#333C4F]")}
+                                        value={module}
+                                        onChange={(e) => setModule(e.target.value)}
+                                    />
+
+                                    <datalist id="modules">
+                                        {allModules.map((module, index) => (
+                                            <option key={index} className={"w-full"} value={module.name}/>
+                                        ))}
+                                    </datalist>
+                                    <div className="flex flex-col w-full my-4">
                                         <button
-                                            onClick={() => deleteModule(subject.name)}
-                                        >
-                                            x
+                                            className="bg-[#2EF6D9] text-white cursor-pointer p-[10px] border-none w-[30px] h-[30px] rounded font-semibold text-[16px] inline-flex items-center"
+                                            onClick={() => addModule()}>
+                                            +
                                         </button>
                                     </div>
-                                ))}
-                                <input
-                                    id="module"
-                                    type="text"
-                                    placeholder={"Modul"}
-                                    className="text-gray-300 block bg-[#333C4F] w-full px-10 py-2 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-550 placeholder:text-xs"
-                                    value={module}
-                                    onChange={(e) => setModule(e.target.value)}
-                                />
 
-                                <datalist id="modules">
-                                    {allModules.map((module, index) => (
-                                        <option key={index} className={"w-full"} value={module.name}/>
-                                    ))}
-                                </datalist>
-                                <div className="flex flex-col w-full my-4">
-                                    <button
-                                        className="bg-[#2EF6D9] text-white cursor-pointer p-[10px] border-none w-[30px] h-[30px] rounded font-semibold text-[16px] inline-flex items-center"
-                                        onClick={() => addModule()}>
-                                        +
-                                    </button>
                                 </div>
+                            ) : (
+                                ownModules.map((subject, index) => (
+                                    <div key={index}>
+                                        <div
+                                            className="py-2 border-b border-[#4B708C] text-gray-300">{subject.name}</div>
+                                    </div>
+                                ))
 
-                            </div>
-                        ) : (
-                            ownModules.map((subject, index) => (
-                                <tr key={index}>
-                                    <td className="py-2 border-b border-[#4B708C] text-gray-300">{subject.name}</td>
-                                </tr>
-                            ))
-
-                        )}
-                        </tbody>
-                    </table>
+                            )}
+                        </div>
+                    </div>
                 </div>
                 <div className="mt-3">
                     {editModule ? (

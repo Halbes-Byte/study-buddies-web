@@ -6,7 +6,7 @@ import {MeetingDto} from '../dtos/MeetingDto';
 import '../styles/Calendar.css';
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {getMeetings} from "../api/MeetingApi";
+import {getAttendedMeetings} from "../api/MeetingApi";
 import axiosInstance from "../AxiosConfig";
 import {CreateOrUpdateMeetingForm} from "../form/CreateOrUpdateMeetingForm";
 import {EventSourceInput} from '@fullcalendar/core';
@@ -23,7 +23,7 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
 
     const fetchMeetings = async () => {
         try {
-            const response = await getMeetings(axiosInstance);
+            const response = await getAttendedMeetings(axiosInstance);
             setEvents(response);
         } catch (error) {
             console.error(error);
@@ -78,6 +78,7 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
 
     const closeModal = () => {
         setIsModalOpen(false);
+        fetchMeetings();
     };
 
     return (

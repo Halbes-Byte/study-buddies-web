@@ -18,7 +18,7 @@ export function deleteMeeting(axios: AxiosInstance, meetingId: string): Promise<
         .then(handleSuccessResponse, handleErrorResponse);
 }
 
-export function getMeetings(axios: AxiosInstance): Promise<MeetingDto[]> {
+export function getAttendedMeetings(axios: AxiosInstance): Promise<MeetingDto[]> {
     const url = `/${Resources.MEETING}`;
     return axios.get(url)
         .then(handleSuccessResponse, handleErrorResponse)
@@ -46,7 +46,7 @@ export function getMeetingsForModule(axios: AxiosInstance, module: string): Prom
 }
 
 export function updateCreator(axios: AxiosInstance, meetingId: string, newCreatorId: string): Promise<CreateMeetingDto> {
-    const meetingUpdate = { creator: newCreatorId };
+    const meetingUpdate = {creator: newCreatorId};
 
     return axios.put(`/${Resources.MEETING}?id=${meetingId}`, meetingUpdate)
         .then(handleSuccessResponse, handleErrorResponse);

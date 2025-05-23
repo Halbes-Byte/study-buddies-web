@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../../styles/Modal.css';
 import {CuteButton} from "../CuteButton";
 import {MeetingDto} from "../../dtos/MeetingDto";
-import {getUserIdsForMeeting} from "../../api/UserGroupApi";
+import {getUserIdsForMeeting, leaveStudyGroup} from "../../api/UserGroupApi";
 import axiosInstance from "../../AxiosConfig";
 import {getUser} from "../../api/UserApi";
 import {UserDto} from "../../dtos/UserDto";
@@ -39,6 +39,11 @@ const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMee
         }
     }, [isOpen, meeting]);
 
+    const leaveMeeting = async () => {
+        if (meeting?.id)
+            await leaveStudyGroup(axiosInstance, meeting?.id)
+        onClose();
+    };
 
     const updateMeeting = () => {
         onClose();
@@ -76,17 +81,17 @@ const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMee
                     </p>
 
                     <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Teilnehmer:</strong>
+                        <strong className="text-[#CAE8FF] font-semibold">Teilnehmende:</strong>
                     </p>
                     <ul className="text-white text-sm list-disc list-inside">
                         <li key={meeting?.creator}>{meeting?.creator}</li>
                         {userIds.map(id => (
                             <li key={id}>{id}</li>
                         ))}
-                        {userIds.length === 0 && <li>-</li>}
+                        {userIds.length === 0 && <></>}
                     </ul>
                 </div>
-                {meeting.creator == myUser.uuid && (
+                {meeting.creator == myUser.uuid ? (
                     <div className="flex flex-row gap-4 mb-4 justify-end mt-auto items-center">
                         <div>
                             <CuteButton
@@ -98,6 +103,16 @@ const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMee
                             />
                         </div>
                     </div>
+                ) : (
+                    <>
+                        <CuteButton
+                            onClick={leaveMeeting}
+                            text={'Meeting verlassen'}
+                            textColor="#e8fcf6"
+                            bgColor="#974242"
+                            classname="text-sm w-full"
+                        />
+                    </>
                 )}
             </div>
         </div>

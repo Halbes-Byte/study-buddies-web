@@ -39,6 +39,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
     const [date2, setDate2] = useState<Dayjs>(meeting ? dateUntil : dayjs());
     const [time2, setTime2] = useState<Dayjs>(meeting ? dateUntil : dayjs().hour(13).minute(0).second(0));
     const [moduleNames, setModuleNames] = useState<ModuleDto[]>([]);
+    const [descriptionError, setDescriptionError] = useState("");
 
     useEffect(() => {
         fetchModuleNames();
@@ -88,7 +89,6 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
             closeAndReset();
         } catch (error) {
             console.error('Fehler:', error);
-            alert('Es gab einen Fehler beim Löschen des Meetings.');
         }
     }
 
@@ -117,7 +117,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
             }
             closeAndReset();
         } catch (error) {
-            alert('Es gab einen Fehler beim Speichern des Meetings.');
+            console.error('Es gab einen Fehler beim Speichern des Meetings.');
         }
     };
 
@@ -157,9 +157,14 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
                 e.preventDefault();
                 const form = e.currentTarget;
                 if (!form.checkValidity()) {
-                    console.error("Bitte alle erforderlichen Felder ausfüllen!");
+                    alert("Bitte alle erforderlichen Felder ausfüllen!");
                     return;
                 }
+                if (meetingDescription.length > 255) {
+                    setDescriptionError("Die Beschreibung ist zu lang (max 255 Zeichen).");
+                    return;
+                } else
+                    setDescriptionError("");
                 handleSave();
             }}>
                 <label htmlFor="meeting-title" className="font-semibold block text-lg text-white">Modulname</label>
@@ -182,16 +187,16 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
 
 
                 <label htmlFor="meeting-description"
-                       className="font-semibold block text-lg text-white">Beschreibung</label>
+                       className="font-semibold block text-lg text-white">Beschreibung </label>
                 <textarea
                     id="meeting-description"
                     rows={3}
-                    placeholder="Hier könnte Ihre Beschreibung stehen"
+                    placeholder="Hier könnte Ihre Beschreibung stehen (max 255 Zeichen)"
                     className="ml-5 resize-none mt-1 text-gray-300 block bg-[#333C4F] w-11/12 px-10 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs placeholder:py-1 py-2"
                     value={meetingDescription}
                     onChange={(e) => setMeetingDescription(e.target.value)}
                 />
-
+                <p className={" ml-5 text-red-400"}>{descriptionError}</p>
 
                 <label htmlFor="Time Span"
                        className="font-semibold mt-8 block text-lg text-white">Zeitraum</label>
@@ -340,13 +345,13 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
                         {meeting && (
                             <div className={"flex lg:justify-start justify-end w-full"}>
                                 <CuteButton onClick={handleDelete} text={"Meeting Löschen"} textColor={"#f2f2f2"}
-                                            bgColor={"#974242"}
+                                            bgColor={"#974242"} type={"button"}
                                             classname={"text-xl"}/>
                             </div>
                         )}
                         <div className={"gap-2 ml-auto flex items-center"}>
                             <CuteButton onClick={closeAndReset} text={"Abbrechen"} bgColor={"#598BB1"}
-                                        textColor={"#e6ebfc"}
+                                        textColor={"#e6ebfc"} type={"button"}
                                         classname={"md:text-base text-sm"}/>
                             <CuteButton type={"submit"} text={"Speichern"} bgColor={"#56A095"} textColor={"#e8fcf6"}
                                         classname={"md:text-2xl text-xl"}/>

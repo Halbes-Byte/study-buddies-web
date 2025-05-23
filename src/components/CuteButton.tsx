@@ -15,7 +15,10 @@ export function CuteButton(props: {
             className={className}
             type={props.type}
             style={{background: props.bgColor, color: props.textColor}}
-            onClick={props.onClick}
+            onClick={(e) => {
+                e.preventDefault();
+                props.onClick?.();
+            }}
         >
             {props.text}
         </button>
