@@ -16,7 +16,9 @@ export function CuteButton(props: {
             type={props.type}
             style={{background: props.bgColor, color: props.textColor}}
             onClick={(e) => {
-                e.preventDefault();
+                if (props.type !== "submit") {
+                    e.preventDefault();
+                }
                 props.onClick?.();
             }}
         >
