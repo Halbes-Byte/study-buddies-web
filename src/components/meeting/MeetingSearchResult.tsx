@@ -7,8 +7,6 @@ import axiosInstance from '../../AxiosConfig';
 import {CuteButton} from '../CuteButton';
 import {Theme, Tooltip} from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {deleteMeeting, updateCreator} from '../../api/MeetingApi';
-
 
 interface Props {
     meeting: MeetingDto;
@@ -18,15 +16,19 @@ interface Props {
     children?: ReactNode;
 }
 
-export default function MeetingSearchResult({
-                                                meeting,
-                                                isRepeatable,
-                                                isExpanded,
-                                                onToggle
-                                            }: Props) {
+export default function MeetingSearchResult(
+    {
+        meeting,
+        isRepeatable,
+        isExpanded,
+        onToggle
+    }: Props
+) {
     const [userIds, setUserIds] = useState<string[]>([]);
     const [myUser, setMyUser] = useState<UserDto | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [myUserId, setMyUserId] = useState<string | undefined>();
+    const [isMember, setIsMember] = useState<boolean>(false);
     const mdAndUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
     useEffect(() => {
@@ -37,17 +39,21 @@ export default function MeetingSearchResult({
         getUserIdsForMeeting(axiosInstance, meeting.id)
             .then(setUserIds)
             .catch(console.error);
-    }, [meeting.id]);
+    }, []);
 
-    if (!myUser) return null;
-
-    const myUserId = myUser.uuid;
-    const isMember = userIds.includes(myUserId);
-    const isCreator = meeting.creator === myUserId;
-
+    useEffect(() => {
+        if (myUser == null) return;
+        setMyUserId(myUser.uuid);
+        setIsMember(userIds.includes(myUser.uuid));
+    }, [myUser, userIds]);
 
     const joinMeeting = () => {
         setLoading(true);
+        if (myUserId === undefined) {
+            setLoading(false);
+            alert("userId undefined");
+            return;
+        }
         joinStudyGroup(axiosInstance, meeting.id)
             .then(() => setUserIds(prev => [...prev, myUserId]))
             .finally(() => setLoading(false));
@@ -58,16 +64,6 @@ export default function MeetingSearchResult({
         leaveStudyGroup(axiosInstance, meeting.id)
             .then(() => setUserIds(prev => prev.filter(id => id !== myUserId)))
             .finally(() => setLoading(false));
-    };
-
-    const leaveAsCreator = () => {
-        if (userIds.length === 0) {
-            deleteMeeting(axiosInstance, meeting.id)
-                .catch(console.error);
-        } else {
-            updateCreator(axiosInstance, meeting.id, userIds[0])
-                .catch(console.error);
-        }
     };
 
     return (
@@ -144,7 +140,7 @@ export default function MeetingSearchResult({
             </div>
 
             <div className="flex gap-2 pt-2">
-                {!loading && !isMember && !isCreator && (
+                {!loading && !isMember && (
                     <CuteButton
                         onClick={joinMeeting}
                         text={isRepeatable ? 'An allen Meetings teilnehmen' : 'Teilnehmen'}
@@ -155,17 +151,8 @@ export default function MeetingSearchResult({
                 )}
 
                 <div style={{flex: onToggle ? 2 : 1}}>
-                    {!loading && isCreator && (
-                        <CuteButton
-                            onClick={leaveAsCreator}
-                            text="Meeting verlassen"
-                            textColor="#e8fcf6"
-                            bgColor="#974242"
-                            classname="text-sm w-full"
-                        />
-                    )}
 
-                    {!loading && isMember && !isCreator && (
+                    {!loading && isMember && (
                         <CuteButton
                             onClick={leaveMeeting}
                             text={isRepeatable ? 'Alle Meetings verlassen' : 'Meeting verlassen'}

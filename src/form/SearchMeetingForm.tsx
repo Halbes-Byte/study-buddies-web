@@ -10,12 +10,12 @@ import {
     Grid2
 } from '@mui/material';
 import CloseIconPath from '../data/close_icon_red.png';
-import {getModules} from '../api/ModuleApi';
 import {getMeetingsForModule} from '../api/MeetingApi';
 import axiosInstance from '../AxiosConfig';
 import {ModuleDto} from '../dtos/ModuleDto';
 import {MeetingDto} from '../dtos/MeetingDto';
 import GroupedMeeting from '../components/meeting/GroupedMeeting';
+import {getUser} from "../api/UserApi";
 
 interface Props {
     open: boolean;
@@ -28,11 +28,10 @@ export function SearchMeetingForm({open, onClose}: Props) {
     const [selectedModule, setSelectedModule] = useState<string>("");
 
     useEffect(() => {
-        // Lade die verfügbaren Module beim Öffnen des Dialogs
         const loadModules = async () => {
             try {
-                const res = await getModules(axiosInstance);
-                setModules(res);
+                const res = await getUser(axiosInstance);
+                setModules(res.modules);
             } catch (err) {
                 console.error('Fehler beim Laden der Module:', err);
             }
@@ -41,7 +40,6 @@ export function SearchMeetingForm({open, onClose}: Props) {
     }, []);
 
     useEffect(() => {
-        // Wenn ein Modul ausgewählt wurde, lade passende Meetings
         const loadMeetings = async () => {
             if (selectedModule === "") return;
             try {
