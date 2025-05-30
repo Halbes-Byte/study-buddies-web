@@ -64,7 +64,7 @@ const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMee
                     ×
                 </button>
 
-                <h2 className="font-bold text-2xl text-white mb-4">{meeting?.title}</h2>
+                <h2 className="font-bold text-2xl text-white mb-4">{meeting?.module}</h2>
 
                 <div className="flex flex-col gap-4 mb-4">
                     <p className="text-bs font-medium text-white">

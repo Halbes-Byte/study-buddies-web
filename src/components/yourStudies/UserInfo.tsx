@@ -88,7 +88,7 @@ export default function UserInfo() {
                     <tbody>
                     {weeklyMeetings.map((meeting, index) => (
                         <tr key={index}>
-                            <td className="px-1 py-1 text-[#9B9B9B]">{meeting.title}</td>
+                            <td className="px-1 py-1 text-[#9B9B9B]">{meeting.module}</td>
                             <td className="px-1 py-1 text-[#2AB19D]">
                                 {new Date(meeting.dateFrom).toLocaleDateString()}
                             </td>
@@ -108,7 +108,7 @@ export default function UserInfo() {
                     {weeklyMeetings.map((meeting, index) => (
                         <div key={index} className="p-3 shadow-sm">
                             <p className="text-[#9B9B9B]">
-                                {meeting.title}
+                                {meeting.module}
                             </p>
                             <p className="text-[#2AB19D] inline">
                                 {new Date(meeting.dateFrom).toLocaleDateString()}

@@ -3,7 +3,7 @@ import {ChangeType} from "../enum/ChangeType";
 export type MeetingDto = {
     id: string,
     superId: number,
-    title: string,
+    module: string,
     description: string,
     dateFrom: string,
     dateUntil: string,
@@ -14,7 +14,7 @@ export type MeetingDto = {
 }
 
 export type CreateMeetingDto = {
-    title: string,
+    module: string,
     description: string,
     dateFrom: string,
     dateUntil: string,

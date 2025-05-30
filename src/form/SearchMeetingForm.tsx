@@ -7,7 +7,6 @@ import {
     Select,
     MenuItem,
     SelectChangeEvent,
-    Grid2
 } from '@mui/material';
 import CloseIconPath from '../data/close_icon_red.png';
 import {getMeetingsForModule} from '../api/MeetingApi';
@@ -112,9 +111,7 @@ export function SearchMeetingForm({open, onClose}: Props) {
                         ))}
                     </Select>
 
-                    <Grid2 container spacing={3} className="my-5 overflow-y-scroll">
-                        <GroupedMeeting meetings={meetings}/>
-                    </Grid2>
+                    <GroupedMeeting meetings={meetings}/>
                 </form>
             </DialogContent>
         </Dialog>

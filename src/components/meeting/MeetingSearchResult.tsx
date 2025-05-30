@@ -2,7 +2,13 @@ import React, {ReactNode, useEffect, useState} from 'react';
 import {MeetingDto} from '../../dtos/MeetingDto';
 import {UserDto} from '../../dtos/UserDto';
 import {getUser} from '../../api/UserApi';
-import {getUserIdsForMeeting, joinStudyGroup, leaveStudyGroup} from '../../api/UserGroupApi';
+import {
+    getUserIdsForMeeting,
+    joinStudyGroup,
+    joinSuperStudyGroup,
+    leaveStudyGroup,
+    leaveSuperStudyGroup
+} from '../../api/UserGroupApi';
 import axiosInstance from '../../AxiosConfig';
 import {CuteButton} from '../CuteButton';
 import {Theme, Tooltip} from '@mui/material';
@@ -10,7 +16,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface Props {
     meeting: MeetingDto;
-    isRepeatable?: boolean;
     isExpanded?: boolean;
     onToggle?: () => void;
     children?: ReactNode;
@@ -19,7 +24,6 @@ interface Props {
 export default function MeetingSearchResult(
     {
         meeting,
-        isRepeatable,
         isExpanded,
         onToggle
     }: Props
@@ -59,6 +63,18 @@ export default function MeetingSearchResult(
             .finally(() => setLoading(false));
     };
 
+    const joinSuperMeeting = () => {
+        setLoading(true);
+        if (myUserId === undefined) {
+            setLoading(false);
+            alert("userId undefined");
+            return;
+        }
+        joinSuperStudyGroup(axiosInstance, meeting.superId.toString())
+            .then(() => setUserIds(prev => [...prev, myUserId]))
+            .finally(() => setLoading(false));
+    };
+
     const leaveMeeting = () => {
         setLoading(true);
         leaveStudyGroup(axiosInstance, meeting.id)
@@ -66,10 +82,17 @@ export default function MeetingSearchResult(
             .finally(() => setLoading(false));
     };
 
+    const leaveSuperMeeting = () => {
+        setLoading(true);
+        leaveSuperStudyGroup(axiosInstance, meeting.superId.toString())
+            .then(() => setUserIds(prev => prev.filter(id => id !== myUserId)))
+            .finally(() => setLoading(false));
+    };
+
     return (
         <div className="bg-[#333C4F] p-4 flex flex-col gap-4">
             <div className="min-h-80">
-                <h2 className="font-bold text-2xl text-white mb-4 line-clamp-2 h-14">{meeting.title}</h2>
+                <h2 className="font-bold text-2xl text-white mb-4 line-clamp-2 h-14">{meeting.module}</h2>
 
                 <div className="flex flex-col gap-4 mb-4">
                     <p className="text-bs font-medium text-white">
@@ -142,8 +165,8 @@ export default function MeetingSearchResult(
             <div className="flex gap-2 pt-2">
                 {!loading && !isMember && (
                     <CuteButton
-                        onClick={joinMeeting}
-                        text={isRepeatable ? 'An allen Meetings teilnehmen' : 'Teilnehmen'}
+                        onClick={isExpanded == false ? joinSuperMeeting : joinMeeting}
+                        text={isExpanded == false ? 'An allen Meetings teilnehmen' : 'Teilnehmen'}
                         textColor="#e8fcf6"
                         bgColor="#56A095"
                         classname="text-sm w-full"
@@ -154,8 +177,8 @@ export default function MeetingSearchResult(
 
                     {!loading && isMember && (
                         <CuteButton
-                            onClick={leaveMeeting}
-                            text={isRepeatable ? 'Alle Meetings verlassen' : 'Meeting verlassen'}
+                            onClick={isExpanded == false ? leaveSuperMeeting : leaveMeeting}
+                            text={isExpanded == false ? 'Alle Meetings verlassen' : 'Meeting verlassen'}
                             textColor="#e8fcf6"
                             bgColor="#974242"
                             classname="text-sm w-full"

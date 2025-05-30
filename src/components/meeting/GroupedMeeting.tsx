@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {MeetingDto} from '../../dtos/MeetingDto'
 import MeetingSearchResult from './MeetingSearchResult'
-import {Grid2} from '@mui/material'
+import Grid from '@mui/material/Grid2';
 
 export default function GroupedMeeting({meetings}: { meetings: MeetingDto[] }) {
     const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
@@ -25,7 +25,7 @@ export default function GroupedMeeting({meetings}: { meetings: MeetingDto[] }) {
     }
 
     return (
-        <Grid2 container spacing={3} className="my-5 overflow-y-scroll">
+        <Grid container spacing={3} className="my-5 overflow-y-scroll">
             {Object.entries(grouped).map(([sidStr, group]) => {
                 const sid = sidStr;
                 const [first, ...rest] = group;
@@ -34,28 +34,25 @@ export default function GroupedMeeting({meetings}: { meetings: MeetingDto[] }) {
 
                 return (
                     <React.Fragment key={sid}>
-                        <Grid2 size={{xs: 12, md: 6, lg: 4}}>
-                            <div className="relative">
-                                <MeetingSearchResult
-                                    meeting={first}
-                                    isRepeatable={isRepeat}
-                                    isExpanded={isExp}
-                                    onToggle={isRepeat ? () => toggle(sid) : undefined}
-                                />
-                            </div>
-                        </Grid2>
+                        <Grid size={{xs: 12, md: 6, lg: 4}}>
+                            <MeetingSearchResult
+                                meeting={first}
+                                isExpanded={!isRepeat ? undefined : isExp}
+                                onToggle={isRepeat ? () => toggle(sid) : undefined}
+                            />
+                        </Grid>
 
                         {isExp && rest.map(m => (
-                            <Grid2 size={{xs: 12, md: 6, lg: 4}} key={m.id}> <MeetingSearchResult
-                                meeting={m}
-                                isRepeatable={false}
-                                isExpanded={true}
-                            />
-                            </Grid2>
+                            <Grid size={{xs: 12, md: 6, lg: 4}} key={m.id}>
+                                <MeetingSearchResult
+                                    meeting={m}
+                                    isExpanded={true}
+                                />
+                            </Grid>
                         ))}
                     </React.Fragment>
                 )
             })}
-        </Grid2>
+        </Grid>
     )
 }

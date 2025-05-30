@@ -30,7 +30,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
     const dateFrom = dayjs(meeting?.dateFrom, "D.M.YYYY, H:mm:ss");
     const dateUntil = dayjs(meeting?.dateUntil, "D.M.YYYY, H:mm:ss");
 
-    const [meetingTitle, setMeetingTitle] = useState(meeting ? meeting.title : "");
+    const [meetingTitle, setMeetingTitle] = useState(meeting ? meeting.module : "");
     const [repeatable, setRepeatable] = useState(meeting ? meeting.repeatable : "never");
     const [meetingDescription, setMeetingDescription] = useState(meeting ? meeting.description : '');
     const [meetingRoom, setMeetingRoom] = useState(meeting ? meeting.place : '');
@@ -100,7 +100,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
             changeType = ChangeType.SERIES;
 
         const meetingData: CreateMeetingDto = {
-            title: meetingTitle,
+            module: meetingTitle,
             description: meetingDescription,
             place: meetingRoom,
             dateFrom: date1.hour(time1.hour()).minute(time1.minute()).format("DD-MM-YYYY:HH:mm") || "",

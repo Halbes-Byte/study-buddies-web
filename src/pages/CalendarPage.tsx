@@ -37,7 +37,7 @@ export default function CalenderPage() {
             <CreateOrUpdateMeetingForm open={isCreateMeetingDialogOpen} onClose={closeCreateMeetingForm}/>
             <SearchMeetingForm open={isSearchMeetingDialogOpen} onClose={closeSearchMeetingForm}/>
             <div className="flex overflow-hidden flex-col justify-center sm:mx-10 mx-3">
-                <CalendarComponent isDialogOpen={isCreateMeetingDialogOpen}/>
+                <CalendarComponent isDialogOpen={isCreateMeetingDialogOpen || isSearchMeetingDialogOpen}/>
             </div>
         </>
     );

@@ -34,7 +34,7 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
         return meetings.map(meeting => ({
             id: meeting.id.toString(),
             superId: meeting.superId.toString(),
-            title: meeting.title,
+            title: meeting.module,
             start: new Date(meeting.dateFrom).toISOString(),
             end: new Date(meeting.dateUntil).toISOString(),
             description: meeting.description,
@@ -50,9 +50,10 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
     }, [props.isDialogOpen, isMeetingFormOpen]);
 
     const Eventhandler = (info: any) => {
+        console.log(info);
         const {event} = info;
         const id = event.id;
-        const title = event.title;
+        const module = event.title;
         const date_from = new Date(event.start).toLocaleString();
         const date_until = new Date(event.end).toLocaleString();
         const superId = event.extendedProps?.superId || '';
@@ -64,7 +65,7 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
         setSelectedMeeting({
             id: id,
             superId: superId,
-            title,
+            module,
             dateFrom: date_from,
             dateUntil: date_until,
             description,
