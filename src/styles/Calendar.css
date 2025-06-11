@@ -15,3 +15,12 @@
     background-color: #165B51 !important;
     color: lightgray;
 }
+
+.fc-scroller::-webkit-scrollbar-thumb {
+    background-color: #050810;
+    border-radius: 4px;
+}
+
+.fc-scroller::-webkit-scrollbar {
+    background-color: #161821;
+}

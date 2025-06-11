@@ -91,14 +91,15 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({isOpen, onClose}) => {
 
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content min-w-[300px] w-[650px] max-w-[90%]" onClick={(e) => e.stopPropagation()}>
-                <p className="text-2xl font-bold text-white text-left mt-3 ml-3 mb-2">
+            <div className="modal-content p-8 min-w-[300px] w-[650px] overflow-y-scroll  max-h-[80%] max-w-[90%]"
+                 onClick={(e) => e.stopPropagation()}>
+                <p className="text-2xl font-bold text-white text-left sm:ml-3">
                     Lernfortschritt
                 </p>
                 {chapters.map((chapter) => (
                     <div key={chapter.id}>
-                        <div className="flex gap-4 items-center mt-2 ml-3 mb-4">
-                            <p className="text-xl text-white text-left">
+                        <div className="flex gap-4 items-center mt-2 sm:ml-3 mb-4">
+                            <p className="sm:text-xl text-lg text-white text-left">
                                 {chapter.title}
                             </p>
                             <button
@@ -109,7 +110,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({isOpen, onClose}) => {
                                 x
                             </button>
                         </div>
-                        <div className="checkbox-group ml-8 mb-4">
+                        <div className="checkbox-group sm:ml-8 mb-4">
                             {chapter.checkboxes.map((checkbox) => (
                                 <div key={checkbox.id} className="checkbox-item w-[65%]">
                                     <input
@@ -150,7 +151,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({isOpen, onClose}) => {
                             ))}
                         </div>
 
-                        <div className="add-checkbox-container">
+                        <div className="add-checkbox-container sm:ml-8">
                             <button
                                 className="add-checkbox-btn"
                                 onClick={() => addCheckbox(chapter.id)}
@@ -167,17 +168,17 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({isOpen, onClose}) => {
                     </div>
                 ))}
 
-                <div className="mt-auto flex justify-end gap-4">
+                <div className="mt-auto flex justify-end items-center gap-4">
                     <CuteButton
                         onClick={onClose}
                         text={'Abbrechen'}
                         bgColor={"#598BB1"} textColor={"#ffffff"}
-                        classname={'text-base'}
+                        classname={'sm:text-base text-sm'}
                     />
                     <CuteButton
                         text={'Speichern'}
                         bgColor={"#56A095"} textColor={"#e8fcf6"}
-                        classname={'text-2xl'}
+                        classname={'sm:text-2xl text-lg'}
                     />
                 </div>
 
