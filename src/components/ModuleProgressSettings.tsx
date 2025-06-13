@@ -1,38 +1,18 @@
 import React, {useState} from 'react';
 import '../styles/Modal.css';
 import {CuteButton} from './CuteButton';
+import {Chapter, UserModule} from "../dtos/ModuleDto";
 
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
+    module: UserModule;
 }
 
-interface Checkbox {
-    id: number;
-    text: string;
-    checked: boolean;
-}
+const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module}) => {
+    const [chapters, setChapters] = useState<Chapter[]>(module.chapter);
 
-interface Chapter {
-    id: number;
-    title: string;
-    checkboxes: Checkbox[];
-}
-
-const ModuleProgressSettings: React.FC<ModalProps> = ({isOpen, onClose}) => {
-    const [chapters, setChapters] = useState<Chapter[]>([
-        {
-            id: 1,
-            title: 'Kapitel 1',
-            checkboxes: [
-                {id: 1, text: 'Checkbox 1', checked: false},
-                {id: 2, text: 'Checkbox 2', checked: false},
-                {id: 3, text: 'Checkbox 3', checked: false},
-            ],
-        },
-    ]);
-
-    const toggleCheckbox = (chapterId: number, checkboxId: number) => {
+    const toggleCheckbox = (chapterId: string, checkboxId: string) => {
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
                 chapter.id === chapterId
@@ -49,9 +29,9 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({isOpen, onClose}) => {
         );
     };
 
-    const addCheckbox = (chapterId: number) => {
+    const addCheckbox = (chapterId: string) => {
         const newCheckbox = {
-            id: Date.now(),
+            id: Date.now().toString(),
             text: `Checkbox ${Math.random()}`,
             checked: false,
         };
@@ -65,7 +45,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({isOpen, onClose}) => {
         );
     };
 
-    const deleteCheckbox = (chapterId: number, checkboxId: number) => {
+    const deleteCheckbox = (chapterId: string, checkboxId: string) => {
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
                 chapter.id === chapterId
@@ -82,12 +62,16 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({isOpen, onClose}) => {
 
     const addChapter = () => {
         const newChapter = {
-            id: Date.now(),
+            id: Date.now().toString(),
             title: `Kapitel ${chapters.length + 1}`,
             checkboxes: [],
         };
         setChapters((prev) => [...prev, newChapter]);
     };
+
+    const saveProgress = () => {
+        //TODO
+    }
 
     return (
         <div className="modal-overlay" onClick={onClose}>
@@ -179,6 +163,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({isOpen, onClose}) => {
                         text={'Speichern'}
                         bgColor={"#56A095"} textColor={"#e8fcf6"}
                         classname={'sm:text-2xl text-lg'}
+                        onClick={saveProgress}
                     />
                 </div>
 

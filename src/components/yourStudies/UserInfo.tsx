@@ -4,13 +4,14 @@ import {getMeetingsOfWeek} from "../../api/MeetingApi";
 import axiosInstance from "../../AxiosConfig";
 import {MeetingDto} from "../../dtos/MeetingDto";
 import ModuleProgressSettings from "../ModuleProgressSettings";
-import {ModuleDto} from "../../dtos/ModuleDto";
+import {Chapter, Checkbox, UserModule} from "../../dtos/ModuleDto";
 import {getUser} from "../../api/UserApi";
 
 export default function UserInfo() {
     const [weeklyMeetings, setWeeklyMeetings] = useState<MeetingDto[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    const [modules, setModules] = useState<ModuleDto[]>([]);
+    const [modules, setModules] = useState<UserModule[]>([]);
+    const [activeModule, setActiveModule] = useState<UserModule | undefined>();
 
     const filterMeetingsForCurrentWeek = (meetings: MeetingDto[]) => {
         const currentDate = new Date();
@@ -45,13 +46,28 @@ export default function UserInfo() {
         fetchUserInfo();
     }, []);
 
-    const openModal = () => {
+    const openModal = (moduleName: string) => {
+        setActiveModule(modules.find((m) => m.name === moduleName));
         setIsModalOpen(true);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
     };
+
+    const calculateProgress = (module: UserModule): number => {
+        if (!module.chapter?.length) return 0;
+
+        let checked = 0;
+        let total = 0;
+
+        module.chapter.forEach((chapter: Chapter) => {
+            total += chapter.checkboxes.length;
+            checked += chapter.checkboxes.filter((box: Checkbox) => box.checked).length;
+        });
+
+        return total === 0 ? 0 : checked / total;
+    }
 
     return (
         <div className="lg:w-[60%] w-[80%] sm:px-8 mb-16 justify-center mt-8">
@@ -60,7 +76,7 @@ export default function UserInfo() {
 
                 <table className="w-full border-collapse hidden md:table">
                     <tbody>
-                    {modules.map((subject, index) => (
+                    {modules && modules.map((subject, index) => (
                         <tr key={index}>
                             <td className="px-1 py-1 text-[#9B9B9B]">{subject.name}</td>
                             <td className="px-1 py-1 text-[#2AB19D]">DATE</td>
@@ -71,7 +87,7 @@ export default function UserInfo() {
                     </tbody>
                 </table>
                 <div className="md:hidden space-y-4">
-                    {modules.map((subject, index) => (
+                    {modules && modules.map((subject, index) => (
                         <div key={index} className="p-3 shadow-sm">
                             <p className="text-[#9B9B9B]">
                                 {subject.name}
@@ -128,17 +144,20 @@ export default function UserInfo() {
                 </div>
 
                 <p className="text-2xl font-bold text-white text-left mt-9 mb-6">Lernfortschritt</p>
-                {modules.map((subject, index) => (
+                {modules && modules.map((subject, index) => (
                     <div key={index} className="mb-6">
                         <p className="text-m text-[#9B9B9B]">{subject.name}</p>
-                        <div onClick={openModal}>
-                            <ProgressBar progress={0.5}/>
+                        <div onClick={() => {
+                            openModal(subject.name)
+                        }}>
+                            <ProgressBar progress={calculateProgress(subject)}/>
                         </div>
                     </div>
                 ))}
             </div>
             {
-                isModalOpen && <ModuleProgressSettings isOpen={isModalOpen} onClose={closeModal}/>
+                isModalOpen && activeModule &&
+                <ModuleProgressSettings isOpen={isModalOpen} onClose={closeModal} module={activeModule}/>
             }
         </div>
     );
