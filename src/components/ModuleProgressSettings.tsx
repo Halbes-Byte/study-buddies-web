@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import '../styles/Modal.css';
 import {CuteButton} from './CuteButton';
 import {Chapter, UserModule} from "../dtos/ModuleDto";
+import axiosInstance from "../AxiosConfig";
+import {saveModuleProgress} from "../api/ModuleApi";
 
 interface ModalProps {
     isOpen: boolean;
@@ -70,7 +72,12 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module}) => {
     };
 
     const saveProgress = () => {
-        //TODO
+        try {
+            module.chapter = chapters;
+            saveModuleProgress(axiosInstance, module);
+        } catch (error) {
+            console.error("Error saving progress:" + error);
+        }
     }
 
     return (
