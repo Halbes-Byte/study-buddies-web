@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../styles/Modal.css';
 import {CuteButton} from './CuteButton';
 import {Chapter, UserModule} from "../dtos/ModuleDto";
@@ -13,6 +13,16 @@ interface ModalProps {
 
 const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserModules}) => {
     const [chapters, setChapters] = useState<Chapter[]>(module.chapter);
+    const [progress, setProgress] = useState<number>(0);
+
+    // Berechne den Fortschritt (in %) bei jedem Ändern der Checkboxen
+    useEffect(() => {
+        const allBoxes = chapters.flatMap(ch => ch.checkbox);
+        const total = allBoxes.length;
+        const checkedCount = allBoxes.filter(box => box.checked).length;
+        const percent = total > 0 ? Math.round((checkedCount / total) * 100) : 0;
+        setProgress(percent);
+    }, [chapters]);
 
     const toggleCheckbox = (chapterId: number, checkboxId: number) => {
         setChapters((prevChapters) =>
@@ -91,6 +101,13 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
                 <p className="text-2xl font-bold text-white text-left sm:ml-3">
                     Lernfortschritt
                 </p>
+
+                {/* Progress-Bar */}
+                <div className="progress-container sm:ml-3 mb-6">
+                    <div className="progress-bar" style={{ width: `${progress}%` }} />
+                    <span className="text-white text-sm ml-2">{progress}%</span>
+                </div>
+
                 {chapters.map((chapter) => (
                     <div key={chapter.id}>
                         <div className="flex gap-4 items-center mt-2 sm:ml-3 mb-4">
@@ -99,8 +116,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
                             </p>
                             <button
                                 className="delete-btn"
-                                onClick={() => {
-                                }}
+                                onClick={() => deleteCheckbox(chapter.id, -1)}
                             >
                                 x
                             </button>
