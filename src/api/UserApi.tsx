@@ -20,13 +20,6 @@ export function updateUserModules(axios: AxiosInstance, modules: UserModule[]) {
         .then(handleSuccessResponse, handleErrorResponse);
 }
 
-export function saveModuleProgress(axios: AxiosInstance, userModules: UserModule[]) {
-    const url = `/${Resources.USER}`;
-    const fullModules = addExamData(userModules);
-    axios.put(url, fullModules)
-        .then(handleSuccessResponse, handleErrorResponse);
-}
-
 const addExamData = (userModules: UserModule[]) => {
     return userModules.map(userModule => ({
         ...userModule,

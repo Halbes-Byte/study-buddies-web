@@ -57,8 +57,8 @@ export default function UserSettings(props: { reload: boolean, setReload: Dispat
 
     const saveNewModule = async () => {
         try {
-            await createModule(axiosInstance, module);
-            fetchAllModules();
+            createModule(axiosInstance, module);
+            await fetchAllModules();
         } catch (error) {
             console.error("Error fetching user modules:" + error);
         }

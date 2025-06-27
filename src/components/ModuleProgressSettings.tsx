@@ -3,7 +3,7 @@ import '../styles/Modal.css';
 import {CuteButton} from './CuteButton';
 import {Chapter, UserModule} from "../dtos/ModuleDto";
 import axiosInstance from "../AxiosConfig";
-import {saveModuleProgress} from "../api/UserApi";
+import {updateUserModules} from "../api/UserApi";
 
 interface ModalProps {
     onClose: () => void;
@@ -77,7 +77,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
             const updatedModules = allUserModules.map(userModule =>
                 userModule.name === module.name ? module : userModule
             );
-            saveModuleProgress(axiosInstance, updatedModules);
+            updateUserModules(axiosInstance, updatedModules);
             onClose();
         } catch (error) {
             console.error("Error saving progress:" + error);
