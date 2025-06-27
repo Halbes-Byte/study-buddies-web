@@ -46,7 +46,6 @@ export enum Resources {
     MEETING = "meeting",
     USER = "user",
     MODULES = "module",
-    USER_MODULE = "userModule",
     CHECKBOX = "checkbox",
     USERGROUP = "studygroup"
 }

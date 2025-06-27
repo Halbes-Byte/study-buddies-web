@@ -15,7 +15,7 @@ import {CreateMeetingDto, MeetingDto} from "../dtos/MeetingDto";
 import axiosInstance from "../AxiosConfig";
 import {getModules} from "../api/ModuleApi";
 import {ChangeType} from "../enum/ChangeType";
-import {ModuleDto} from "../dtos/ModuleDto";
+import {UserModule} from "../dtos/ModuleDto";
 
 interface MeetingFormProps {
     open: boolean;
@@ -38,7 +38,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
     const [time1, setTime1] = useState<Dayjs>(meeting ? dateFrom : dayjs().hour(12).minute(0).second(0));
     const [date2, setDate2] = useState<Dayjs>(meeting ? dateUntil : dayjs());
     const [time2, setTime2] = useState<Dayjs>(meeting ? dateUntil : dayjs().hour(13).minute(0).second(0));
-    const [moduleNames, setModuleNames] = useState<ModuleDto[]>([]);
+    const [moduleNames, setModuleNames] = useState<UserModule[]>([]);
     const [descriptionError, setDescriptionError] = useState("");
 
     useEffect(() => {

@@ -7,7 +7,7 @@ import ModuleProgressSettings from "../ModuleProgressSettings";
 import {Chapter, Checkbox, UserModule} from "../../dtos/ModuleDto";
 import {getUser} from "../../api/UserApi";
 
-export default function UserInfo() {
+export default function UserInfo(props: { reload: boolean }) {
     const [weeklyMeetings, setWeeklyMeetings] = useState<MeetingDto[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [modules, setModules] = useState<UserModule[]>([]);
@@ -23,6 +23,7 @@ export default function UserInfo() {
             return meetingDate >= startOfWeek && meetingDate <= endOfWeek;
         });
     };
+
     const fetchUserInfo = async () => {
         try {
             const response = await getUser(axiosInstance);
@@ -46,6 +47,10 @@ export default function UserInfo() {
         fetchUserInfo();
     }, []);
 
+    useEffect(() => {
+        fetchUserInfo();
+    }, [props.reload]);
+
     const openModal = (moduleName: string) => {
         setActiveModule(modules.find((m) => m.name === moduleName));
         setIsModalOpen(true);
@@ -62,8 +67,8 @@ export default function UserInfo() {
         let total = 0;
 
         module.chapter.forEach((chapter: Chapter) => {
-            total += chapter.checkboxes.length;
-            checked += chapter.checkboxes.filter((box: Checkbox) => box.checked).length;
+            total += chapter.checkbox.length;
+            checked += chapter.checkbox.filter((box: Checkbox) => box.checked).length;
         });
 
         return total === 0 ? 0 : checked / total;
@@ -157,7 +162,7 @@ export default function UserInfo() {
             </div>
             {
                 isModalOpen && activeModule &&
-                <ModuleProgressSettings isOpen={isModalOpen} onClose={closeModal} module={activeModule}/>
+                <ModuleProgressSettings onClose={closeModal} module={activeModule} allUserModules={modules}/>
             }
         </div>
     );

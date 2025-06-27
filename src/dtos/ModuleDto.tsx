@@ -1,20 +1,16 @@
-export type ModuleDto = {
-    name: string;
-}
-
 export type UserModule = {
     name: string;
     chapter: Chapter[];
 }
 
-export type  Checkbox = {
-    id: string;
-    text: string;
+export type Checkbox = {
+    id: number;
+    title: string;
     checked: boolean;
 }
 
-export type  Chapter = {
-    id: string;
+export type Chapter = {
+    id: number;
     title: string;
-    checkboxes: Checkbox[];
+    checkbox: Checkbox[];
 }

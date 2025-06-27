@@ -3,24 +3,24 @@ import '../styles/Modal.css';
 import {CuteButton} from './CuteButton';
 import {Chapter, UserModule} from "../dtos/ModuleDto";
 import axiosInstance from "../AxiosConfig";
-import {saveModuleProgress} from "../api/ModuleApi";
+import {saveModuleProgress} from "../api/UserApi";
 
 interface ModalProps {
-    isOpen: boolean;
     onClose: () => void;
     module: UserModule;
+    allUserModules: UserModule[];
 }
 
-const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module}) => {
+const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserModules}) => {
     const [chapters, setChapters] = useState<Chapter[]>(module.chapter);
 
-    const toggleCheckbox = (chapterId: string, checkboxId: string) => {
+    const toggleCheckbox = (chapterId: number, checkboxId: number) => {
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
                 chapter.id === chapterId
                     ? {
                         ...chapter,
-                        checkboxes: chapter.checkboxes.map((checkbox) =>
+                        checkbox: chapter.checkbox.map((checkbox) =>
                             checkbox.id === checkboxId
                                 ? {...checkbox, checked: !checkbox.checked}
                                 : checkbox
@@ -31,29 +31,29 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module}) => {
         );
     };
 
-    const addCheckbox = (chapterId: string) => {
+    const addCheckbox = (chapterId: number) => {
         const newCheckbox = {
-            id: Date.now().toString(),
-            text: `Checkbox ${Math.random()}`,
+            id: Date.now() + Math.floor(Math.random() * 1000),
+            title: `Add Title`,
             checked: false,
         };
 
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
                 chapter.id === chapterId
-                    ? {...chapter, checkboxes: [...chapter.checkboxes, newCheckbox]}
+                    ? {...chapter, checkbox: [...chapter.checkbox, newCheckbox]}
                     : chapter
             )
         );
     };
 
-    const deleteCheckbox = (chapterId: string, checkboxId: string) => {
+    const deleteCheckbox = (chapterId: number, checkboxId: number) => {
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
                 chapter.id === chapterId
                     ? {
                         ...chapter,
-                        checkboxes: chapter.checkboxes.filter(
+                        checkbox: chapter.checkbox.filter(
                             (checkbox) => checkbox.id !== checkboxId
                         ),
                     }
@@ -64,9 +64,9 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module}) => {
 
     const addChapter = () => {
         const newChapter = {
-            id: Date.now().toString(),
+            id: Date.now() + Math.floor(Math.random() * 1000),
             title: `Kapitel ${chapters.length + 1}`,
-            checkboxes: [],
+            checkbox: [],
         };
         setChapters((prev) => [...prev, newChapter]);
     };
@@ -74,7 +74,11 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module}) => {
     const saveProgress = () => {
         try {
             module.chapter = chapters;
-            saveModuleProgress(axiosInstance, module);
+            const updatedModules = allUserModules.map(userModule =>
+                userModule.name === module.name ? module : userModule
+            );
+            saveModuleProgress(axiosInstance, updatedModules);
+            onClose();
         } catch (error) {
             console.error("Error saving progress:" + error);
         }
@@ -102,7 +106,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module}) => {
                             </button>
                         </div>
                         <div className="checkbox-group sm:ml-8 mb-4">
-                            {chapter.checkboxes.map((checkbox) => (
+                            {chapter.checkbox.map((checkbox) => (
                                 <div key={checkbox.id} className="checkbox-item w-[65%]">
                                     <input
                                         type="checkbox"
@@ -113,7 +117,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module}) => {
                                     <input
                                         type="text"
                                         className={"flex-grow px-2"}
-                                        value={checkbox.text}
+                                        value={checkbox.title}
                                         onChange={(e) => {
                                             const newText = e.target.value;
                                             setChapters((prevChapters) =>
@@ -121,9 +125,9 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module}) => {
                                                     ch.id === chapter.id
                                                         ? {
                                                             ...ch,
-                                                            checkboxes: ch.checkboxes.map((c) =>
+                                                            checkbox: ch.checkbox.map((c) =>
                                                                 c.id === checkbox.id
-                                                                    ? {...c, text: newText}
+                                                                    ? {...c, title: newText}
                                                                     : c
                                                             ),
                                                         }
@@ -151,13 +155,16 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module}) => {
                             </button>
                             <label className="text-white">Checkbox </label>
 
-                            <button className="add-chapter-btn" onClick={addChapter}>
-                                +
-                            </button>
-                            <label className="text-white">Kapitel </label>
                         </div>
                     </div>
                 ))}
+
+                <div className="add-checkbox-container sm:ml-8">
+                    <button className="add-chapter-btn" onClick={addChapter}>
+                        +
+                    </button>
+                    <label className="text-white">Kapitel </label>
+                </div>
 
                 <div className="mt-auto flex justify-end items-center gap-4">
                     <CuteButton

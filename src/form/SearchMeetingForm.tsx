@@ -11,10 +11,10 @@ import {
 import CloseIconPath from '../data/close_icon_red.png';
 import {getMeetingsForModule} from '../api/MeetingApi';
 import axiosInstance from '../AxiosConfig';
-import {ModuleDto} from '../dtos/ModuleDto';
 import {MeetingDto} from '../dtos/MeetingDto';
 import GroupedMeeting from '../components/meeting/GroupedMeeting';
 import {getUser} from "../api/UserApi";
+import {UserModule} from "../dtos/ModuleDto";
 
 interface Props {
     open: boolean;
@@ -22,7 +22,7 @@ interface Props {
 }
 
 export function SearchMeetingForm({open, onClose}: Props) {
-    const [modules, setModules] = useState<ModuleDto[]>([]);
+    const [modules, setModules] = useState<UserModule[]>([]);
     const [meetings, setMeetings] = useState<MeetingDto[]>([]);
     const [selectedModule, setSelectedModule] = useState<string>("");
 

@@ -2,7 +2,7 @@ import {AxiosInstance} from "axios";
 import {Resources} from "../App";
 import {handleErrorResponse, handleSuccessResponse} from "./ErrorHandling";
 import {UserDto} from "../dtos/UserDto";
-import {ModuleDto} from "../dtos/ModuleDto";
+import {UserModule} from "../dtos/ModuleDto";
 
 export function getUser(axios: AxiosInstance): Promise<UserDto> {
     return axios.get(Resources.USER)
@@ -14,7 +14,23 @@ export function updateUsername(axios: AxiosInstance, name: string) {
         .then(handleSuccessResponse, handleErrorResponse);
 }
 
-export function updateUserModules(axios: AxiosInstance, modules: ModuleDto[]) {
-    return axios.put(Resources.USER, modules)
+export function updateUserModules(axios: AxiosInstance, modules: UserModule[]) {
+    const fullModules = addExamData(modules);
+    return axios.put(Resources.USER, fullModules)
         .then(handleSuccessResponse, handleErrorResponse);
 }
+
+export function saveModuleProgress(axios: AxiosInstance, userModules: UserModule[]) {
+    const url = `/${Resources.USER}`;
+    const fullModules = addExamData(userModules);
+    axios.put(url, fullModules)
+        .then(handleSuccessResponse, handleErrorResponse);
+}
+
+const addExamData = (userModules: UserModule[]) => {
+    return userModules.map(userModule => ({
+        ...userModule,
+        examDate: "2025-08-20",
+        examLoc: "loco",
+    }));
+};

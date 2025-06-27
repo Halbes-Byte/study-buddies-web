@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {CuteButton} from "../CuteButton";
 import axiosInstance from "../../AxiosConfig";
 import {getUser, updateUserModules, updateUsername} from "../../api/UserApi";
 import {UserDto} from "../../dtos/UserDto";
-import {ModuleDto} from "../../dtos/ModuleDto";
+import {UserModule} from "../../dtos/ModuleDto";
 import {createModule, getModules} from "../../api/ModuleApi";
 
 
-export default function UserSettings() {
+export default function UserSettings(props: { reload: boolean, setReload: Dispatch<SetStateAction<boolean>> }) {
     const [user, setUser] = useState<UserDto>();
     const [editProfile, setEditProfile] = useState(false);
     const [editModule, setEditModule] = useState(false);
     const [profileName, setProfileName] = useState(user?.username);
-    const [ownModules, setOwnModules] = useState<ModuleDto[]>([]);
-    const [allModules, setAllModules] = useState<ModuleDto[]>([]);
+    const [ownModules, setOwnModules] = useState<UserModule[]>([]);
+    const [allModules, setAllModules] = useState<UserModule[]>([]);
     const [module, setModule] = useState<string>("");
     const [moduleEmptyAlert, setModuleEmptyAlert] = useState<boolean>(false);
 
@@ -67,7 +67,8 @@ export default function UserSettings() {
     const saveModules = async () => {
         try {
             await updateUserModules(axiosInstance, ownModules);
-            fetchUserInfo();
+            await fetchUserInfo();
+            props.setReload(!props.reload);
             setEditModule(false);
         } catch (error) {
             console.error("Error fetching user modules:" + error);
@@ -81,7 +82,7 @@ export default function UserSettings() {
         }
         setModuleEmptyAlert(false);
         if (!ownModules.some(m => m.name.toUpperCase() === module.toUpperCase()))
-            setOwnModules([...ownModules, {name: module}]);
+            setOwnModules([...ownModules, {name: module, chapter: []}]);
         setModule("");
         if (!allModules.some(m => m.name.toUpperCase() === module.toUpperCase())) {
             saveNewModule();
