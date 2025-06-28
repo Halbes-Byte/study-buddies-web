@@ -15,15 +15,6 @@ export function updateUsername(axios: AxiosInstance, name: string) {
 }
 
 export function updateUserModules(axios: AxiosInstance, modules: UserModule[]) {
-    const fullModules = addExamData(modules);
-    return axios.put(Resources.USER, fullModules)
+    return axios.put(Resources.USER, modules)
         .then(handleSuccessResponse, handleErrorResponse);
 }
-
-const addExamData = (userModules: UserModule[]) => {
-    return userModules.map(userModule => ({
-        ...userModule,
-        examDate: "JJJJ-MM-DD",
-        examLoc: "loco",
-    }));
-};

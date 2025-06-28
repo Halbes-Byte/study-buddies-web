@@ -165,8 +165,8 @@ export default function MeetingSearchResult(
             <div className="flex gap-2 pt-2">
                 {!loading && !isMember && (
                     <CuteButton
-                        onClick={isExpanded == false ? joinSuperMeeting : joinMeeting}
-                        text={isExpanded == false ? 'An allen Meetings teilnehmen' : 'Teilnehmen'}
+                        onClick={isExpanded === false ? joinSuperMeeting : joinMeeting}
+                        text={isExpanded === false ? 'An allen Meetings teilnehmen' : 'Teilnehmen'}
                         textColor="#e8fcf6"
                         bgColor="#56A095"
                         classname="text-sm w-full"
@@ -177,8 +177,8 @@ export default function MeetingSearchResult(
 
                     {!loading && isMember && (
                         <CuteButton
-                            onClick={isExpanded == false ? leaveSuperMeeting : leaveMeeting}
-                            text={isExpanded == false ? 'Alle Meetings verlassen' : 'Meeting verlassen'}
+                            onClick={isExpanded === false ? leaveSuperMeeting : leaveMeeting}
+                            text={isExpanded === false ? 'Alle Meetings verlassen' : 'Meeting verlassen'}
                             textColor="#e8fcf6"
                             bgColor="#974242"
                             classname="text-sm w-full"

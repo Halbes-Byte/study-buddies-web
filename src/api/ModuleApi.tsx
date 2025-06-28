@@ -14,10 +14,3 @@ export function createModule(axios: AxiosInstance, moduleName: string) {
     axios.post(url, {name: moduleName})
         .then(handleSuccessResponse, handleErrorResponse);
 }
-
-//TODO HANDLE TOGGLE FUNCTION. WHAT ENDPOINT TO USE? ASK BACKEND
-export function toggleCheckbox(axios: AxiosInstance) {
-    const url = `/${Resources.CHECKBOX}`;
-    axios.put(url)
-        .then(handleSuccessResponse, handleErrorResponse);
-}

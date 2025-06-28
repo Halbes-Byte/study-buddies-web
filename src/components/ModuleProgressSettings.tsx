@@ -24,7 +24,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
         setProgress(percent);
     }, [chapters]);
 
-    const toggleCheckbox = (chapterId: number, checkboxId: number) => {
+    const clickCheckbox = (chapterId: number, checkboxId: string) => {
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
                 chapter.id === chapterId
@@ -43,7 +43,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
 
     const addCheckbox = (chapterId: number) => {
         const newCheckbox = {
-            id: Date.now() + Math.floor(Math.random() * 1000),
+            id: Date.now().toString(),
             title: `Add Title`,
             checked: false,
         };
@@ -57,7 +57,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
         );
     };
 
-    const deleteCheckbox = (chapterId: number, checkboxId: number) => {
+    const deleteCheckbox = (chapterId: number, checkboxId: string) => {
         setChapters((prevChapters) =>
             prevChapters.map((chapter) =>
                 chapter.id === chapterId
@@ -104,7 +104,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
 
                 {/* Progress-Bar */}
                 <div className="progress-container sm:ml-3 mb-6">
-                    <div className="progress-bar" style={{ width: `${progress}%` }} />
+                    <div className="progress-bar" style={{width: `${progress}%`}}/>
                     <span className="text-white text-sm ml-2">{progress}%</span>
                 </div>
 
@@ -116,7 +116,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
                             </p>
                             <button
                                 className="delete-btn"
-                                onClick={() => deleteCheckbox(chapter.id, -1)}
+                                onClick={() => deleteCheckbox(chapter.id, "-1")}
                             >
                                 x
                             </button>
@@ -128,7 +128,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
                                         type="checkbox"
                                         className={"min-w-[30px]"}
                                         checked={checkbox.checked}
-                                        onChange={() => toggleCheckbox(chapter.id, checkbox.id)}
+                                        onChange={() => clickCheckbox(chapter.id, checkbox.id)}
                                     />
                                     <input
                                         type="text"

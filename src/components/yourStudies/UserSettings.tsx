@@ -82,7 +82,13 @@ export default function UserSettings(props: { reload: boolean, setReload: Dispat
         }
         setModuleEmptyAlert(false);
         if (!ownModules.some(m => m.name.toUpperCase() === module.toUpperCase()))
-            setOwnModules([...ownModules, {name: module, chapter: []}]);
+            setOwnModules([...ownModules, {
+                name: module,
+                chapter: [],
+                examDate: "JJJJ-MM-DD",
+                examLoc: "",
+                examTime: ""
+            }]);
         setModule("");
         if (!allModules.some(m => m.name.toUpperCase() === module.toUpperCase())) {
             saveNewModule();

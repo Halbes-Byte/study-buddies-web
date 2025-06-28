@@ -1,10 +1,13 @@
 export type UserModule = {
     name: string;
+    examDate: string;
+    examLoc: string;
+    examTime: string;
     chapter: Chapter[];
 }
 
 export type Checkbox = {
-    id: number;
+    id: string;
     title: string;
     checked: boolean;
 }
