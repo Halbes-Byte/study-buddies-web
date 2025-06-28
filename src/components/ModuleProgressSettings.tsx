@@ -72,6 +72,14 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
         );
     };
 
+    const deleteChapter = (chapterId: number) => {
+        setChapters((prevChapters) =>
+            prevChapters.filter(
+                (chapter) => chapter.id !== chapterId
+            ),
+        );
+    };
+
     const addChapter = () => {
         const newChapter = {
             id: Date.now() + Math.floor(Math.random() * 1000),
@@ -116,7 +124,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
                             </p>
                             <button
                                 className="delete-btn"
-                                onClick={() => deleteCheckbox(chapter.id, "-1")}
+                                onClick={() => deleteChapter(chapter.id)}
                             >
                                 x
                             </button>

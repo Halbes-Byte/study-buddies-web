@@ -79,7 +79,7 @@ export default function UserInfo(props: { reload: boolean }) {
     const handleAddExam = async (moduleName: string, date: string, time: string, room: string) => {
         const updated = modules.map(m =>
             m.name === moduleName
-                ? {...m, examDate: date, examTime: time, examLoc: room}
+                ? {...m, examDate: date, examLoc: room, examTime: time}
                 : m
         );
         try {
