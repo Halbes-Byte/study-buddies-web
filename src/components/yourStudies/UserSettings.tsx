@@ -106,12 +106,12 @@ export default function UserSettings(props: { reload: boolean, setReload: Dispat
     }
 
     return (
-        <div className="lg:w-[40%] w-[80%] bg-[#1C212C] text-white sm:p-4 mb-12 lg:ml-16 ml-4 ">
+        <div className="xl:w-[40%] w-[80%] bg-[#1C212C] text-white sm:p-4 mb-12 xl:ml-16 ml-4 ">
             <div className="w-full">
                 <h1 className="md:text-5xl text-4xl font-bold text-gray-300 text-left mt-16">Mein
                     Studium</h1>
                 <p className="text-xl font-medium text-white text-left mt-3">Mein Profil</p>
-                <div className="p-4 lg:mr-20 mr-8 mt-2">
+                <div className="p-4 xl:mr-20 mr-8 mt-2">
                     {editProfile ? (
                         <input
                             id="profileName"
@@ -127,22 +127,22 @@ export default function UserSettings(props: { reload: boolean, setReload: Dispat
                 </div>
                 <div className="mt-3 mb-8">
                     {editProfile ? (
-                        <div className={"flex items-center w-full gap-2 lg:pr-20 pr-8"}>
-                            <CuteButton classname="lg:text-base text-sm ml-auto" bgColor={"#598BB1"}
+                        <div className={"flex items-center w-full gap-2 xl:pr-20 pr-8"}>
+                            <CuteButton classname="xl:text-base text-sm ml-auto" bgColor={"#598BB1"}
                                         textColor={"#e6ebfc"} onClick={() => editProfileMode(false)}
                                         text="Abbrechen"/>
-                            <CuteButton classname="lg:text-lg text-base" bgColor={"#56A095"} textColor={"#e8fcf6"}
+                            <CuteButton classname="xl:text-xl text-base" bgColor={"#56A095"} textColor={"#e8fcf6"}
                                         onClick={saveProfileModifications}
                                         text="Speichern"/>
                         </div>
                     ) : (
-                        <CuteButton bgColor="#598BB1" classname="lg:text-lg text-base" textColor="#e6ebfc"
+                        <CuteButton bgColor="#598BB1" classname="xl:text-xl text-base" textColor="#e6ebfc"
                                     text="Profil verwalten" onClick={() => editProfileMode(true)}/>
                     )}
 
                 </div>
                 <p className="text-xl font-medium text-white text-left mt-3">Aktuelle Module</p>
-                <div className="p-4 lg:mr-20 mr-8 mt-2">
+                <div className="p-4 xl:mr-20 mr-8 mt-2">
                     <div className="w-full border-collapse">
                         <div>
                             {editModule ? (
@@ -196,16 +196,16 @@ export default function UserSettings(props: { reload: boolean, setReload: Dispat
                 </div>
                 <div className="mt-3">
                     {editModule ? (
-                        <div className={"flex items-center w-full gap-2 lg:pr-20 pr-8"}>
-                            <CuteButton classname="lg:text-base text-sm ml-auto" bgColor={"#598BB1"}
+                        <div className={"flex items-center w-full gap-2 xl:pr-20 pr-8"}>
+                            <CuteButton classname="xl:text-base text-sm ml-auto" bgColor={"#598BB1"}
                                         textColor={"#e6ebfc"} onClick={() => editModulesMode(false)}
                                         text="Abbrechen"/>
-                            <CuteButton classname="lg:text-lg text-base" bgColor={"#56A095"} textColor={"#e8fcf6"}
+                            <CuteButton classname="xl:text-xl text-base" bgColor={"#56A095"} textColor={"#e8fcf6"}
                                         onClick={saveModules}
                                         text="Speichern"/>
                         </div>
                     ) : (
-                        <CuteButton bgColor="#598BB1" classname="lg:text-lg text-base" textColor="#e6ebfc"
+                        <CuteButton bgColor="#598BB1" classname="xl:text-xl text-base" textColor="#e6ebfc"
                                     text="Module verwalten" onClick={() => editModulesMode(true)}/>
                     )}
                 </div>

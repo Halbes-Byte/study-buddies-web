@@ -60,7 +60,7 @@ export default function UserInfo(props: { reload: boolean }) {
             total += ch.checkbox.length;
             checked += ch.checkbox.filter(b => b.checked).length;
         });
-        return total === 0 ? 0 : checked / total;
+        return total === 0 ? 0 : checked / total * 100;
     }
 
     const openProgressModal = (name: string) => {
@@ -70,7 +70,7 @@ export default function UserInfo(props: { reload: boolean }) {
 
     const closeProgressModal = () => {
         setIsProgressModalOpen(false);
-        fetchUserInfo()
+        fetchUserInfo();
     };
 
     const openExamModal = () => setIsExamModalOpen(true);
@@ -93,9 +93,9 @@ export default function UserInfo(props: { reload: boolean }) {
     };
 
     return (
-        <div className="lg:w-[60%] w-[80%] sm:px-8 mb-16 justify-center mt-8">
-            <div className="w-full md:px-16">
-                <p className="text-2xl font-bold text-white text-left lg:mt-4 mt-16 mb-7">Prüfungstermine</p>
+        <div className="xl:w-[60%] w-[80%] sm:px-8 mb-16 justify-center mt-8">
+            <div className="w-full xl:px-16">
+                <p className="text-2xl font-bold text-white text-left xl:mt-4 mt-16 mb-7">Prüfungstermine</p>
                 <table className="w-full border-collapse hidden md:table">
                     <tbody>
                     {modules.map((subject, idx) => (
@@ -121,7 +121,7 @@ export default function UserInfo(props: { reload: boolean }) {
                 </div>
                 <button
                     onClick={openExamModal}
-                    className="mt-4 bg-[#56A095] text-white py-2 px-4 rounded-lg hover:bg-[#42907a]"
+                    className="mt-4 bg-[#56A095] text-white py-2 px-4 rounded-xl hover:bg-[#42907a]"
                 >
                     Prüfungstermine bearbeiten
                 </button>

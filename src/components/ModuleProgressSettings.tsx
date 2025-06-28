@@ -89,13 +89,13 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
         setChapters((prev) => [...prev, newChapter]);
     };
 
-    const saveProgress = () => {
+    const saveProgress = async () => {
         try {
             module.chapter = chapters;
             const updatedModules = allUserModules.map(userModule =>
                 userModule.name === module.name ? module : userModule
             );
-            updateUserModules(axiosInstance, updatedModules);
+            await updateUserModules(axiosInstance, updatedModules);
             onClose();
         } catch (error) {
             console.error("Error saving progress:" + error);
