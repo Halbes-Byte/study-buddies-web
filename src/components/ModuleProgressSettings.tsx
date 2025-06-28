@@ -104,21 +104,21 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
 
     return (
         <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content p-8 min-w-[300px] w-[650px] overflow-y-scroll  max-h-[80%] max-w-[90%]"
+            <div className="modal-content border-8 border-[#1C212C] p-8 min-w-[300px] w-[650px] overflow-y-scroll  max-h-[80%] max-w-[90%]"
                  onClick={(e) => e.stopPropagation()}>
                 <p className="text-2xl font-bold text-white text-left sm:ml-3">
                     Lernfortschritt
                 </p>
 
-                {/* Progress-Bar */}
+                {/* Progress-Bar
                 <div className="progress-container sm:ml-3 mb-6">
                     <div className="progress-bar" style={{width: `${progress}%`}}/>
                     <span className="text-white text-sm ml-2">{progress}%</span>
                 </div>
-
+                */}
                 {chapters.map((chapter) => (
                     <div key={chapter.id}>
-                        <div className="flex gap-4 items-center mt-2 sm:ml-3 mb-4">
+                        <div className="flex gap-4 items-center mt-2 sm:ml-3 mb-2">
                             <p className="sm:text-xl text-lg text-white text-left">
                                 {chapter.title}
                             </p>
