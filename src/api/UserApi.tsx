@@ -23,7 +23,7 @@ export function updateUserModules(axios: AxiosInstance, modules: UserModule[]) {
 const addExamData = (userModules: UserModule[]) => {
     return userModules.map(userModule => ({
         ...userModule,
-        examDate: "2025-08-20",
+        examDate: "JJJJ-MM-DD",
         examLoc: "loco",
     }));
 };
