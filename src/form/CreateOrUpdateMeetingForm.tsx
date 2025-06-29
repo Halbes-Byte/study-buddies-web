@@ -16,6 +16,7 @@ import axiosInstance from "../AxiosConfig";
 import {getModules} from "../api/ModuleApi";
 import {ChangeType} from "../enum/ChangeType";
 import {UserModule} from "../dtos/ModuleDto";
+import {getUser} from "../api/UserApi";
 
 interface MeetingFormProps {
     open: boolean;
@@ -47,8 +48,8 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
 
     const fetchModuleNames = async () => {
         try {
-            const response = await getModules(axiosInstance);
-            setModuleNames(response);
+            const response = await getUser(axiosInstance);
+            setModuleNames(response.modules);
         } catch (error) {
             console.error("Error fetching user modules:" + error);
         }

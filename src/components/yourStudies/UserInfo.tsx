@@ -36,21 +36,10 @@ export default function UserInfo(props: { reload: boolean }) {
     async function fetchMeetings() {
         try {
             const resp = await getMeetingsOfWeek(axiosInstance);
-            setWeeklyMeetings(filterMeetingsForCurrentWeek(resp));
+            setWeeklyMeetings(resp);
         } catch (e) {
             console.error(e);
         }
-    }
-
-    function filterMeetingsForCurrentWeek(meetings: MeetingDto[]) {
-        const now = new Date();
-        const start = new Date(now.setDate(now.getDate() - now.getDay() + 1));
-        const end = new Date(start);
-        end.setDate(start.getDate() + 6);
-        return meetings.filter(m => {
-            const d = new Date(m.dateFrom);
-            return d >= start && d <= end;
-        });
     }
 
     function calculateProgress(module: UserModule) {
