@@ -6,6 +6,7 @@ import {getUserIdsForMeeting, leaveStudyGroup} from "../../api/UserGroupApi";
 import axiosInstance from "../../AxiosConfig";
 import {getUser} from "../../api/UserApi";
 import {UserDto} from "../../dtos/UserDto";
+import Modal from "../Modal";
 
 interface ModalProps {
     isOpen: boolean;
@@ -55,67 +56,65 @@ const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMee
     if (!isOpen || !meeting || !myUser) return null;
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content max-w-[90%] w-[700px] relative p-7" onClick={(e) => e.stopPropagation()}>
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-white text-xxl hover:text-red-400"
-                >
-                    ×
-                </button>
+        <Modal onClose={onClose}>
+            <button
+                onClick={onClose}
+                className="absolute top-4 right-4 text-white text-xxl hover:text-red-400"
+            >
+                ×
+            </button>
 
-                <h2 className="font-bold text-2xl text-white mb-4">{meeting?.module}</h2>
+            <h2 className="font-bold text-2xl text-white mb-4">{meeting?.module}</h2>
 
-                <div className="flex flex-col gap-4 mb-4">
-                    <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Start:</strong> {meeting?.dateFrom}
-                    </p>
-                    <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Ende:</strong> {meeting?.dateUntil}
-                    </p>
-                    <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Beschreibung:</strong> {meeting?.description}
-                    </p>
-                    <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Raum:</strong> {meeting?.place}
-                    </p>
+            <div className="flex flex-col gap-4 mb-4">
+                <p className="text-bs font-medium text-white">
+                    <strong className="text-[#CAE8FF] font-semibold">Start:</strong> {meeting?.dateFrom}
+                </p>
+                <p className="text-bs font-medium text-white">
+                    <strong className="text-[#CAE8FF] font-semibold">Ende:</strong> {meeting?.dateUntil}
+                </p>
+                <p className="text-bs font-medium text-white">
+                    <strong className="text-[#CAE8FF] font-semibold">Beschreibung:</strong> {meeting?.description}
+                </p>
+                <p className="text-bs font-medium text-white">
+                    <strong className="text-[#CAE8FF] font-semibold">Raum:</strong> {meeting?.place}
+                </p>
 
-                    <p className="text-bs font-medium text-white">
-                        <strong className="text-[#CAE8FF] font-semibold">Teilnehmende:</strong>
-                    </p>
-                    <ul className="text-white text-sm list-disc list-inside">
-                        <li key={meeting?.creator}>{meeting?.creator}</li>
-                        {userIds.map(id => (
-                            <li key={id}>{id}</li>
-                        ))}
-                        {userIds.length === 0 && <></>}
-                    </ul>
-                </div>
-                {meeting.creator === myUser.uuid ? (
-                    <div className="flex flex-row gap-4 mb-4 justify-end mt-auto items-center">
-                        <div>
-                            <CuteButton
-                                onClick={updateMeeting}
-                                text={"Meeting bearbeiten"}
-                                bgColor={"#56A095"}
-                                textColor={"#e6ebfc"}
-                                classname={"md:text-base text-sm"}
-                            />
-                        </div>
-                    </div>
-                ) : (
-                    <>
-                        <CuteButton
-                            onClick={leaveMeeting}
-                            text={'Meeting verlassen'}
-                            textColor="#e8fcf6"
-                            bgColor="#974242"
-                            classname="text-sm w-full"
-                        />
-                    </>
-                )}
+                <p className="text-bs font-medium text-white">
+                    <strong className="text-[#CAE8FF] font-semibold">Teilnehmende:</strong>
+                </p>
+                <ul className="text-white text-sm list-disc list-inside">
+                    <li key={meeting?.creator}>{meeting?.creator}</li>
+                    {userIds.map(id => (
+                        <li key={id}>{id}</li>
+                    ))}
+                    {userIds.length === 0 && <></>}
+                </ul>
             </div>
-        </div>
+            {meeting.creator === myUser.uuid ? (
+                <div className="flex flex-row gap-4 mb-4 justify-end mt-auto items-center">
+                    <div>
+                        <CuteButton
+                            onClick={updateMeeting}
+                            text={"Meeting bearbeiten"}
+                            bgColor={"#56A095"}
+                            textColor={"#e6ebfc"}
+                            classname={"md:text-base text-sm"}
+                        />
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <CuteButton
+                        onClick={leaveMeeting}
+                        text={'Meeting verlassen'}
+                        textColor="#e8fcf6"
+                        bgColor="#974242"
+                        classname="text-sm w-full"
+                    />
+                </>
+            )}
+        </Modal>
     );
 };
 

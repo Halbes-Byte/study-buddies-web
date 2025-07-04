@@ -1,114 +1,13 @@
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-
-.modal-content {
-    background-color: #1C212C;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    z-index: 10000;
-}
-
-.modal-content::-webkit-scrollbar {
+.custom-scrollbar::-webkit-scrollbar {
+    width: 2rem;
     background-color: #1c212c;
 }
 
-.modal-content::-webkit-scrollbar-thumb {
+.custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: #161821;
     border-radius: 4px;
 }
 
-.checkbox-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-}
-
-.checkbox-group label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: white;
-}
-
-.checkbox-group input[type="checkbox"] {
-    appearance: none;
-    width: 30px;
-    height: 30px;
-    background-color: #465370;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-}
-
-.checkbox-group input[type="checkbox"]:checked::after {
-    content: "✔";
-    font-size: 50px;
-    color: #2EF6D9;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: transparent;
-}
-
-.checkbox-item {
-    margin-bottom: 10px;
-    padding: 8px;
-    background-color: transparent;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    position: relative;
-    width: 100%;
-}
-
-.delete-btn {
-    background-color: transparent;
-    color: white;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 0;
-}
-
-.add-checkbox-container, .add-chapter-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.add-checkbox-btn, .add-chapter-btn {
-    background-color: #2EF6D9;
-    color: white;
-    cursor: pointer;
-    padding: 10px;
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 4px;
-    font-size: 16px;
-    display: inline-flex;
-    align-items: center;
-}
-
-.add-chapter-container {
-    color: white;
+.custom-scrollbar {
+    scrollbar-color: #161821 #1c212c;
 }

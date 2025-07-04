@@ -1,5 +1,4 @@
 import React from "react";
-import "../../styles/navbar.css";
 import {NavbarComponent} from "./NavbarComponent";
 import {useLocation} from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
