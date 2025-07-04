@@ -1,9 +1,9 @@
 import '../index.css';
 import React, {useState} from "react";
 import {CuteButton} from "../components/CuteButton";
-import {CreateOrUpdateMeetingForm} from "../form/CreateOrUpdateMeetingForm";
-import CalendarComponent from "../components/CalendarComponent";
-import {SearchMeetingForm} from "../form/SearchMeetingForm";
+import {CreateOrUpdateMeetingForm} from "../components/calendar/forms/CreateOrUpdateMeetingForm";
+import CalendarComponent from "../components/calendar/CalendarComponent";
+import {SearchMeetingForm} from "../components/calendar/forms/SearchMeetingForm";
 
 export default function CalenderPage() {
     const [isCreateMeetingDialogOpen, setCreateMeetingDialogOpen] = useState(false);

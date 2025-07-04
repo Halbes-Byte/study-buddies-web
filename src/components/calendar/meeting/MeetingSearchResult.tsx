@@ -1,16 +1,16 @@
 import React, {ReactNode, useEffect, useState} from 'react';
-import {MeetingDto} from '../../dtos/MeetingDto';
-import {UserDto} from '../../dtos/UserDto';
-import {getUser} from '../../api/UserApi';
+import {MeetingDto} from '../../../dtos/MeetingDto';
+import {UserDto} from '../../../dtos/UserDto';
+import {getUser} from '../../../api/UserApi';
 import {
     getUserIdsForMeeting,
     joinStudyGroup,
     joinSuperStudyGroup,
     leaveStudyGroup,
     leaveSuperStudyGroup
-} from '../../api/UserGroupApi';
-import axiosInstance from '../../AxiosConfig';
-import {CuteButton} from '../CuteButton';
+} from '../../../api/UserGroupApi';
+import axiosInstance from '../../../auth/AxiosConfig';
+import {CuteButton} from '../../CuteButton';
 import {Theme, Tooltip} from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 

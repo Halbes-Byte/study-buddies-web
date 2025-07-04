@@ -8,13 +8,13 @@ import {
     MenuItem,
     SelectChangeEvent,
 } from '@mui/material';
-import CloseIconPath from '../data/close_icon_red.png';
-import {getMeetingsForModule} from '../api/MeetingApi';
-import axiosInstance from '../AxiosConfig';
-import {MeetingDto} from '../dtos/MeetingDto';
-import GroupedMeeting from '../components/meeting/GroupedMeeting';
-import {getUser} from "../api/UserApi";
-import {UserModule} from "../dtos/ModuleDto";
+import CloseIconPath from '../../../data/close_icon_red.png';
+import {getMeetingsForModule} from '../../../api/MeetingApi';
+import axiosInstance from '../../../auth/AxiosConfig';
+import {MeetingDto} from '../../../dtos/MeetingDto';
+import GroupedMeeting from '../meeting/GroupedMeeting';
+import {getUser} from "../../../api/UserApi";
+import {UserModule} from "../../../dtos/ModuleDto";
 
 interface Props {
     open: boolean;

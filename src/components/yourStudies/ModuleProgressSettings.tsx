@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import '../styles/Modal.css';
-import {CuteButton} from './CuteButton';
-import {Chapter, UserModule} from "../dtos/ModuleDto";
-import axiosInstance from "../AxiosConfig";
-import {updateUserModules} from "../api/UserApi";
-import Modal from "./Modal";
+import '../../styles/Modal.css';
+import {CuteButton} from '../CuteButton';
+import {Chapter, UserModule} from "../../dtos/ModuleDto";
+import axiosInstance from "../../auth/AxiosConfig";
+import {updateUserModules} from "../../api/UserApi";
+import Modal from "../Modal";
 
 interface ModalProps {
     onClose: () => void;

@@ -1,7 +1,7 @@
 import {Dialog, DialogContent, DialogTitle, IconButton} from "@mui/material";
-import CloseIconPath from "../data/close_icon_red.png";
+import CloseIconPath from "../../../data/close_icon_red.png";
 import React from "react";
-import {CuteButton} from "../components/CuteButton";
+import {CuteButton} from "../../CuteButton";
 
 export function ChooseMeetingForm(props: {
     onClose: () => void,

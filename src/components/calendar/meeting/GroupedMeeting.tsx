@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {MeetingDto} from '../../dtos/MeetingDto'
+import {MeetingDto} from '../../../dtos/MeetingDto'
 import MeetingSearchResult from './MeetingSearchResult'
 import Grid from '@mui/material/Grid2';
 

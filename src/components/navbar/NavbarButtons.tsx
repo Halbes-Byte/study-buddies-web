@@ -3,7 +3,7 @@ import {NavbarComponent} from "./NavbarComponent";
 import {useLocation} from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import {IconButton} from "@mui/material";
-import keycloak from "../../Keycloak";
+import keycloak from "../../auth/Keycloak";
 
 export const NavbarButtons = () => {
     const logout = () => {

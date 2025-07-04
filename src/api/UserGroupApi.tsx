@@ -16,8 +16,7 @@ export function joinSuperStudyGroup(axios: AxiosInstance, superMeetingId: string
 export async function getUserIdsForMeeting(axios: AxiosInstance, uuid: string): Promise<string[]> {
     const res = await axios.get(`/studygroup?uuid=${uuid}`);
     const data = res.data;
-    const userIds = data.map((entry: { userId: string }) => entry.userId);
-    return userIds;
+    return data.map((entry: { userId: string }) => entry.userId);
 }
 
 export function leaveStudyGroup(axios: AxiosInstance, targetUUID: string): Promise<void> {

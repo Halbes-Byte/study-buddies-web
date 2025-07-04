@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Dialog, DialogActions, DialogTitle, DialogContent} from "@mui/material";
-import {CuteButton} from "../components/CuteButton";
+import {CuteButton} from "../../CuteButton";
 import {
     DatePicker,
     LocalizationProvider,
@@ -10,13 +10,12 @@ import {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {deDE} from "@mui/x-date-pickers/locales";
-import {createMeeting, deleteMeeting, updateMeeting} from "../api/MeetingApi";
-import {CreateMeetingDto, MeetingDto} from "../dtos/MeetingDto";
-import axiosInstance from "../AxiosConfig";
-import {getModules} from "../api/ModuleApi";
-import {ChangeType} from "../enum/ChangeType";
-import {UserModule} from "../dtos/ModuleDto";
-import {getUser} from "../api/UserApi";
+import {createMeeting, deleteMeeting, updateMeeting} from "../../../api/MeetingApi";
+import {CreateMeetingDto, MeetingDto} from "../../../dtos/MeetingDto";
+import axiosInstance from "../../../auth/AxiosConfig";
+import {ChangeType} from "../../../enum/ChangeType";
+import {UserModule} from "../../../dtos/ModuleDto";
+import {getUser} from "../../../api/UserApi";
 
 interface MeetingFormProps {
     open: boolean;

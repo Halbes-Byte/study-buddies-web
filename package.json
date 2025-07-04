@@ -1,7 +1,7 @@
 {
   "name": "study-buddies-web-new",
   "version": "0.1.0",
-  "homepage": "https://halbes-byte.github.io/study-buddies-web/",
+  "homepage": "https://halbes-byte.github.io/",
   "private": true,
   "proxy": "http://localhost:8080",
   "dependencies": {

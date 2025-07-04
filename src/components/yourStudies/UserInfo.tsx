@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
-import ProgressBar from "../../components/Progressbar";
+import ProgressBar from "./Progressbar";
 import {getMeetingsOfWeek} from "../../api/MeetingApi";
-import axiosInstance from "../../AxiosConfig";
+import axiosInstance from "../../auth/AxiosConfig";
 import {MeetingDto} from "../../dtos/MeetingDto";
-import ModuleProgressSettings from "../ModuleProgressSettings";
+import ModuleProgressSettings from "./ModuleProgressSettings";
 import {UserModule} from "../../dtos/ModuleDto";
 import {getUser, updateUserModules} from "../../api/UserApi";
-import ExamDateModal from "../../components/meeting/ExamDateModal";
+import ExamDateModal from "../calendar/meeting/ExamDateModal";
 
 export default function UserInfo(props: { reload: boolean }) {
     const [weeklyMeetings, setWeeklyMeetings] = useState<MeetingDto[]>([]);

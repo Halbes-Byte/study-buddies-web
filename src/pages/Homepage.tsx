@@ -2,8 +2,8 @@ import '../index.css';
 import title_img from '../data//titelbild.png';
 import React, {useState} from "react";
 import {CuteButton} from "../components/CuteButton";
-import {CreateOrUpdateMeetingForm} from "../form/CreateOrUpdateMeetingForm";
-import {SearchMeetingForm} from "../form/SearchMeetingForm";
+import {CreateOrUpdateMeetingForm} from "../components/calendar/forms/CreateOrUpdateMeetingForm";
+import {SearchMeetingForm} from "../components/calendar/forms/SearchMeetingForm";
 
 export default function Homepage() {
     const [isCreateMeetingDialogOpen, setCreateMeetingDialogOpen] = useState(false);

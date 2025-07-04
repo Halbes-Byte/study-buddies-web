@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import '../../styles/Modal.css';
-import {CuteButton} from "../CuteButton";
-import {MeetingDto} from "../../dtos/MeetingDto";
-import {getUserIdsForMeeting, leaveStudyGroup} from "../../api/UserGroupApi";
-import axiosInstance from "../../AxiosConfig";
-import {getUser} from "../../api/UserApi";
-import {UserDto} from "../../dtos/UserDto";
-import Modal from "../Modal";
+import '../../../styles/Modal.css';
+import {CuteButton} from "../../CuteButton";
+import {MeetingDto} from "../../../dtos/MeetingDto";
+import {getUserIdsForMeeting, leaveStudyGroup} from "../../../api/UserGroupApi";
+import axiosInstance from "../../../auth/AxiosConfig";
+import {getUser} from "../../../api/UserApi";
+import {UserDto} from "../../../dtos/UserDto";
+import Modal from "../../Modal";
 
 interface ModalProps {
     isOpen: boolean;

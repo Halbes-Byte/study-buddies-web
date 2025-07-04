@@ -1,6 +1,6 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {CuteButton} from "../CuteButton";
-import axiosInstance from "../../AxiosConfig";
+import axiosInstance from "../../auth/AxiosConfig";
 import {getUser, updateUserModules, updateUsername} from "../../api/UserApi";
 import {UserDto} from "../../dtos/UserDto";
 import {UserModule} from "../../dtos/ModuleDto";
@@ -57,10 +57,11 @@ export default function UserSettings(props: { reload: boolean, setReload: Dispat
 
     const saveNewModule = async () => {
         try {
-            createModule(axiosInstance, module);
+            await createModule(axiosInstance, module);
             await fetchAllModules();
         } catch (error) {
-            console.error("Error fetching user modules:" + error);
+            deleteModule(module);
+            alert("Error saving module:" + error + "\n Try using the full module name");
         }
     }
 

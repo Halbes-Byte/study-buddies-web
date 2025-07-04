@@ -11,7 +11,7 @@ import Homepage from './pages/Homepage';
 import Settings from './pages/YourStudies';
 import Page404 from './pages/Page404';
 import Score from './pages/Score';
-import keycloak from "./Keycloak";
+import keycloak from "./auth/Keycloak";
 
 function App() {
     return (

@@ -2,15 +2,15 @@ import React, {useEffect, useState} from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import MeetingDetails from './meeting/MeetingDetails';
-import {MeetingDto} from '../dtos/MeetingDto';
-import '../styles/Calendar.css';
+import {MeetingDto} from '../../dtos/MeetingDto';
+import '../../styles/Calendar.css';
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {getAttendedMeetings} from "../api/MeetingApi";
-import axiosInstance from "../AxiosConfig";
-import {CreateOrUpdateMeetingForm} from "../form/CreateOrUpdateMeetingForm";
+import {getAttendedMeetings} from "../../api/MeetingApi";
+import axiosInstance from "../../auth/AxiosConfig";
+import {CreateOrUpdateMeetingForm} from "./forms/CreateOrUpdateMeetingForm";
 import {EventSourceInput} from '@fullcalendar/core';
-import {ChooseMeetingForm} from "../form/ChooseMeetingForm";
+import {ChooseMeetingForm} from "./forms/ChooseMeetingForm";
 
 export default function CalendarComponent(props: { isDialogOpen: boolean }) {
     const [selectedMeeting, setSelectedMeeting] = useState<MeetingDto | null>(null);

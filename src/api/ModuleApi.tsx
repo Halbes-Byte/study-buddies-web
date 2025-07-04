@@ -11,6 +11,6 @@ export function getModules(axios: AxiosInstance): Promise<UserModule[]> {
 
 export function createModule(axios: AxiosInstance, moduleName: string) {
     const url = `/${Resources.MODULES}`;
-    axios.post(url, {name: moduleName})
+    return axios.post(url, {name: moduleName})
         .then(handleSuccessResponse, handleErrorResponse);
 }
