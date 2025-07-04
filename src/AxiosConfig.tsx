@@ -9,12 +9,6 @@ const axiosInstance = axios.create({
     withCredentials: true,
 });
 
-let isInitialized = false;
-
-keycloak.onReady = () => {
-    isInitialized = true;
-};
-
 axiosInstance.interceptors.request.use(
     async (config) => {
         if (!keycloak.token) {
