@@ -9,11 +9,26 @@ const axiosInstance = axios.create({
     withCredentials: true,
 });
 
+let isInitialized = false;
+
+keycloak.onReady = () => {
+    isInitialized = true;
+};
+
 axiosInstance.interceptors.request.use(
     async (config) => {
-        const token = keycloak.token;
-        if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`;
+        if (!keycloak.token) {
+            await new Promise<void>((resolve) => {
+                const interval = setInterval(() => {
+                    if (keycloak.token) {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, 100);
+            });
+        }
+        if (keycloak.token) {
+            config.headers['Authorization'] = `Bearer ${keycloak.token}`;
         }
         return config;
     },
