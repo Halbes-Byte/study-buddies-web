@@ -6,7 +6,7 @@ import {MeetingDto} from "../../dtos/MeetingDto";
 import ModuleProgressSettings from "./ModuleProgressSettings";
 import {UserModule} from "../../dtos/ModuleDto";
 import {getUser, updateUserModules} from "../../api/UserApi";
-import ExamDateModal from "../calendar/meeting/ExamDateModal";
+import ExamDateModal from "./ExamDateModal";
 
 export default function UserInfo(props: { reload: boolean }) {
     const [weeklyMeetings, setWeeklyMeetings] = useState<MeetingDto[]>([]);
