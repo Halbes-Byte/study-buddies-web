@@ -27,17 +27,14 @@ interface MeetingFormProps {
 dayjs.locale('de');
 
 export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeting}: MeetingFormProps) {
-    const dateFrom = dayjs(meeting?.dateFrom, "D.M.YYYY, H:mm:ss");
-    const dateUntil = dayjs(meeting?.dateUntil, "D.M.YYYY, H:mm:ss");
-
     const [meetingTitle, setMeetingTitle] = useState(meeting ? meeting.module : "");
     const [repeatable, setRepeatable] = useState(meeting ? meeting.repeatable : "never");
     const [meetingDescription, setMeetingDescription] = useState(meeting ? meeting.description : '');
     const [meetingRoom, setMeetingRoom] = useState(meeting ? meeting.place : '');
-    const [date1, setDate1] = useState<Dayjs>(meeting ? dateFrom : dayjs());
-    const [time1, setTime1] = useState<Dayjs>(meeting ? dateFrom : dayjs().hour(12).minute(0).second(0));
-    const [date2, setDate2] = useState<Dayjs>(meeting ? dateUntil : dayjs());
-    const [time2, setTime2] = useState<Dayjs>(meeting ? dateUntil : dayjs().hour(13).minute(0).second(0));
+    const [date1, setDate1] = useState<Dayjs>(meeting ? dayjs(meeting?.dateFrom, "D.M.YYYY, H:mm:ss") : dayjs());
+    const [time1, setTime1] = useState<Dayjs>(meeting ? dayjs(meeting?.dateFrom, "D.M.YYYY, H:mm:ss") : dayjs().hour(12).minute(0).second(0));
+    const [date2, setDate2] = useState<Dayjs>(meeting ? dayjs(meeting?.dateUntil, "D.M.YYYY, H:mm:ss") : dayjs());
+    const [time2, setTime2] = useState<Dayjs>(meeting ? dayjs(meeting?.dateUntil, "D.M.YYYY, H:mm:ss") : dayjs().hour(13).minute(0).second(0));
     const [moduleNames, setModuleNames] = useState<UserModule[]>([]);
     const [descriptionError, setDescriptionError] = useState("");
 
@@ -93,11 +90,7 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
     }
 
     const handleSave = async () => {
-        var changeType;
-        if (onlyThisMeeting)
-            changeType = ChangeType.OCCURRENCE;
-        else
-            changeType = ChangeType.SERIES;
+        const changeType = onlyThisMeeting ? ChangeType.OCCURRENCE : ChangeType.SERIES;
 
         const meetingData: CreateMeetingDto = {
             module: meetingTitle,

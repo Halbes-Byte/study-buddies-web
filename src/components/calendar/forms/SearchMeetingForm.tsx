@@ -27,33 +27,17 @@ export function SearchMeetingForm({open, onClose}: Props) {
     const [selectedModule, setSelectedModule] = useState<string>("");
 
     useEffect(() => {
-        const loadModules = async () => {
-            try {
-                const res = await getUser(axiosInstance);
-                setModules(res.modules);
-            } catch (err) {
-                console.error('Fehler beim Laden der Module:', err);
-            }
-        };
-        loadModules();
+        getUser(axiosInstance)
+            .then(res => setModules(res.modules))
+            .catch(err => console.error('Fehler beim Laden der Module:', err));
     }, []);
 
     useEffect(() => {
-        const loadMeetings = async () => {
-            if (selectedModule === "") return;
-            try {
-                const res = await getMeetingsForModule(axiosInstance, selectedModule);
-                setMeetings(res);
-            } catch (err) {
-                console.error('Fehler beim Laden der Meetings:', err);
-            }
-        };
-        loadMeetings();
+        if (!selectedModule) return;
+        getMeetingsForModule(axiosInstance, selectedModule)
+            .then(setMeetings)
+            .catch(err => console.error('Fehler beim Laden der Meetings:', err));
     }, [selectedModule]);
-
-    const handleModuleChange = (event: SelectChangeEvent) => {
-        setSelectedModule(event.target.value);
-    };
 
     const closeAndReset = () => {
         setSelectedModule("");
@@ -76,14 +60,12 @@ export function SearchMeetingForm({open, onClose}: Props) {
                 },
             }}
         >
-            <DialogTitle
-                sx={{
+            <DialogTitle sx={{
                     color: '#FFFFFF',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                }}
-            >
+                }}>
                 <span className="font-bold text-2xl">Lernsession finden</span>
                 <IconButton onClick={closeAndReset} size="large" sx={{color: '#FFFFFF'}}>
                     <img src={CloseIconPath} alt="Schließen" style={{width: 16, height: 16}}/>
@@ -94,8 +76,15 @@ export function SearchMeetingForm({open, onClose}: Props) {
                 <form className="overflow-y-visible">
                     <Select
                         value={selectedModule}
-                        onChange={handleModuleChange}
+                        onChange={(e: SelectChangeEvent) => setSelectedModule(e.target.value)}
                         variant="outlined"
+                        displayEmpty
+                        renderValue={(selected) => {
+                            if (!selected) {
+                                return <span style={{ color: '#aaa' }}>Wähle ein Modul</span>;
+                            }
+                            return selected;
+                        }}
                         sx={{
                             width: '50%',
                             minWidth: 240,

@@ -8,7 +8,7 @@ import {
     joinSuperStudyGroup,
     leaveStudyGroup,
     leaveSuperStudyGroup
-} from '../../../api/UserGroupApi';
+} from '../../../api/StudyGroupApi';
 import axiosInstance from '../../../auth/AxiosConfig';
 import {CuteButton} from '../../CuteButton';
 import {Theme, Tooltip} from '@mui/material';

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import MeetingDetails from './meeting/MeetingDetails';
+import {MeetingDetails} from './meeting/MeetingDetails';
 import {MeetingDto} from '../../dtos/MeetingDto';
 import '../../styles/Calendar.css';
 import {useTheme} from '@mui/material/styles';
@@ -17,7 +17,7 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isMeetingFormOpen, setIsMeetingFormOpen] = useState(false);
     const [isChooseMeetingOpen, setChooseMeetingOpen] = useState(false);
-    const [onlyThisMeeting, setOnlyThisMeeting] = useState(true);
+    const [editOnlyThisMeeting, setEditOnlyThisMeeting] = useState(true);
     const [events, setEvents] = useState<MeetingDto[]>([]);
     const mdAndUp = useMediaQuery(useTheme().breakpoints.up('md'));
 
@@ -49,30 +49,19 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
         fetchMeetings();
     }, [props.isDialogOpen, isMeetingFormOpen]);
 
-    const Eventhandler = (info: any) => {
-        console.log(info);
+    const eventhandler = (info: any) => {
         const {event} = info;
-        const id = event.id;
-        const module = event.title;
-        const date_from = new Date(event.start).toLocaleString();
-        const date_until = new Date(event.end).toLocaleString();
-        const superId = event.extendedProps?.superId || '';
-        const description = event.extendedProps?.description || '';
-        const place = event.extendedProps?.room || '';
-        const repeatable = event.extendedProps?.repeatable || 'never';
-        const creator = event.extendedProps?.creator || '';
-        const member = event.extendedProps?.member || [];
         setSelectedMeeting({
-            id: id,
-            superId: superId,
-            module,
-            dateFrom: date_from,
-            dateUntil: date_until,
-            description,
-            place,
-            repeatable: repeatable,
-            creator: creator,
-            member: member,
+            id: event.id,
+            superId: event.extendedProps?.superId || '',
+            module: event.title,
+            dateFrom: new Date(event.start).toLocaleString(),
+            dateUntil: new Date(event.end).toLocaleString(),
+            description: event.extendedProps?.description || '',
+            place: event.extendedProps?.room || '',
+            repeatable: event.extendedProps?.repeatable || 'never',
+            creator: event.extendedProps?.creator || '',
+            member: event.extendedProps?.member || [],
         });
         setIsModalOpen(true);
     };
@@ -110,7 +99,7 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
                     week: 'Woche',
                 }}
                 events={mapMeetingsToEvents(events)}
-                eventClick={Eventhandler}
+                eventClick={eventhandler}
             />
             {selectedMeeting && (
                 <MeetingDetails
@@ -123,10 +112,10 @@ export default function CalendarComponent(props: { isDialogOpen: boolean }) {
             )}
             {selectedMeeting && isMeetingFormOpen &&
                 <CreateOrUpdateMeetingForm open={true} onClose={() => setIsMeetingFormOpen(false)}
-                                           meeting={selectedMeeting} onlyThisMeeting={onlyThisMeeting}/>
+                                           meeting={selectedMeeting} onlyThisMeeting={editOnlyThisMeeting}/>
             }
             {isChooseMeetingOpen &&
-                <ChooseMeetingForm onClose={() => setChooseMeetingOpen(false)} setOnlyThisMeeting={setOnlyThisMeeting}
+                <ChooseMeetingForm onClose={() => setChooseMeetingOpen(false)} setOnlyThisMeeting={setEditOnlyThisMeeting}
                                    openMeetingForm={() => setIsMeetingFormOpen(true)}/>
             }
         </div>

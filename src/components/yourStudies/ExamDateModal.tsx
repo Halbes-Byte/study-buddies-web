@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import '../../../styles/Modal.css';
-import {CuteButton} from '../../CuteButton';
-import {UserModule} from '../../../dtos/ModuleDto';
-import Modal from "../../Modal";
+import '../../styles/Modal.css';
+import {CuteButton} from '../CuteButton';
+import {UserModule} from '../../dtos/ModuleDto';
+import Modal from "../Modal";
 
 interface Props {
     isOpen: boolean;

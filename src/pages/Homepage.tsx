@@ -9,22 +9,6 @@ export default function Homepage() {
     const [isCreateMeetingDialogOpen, setCreateMeetingDialogOpen] = useState(false);
     const [isSearchMeetingDialogOpen, setSearchMeetingDialogOpen] = useState(false);
 
-    const openCreateMeetingForm = () => {
-        setCreateMeetingDialogOpen(true);
-    };
-
-    const closeCreateMeetingForm = () => {
-        setCreateMeetingDialogOpen(false);
-    };
-
-    const openSearchMeetingForm = () => {
-        setSearchMeetingDialogOpen(true);
-    };
-
-    const closeSearchMeetingForm = () => {
-        setSearchMeetingDialogOpen(false);
-    };
-
     return (
         <div className=" h-screen relative items-center justify-center justify-items-center grid">
             <div className="h-[70%] relative self-start grid justify-items-center">
@@ -36,9 +20,9 @@ export default function Homepage() {
                             Study-Party</p>
                         <div className="px-0 py-0 flex flex-row justify-start gap-7 h-12">
                             <CuteButton bgColor={"#598BB1"} classname={"lg:text-xl text-lg"} textColor={"#e6ebfc"}
-                                        text={"Erstelle einen Termin"} onClick={openCreateMeetingForm}/>
+                                        text={"Erstelle einen Termin"} onClick={() => setCreateMeetingDialogOpen(true)}/>
                             <CuteButton bgColor={"#56A095"} classname={"lg:text-xl text-lg"} textColor={"#e8fcf6"}
-                                        text={"Finde einen Lernpartner"} onClick={openSearchMeetingForm}/>
+                                        text={"Finde einen Lernpartner"} onClick={() => setSearchMeetingDialogOpen(true)}/>
                         </div>
                     </div>
 
@@ -49,8 +33,8 @@ export default function Homepage() {
                     </div>
                 </div>
             </div>
-            <CreateOrUpdateMeetingForm open={isCreateMeetingDialogOpen} onClose={closeCreateMeetingForm}/>
-            <SearchMeetingForm open={isSearchMeetingDialogOpen} onClose={closeSearchMeetingForm}/>
+            <CreateOrUpdateMeetingForm open={isCreateMeetingDialogOpen} onClose={() => setCreateMeetingDialogOpen(false)}/>
+            <SearchMeetingForm open={isSearchMeetingDialogOpen} onClose={() => setSearchMeetingDialogOpen(false)}/>
         </div>
     );
 }

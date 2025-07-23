@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import '../../../styles/Modal.css';
 import {CuteButton} from "../../CuteButton";
 import {MeetingDto} from "../../../dtos/MeetingDto";
-import {getUserIdsForMeeting, leaveStudyGroup} from "../../../api/UserGroupApi";
+import {getUserIdsForMeeting, leaveStudyGroup} from "../../../api/StudyGroupApi";
 import axiosInstance from "../../../auth/AxiosConfig";
 import {getUser} from "../../../api/UserApi";
 import {UserDto} from "../../../dtos/UserDto";
@@ -16,29 +16,30 @@ interface ModalProps {
     openChooseMeetingModal: () => void;
 }
 
-const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMeetingForm, openChooseMeetingModal}) => {
+export const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMeetingForm, openChooseMeetingModal}) => {
     const [userIds, setUserIds] = useState<string[]>([]);
     const [myUser, setMyUser] = useState<UserDto | null>(null);
-
+    
     useEffect(() => {
-        if (isOpen) {
-            getUser(axiosInstance)
-                .then(setMyUser)
-                .catch(err => {
-                    console.error("Fehler beim Laden des Nutzers:", err);
-                });
-        }
-    }, [isOpen]);
+        if (!isOpen) return;
 
-    useEffect(() => {
-        if (isOpen && meeting) {
-            getUserIdsForMeeting(axiosInstance, meeting.id)
-                .then(setUserIds)
-                .catch(err => {
-                    console.error("Fehler beim Laden der Teilnehmer:", err);
-                });
-        }
+        const fetchData = async () => {
+            try {
+                const [user, ids] = await Promise.all([
+                    getUser(axiosInstance),
+                    meeting ? getUserIdsForMeeting(axiosInstance, meeting.id) : Promise.resolve(null),
+                ]);
+
+                setMyUser(user);
+                if (ids) setUserIds(ids);
+            } catch (err) {
+                console.error("Fehler beim Laden der Daten:", err);
+            }
+        };
+
+        fetchData();
     }, [isOpen, meeting]);
+
 
     const leaveMeeting = async () => {
         if (meeting?.id)
@@ -52,7 +53,6 @@ const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMee
         else openMeetingForm();
     };
 
-    if (!isOpen || !meeting || !myUser) return null;
     if (!isOpen || !meeting || !myUser) return null;
 
     return (
@@ -117,5 +117,3 @@ const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, openMee
         </Modal>
     );
 };
-
-export default MeetingDetails;
