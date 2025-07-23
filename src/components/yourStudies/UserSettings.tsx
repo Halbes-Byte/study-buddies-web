@@ -87,8 +87,8 @@ export default function UserSettings(props: { reload: boolean, setReload: Dispat
                 name: module,
                 chapter: [],
                 examDate: "--",
-                examLoc: "--",
-                examTime: "--"
+                examLoc: undefined,
+                examTime: "--",
             }]);
         setModule("");
         if (!allModules.some(m => m.name.toUpperCase() === module.toUpperCase())) {

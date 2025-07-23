@@ -1,7 +1,7 @@
 export type UserModule = {
     name: string;
     examDate: string;
-    examLoc: string;
+    examLoc: string | undefined;
     examTime: string;
     chapter: Chapter[];
 }

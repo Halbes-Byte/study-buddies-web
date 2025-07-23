@@ -8,7 +8,7 @@ interface Props {
     isOpen: boolean;
     modules: UserModule[];
     onClose: () => void;
-    onSubmit: (moduleName: string, date: string, time: string, room: string) => void;
+    onSubmit: (moduleName: string, date: string, time: string, room: string | undefined) => void;
 }
 
 export default function ExamDateModal({isOpen, modules, onClose, onSubmit}: Props) {
@@ -20,7 +20,7 @@ export default function ExamDateModal({isOpen, modules, onClose, onSubmit}: Prop
     useEffect(() => {
         setDay(pick.examDate);
         setHour(pick.examTime);
-        setLoc(pick.examLoc);
+        setLoc(pick.examLoc ? pick.examLoc : "");
     }, [pick])
 
     if (!isOpen) return null;

@@ -36,10 +36,26 @@ export default function UserInfo(props: { reload: boolean }) {
     async function fetchMeetings() {
         try {
             const resp = await getMeetingsOfWeek(axiosInstance);
-            setWeeklyMeetings(resp);
+            setWeeklyMeetings(filterMeetingsThisWeek(resp)); // this is necessary, because backend doesn't have filter function yet
         } catch (e) {
             console.error(e);
         }
+    }
+
+    function filterMeetingsThisWeek(meetings: MeetingDto[]): MeetingDto[] {
+        const now = new Date();
+        const startOfWeek = new Date(now);
+        startOfWeek.setDate(now.getDate() - now.getDay() + 1);
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6);
+        endOfWeek.setHours(23, 59, 59, 999);
+
+        return meetings.filter(meeting => {
+            const from = new Date(meeting.dateFrom);
+            return from >= startOfWeek && from <= endOfWeek;
+        });
     }
 
     function calculateProgress(module: UserModule) {
@@ -65,7 +81,7 @@ export default function UserInfo(props: { reload: boolean }) {
     const openExamModal = () => setIsExamModalOpen(true);
     const closeExamModal = () => setIsExamModalOpen(false);
 
-    const handleAddExam = async (moduleName: string, date: string, time: string, room: string) => {
+    const handleAddExam = async (moduleName: string, date: string, time: string, room: string | undefined) => {
         const updated = modules.map(m =>
             m.name === moduleName
                 ? {...m, examDate: date, examLoc: room, examTime: time}
