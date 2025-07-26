@@ -16,27 +16,26 @@ export default function UserInfo(props: { reload: boolean }) {
     const [activeModule, setActiveModule] = useState<UserModule | undefined>();
 
     useEffect(() => {
-        fetchUserInfo();
-        fetchMeetings();
+        async function fetchMeetings() {
+            try {
+                const resp = await getMeetingsOfWeek(axiosInstance);
+                setWeeklyMeetings(filterMeetingsThisWeek(resp)); // this is necessary, because backend doesn't have filter function yet
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        fetchUserInfo().catch(console.error);
+        fetchMeetings().catch(console.error);
     }, []);
 
     useEffect(() => {
-        fetchUserInfo();
+        fetchUserInfo().catch(console.error);
     }, [props.reload]);
 
     async function fetchUserInfo() {
         try {
             const user = await getUser(axiosInstance);
             setModules(user.modules as UserModule[]);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    async function fetchMeetings() {
-        try {
-            const resp = await getMeetingsOfWeek(axiosInstance);
-            setWeeklyMeetings(filterMeetingsThisWeek(resp)); // this is necessary, because backend doesn't have filter function yet
         } catch (e) {
             console.error(e);
         }
@@ -75,7 +74,7 @@ export default function UserInfo(props: { reload: boolean }) {
 
     const closeProgressModal = () => {
         setIsProgressModalOpen(false);
-        fetchUserInfo();
+        fetchUserInfo().catch(console.error);
     };
 
     const openExamModal = () => setIsExamModalOpen(true);

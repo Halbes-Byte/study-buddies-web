@@ -1,21 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {Dialog, DialogActions, DialogTitle, DialogContent} from "@mui/material";
 import {CuteButton} from "../../CuteButton";
-import {
-    DatePicker,
-    LocalizationProvider,
-    TimePicker,
-} from "@mui/x-date-pickers";
 import {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {deDE} from "@mui/x-date-pickers/locales";
 import {createMeeting, deleteMeeting, updateMeeting} from "../../../api/MeetingApi";
 import {CreateMeetingDto, MeetingDto} from "../../../dtos/MeetingDto";
 import axiosInstance from "../../../auth/AxiosConfig";
 import {ChangeType} from "../../../enum/ChangeType";
 import {UserModule} from "../../../dtos/ModuleDto";
 import {getUser} from "../../../api/UserApi";
+import {TimePickerComponent} from "./TimePickerComponent";
 
 interface MeetingFormProps {
     open: boolean;
@@ -58,21 +52,10 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
         }
     };
 
-    const handleDate2Change = (newDate: Dayjs | null) => {
-        if (newDate) {
-            setDate2(newDate);
-        }
-    };
     const handleTime1Change = (newTime: Dayjs | null) => {
         if (newTime) {
             setTime1(newTime);
             setTime2(newTime.add(1, 'hour'));
-        }
-    };
-
-    const handleTime2Change = (newTime: Dayjs | null) => {
-        if (newTime) {
-            setTime2(newTime);
         }
     };
 
@@ -193,116 +176,10 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
 
                 <label htmlFor="Time Span"
                        className="font-semibold mt-8 block text-lg text-white">Zeitraum</label>
-                <LocalizationProvider
-                    dateAdapter={AdapterDayjs}
-                    adapterLocale="de"
-                    localeText={deDE.components.MuiLocalizationProvider.defaultProps.localeText}
-                >
-                    <div className={"ml-5 flex-row flex mt-2 w-80 items-center gap-2 md:mb-0 mb-8"}>
 
-                        <label htmlFor="From"
-                               className="mr-2 block text-bs font-medium text-white text-center">Von</label>
-                        <div className="flex md:flex-row flex-col gap-2">
-                            <DatePicker
-                                className="mt-1 block bg-[#333C4F] w-36 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
-                                sx={{
-                                    '& .MuiIconButton-root': {
-                                        color: '#9fa3a8',
-                                    },
-                                }}
-                                minDate={dayjs()}
-                                slotProps={{
-                                    textField: {
-                                        size: 'small', variant: 'standard', InputProps: {
-                                            disableUnderline: true,
-                                            sx: {
-                                                paddingLeft: '8px',
-                                                paddingRight: '8px',
-                                                color: '#e2e8f0',
-                                            }
-                                        },
-                                    }
-                                }}
-                                format="DD.MM.YYYY" defaultValue={date1} value={date1}
-                                onChange={handleDate1Change}/>
-                            <TimePicker
-                                className="mt-1 block bg-[#333C4F] w-24 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
-                                sx={{
-                                    '& .MuiIconButton-root': {
-                                        color: '#9fa3a8',
-                                    },
-                                }}
-                                slotProps={{
-                                    textField: {
-                                        size: 'small', variant: 'standard', InputProps: {
-                                            disableUnderline: true,
-                                            sx: {
-                                                paddingLeft: '8px',
-                                                paddingRight: '8px',
-                                                color: '#e2e8f0',
-                                            }
-                                        },
-                                    }
-                                }}
-                                ampm={false} format="HH:mm" value={time1} onChange={handleTime1Change}/>
-                        </div>
-                    </div>
-                </LocalizationProvider>
+                <TimePickerComponent time={time1} date={date1} setDate={handleDate1Change} setTime={handleTime1Change} label={"Von"}/>
+                <TimePickerComponent time={time2} date={date2} setDate={setDate2} setTime={setTime2} label={"Bis"}/>
 
-                <LocalizationProvider
-                    dateAdapter={AdapterDayjs}
-                    adapterLocale="de"
-                    localeText={deDE.components.MuiLocalizationProvider.defaultProps.localeText}
-                >
-                    <div className={"ml-5 flex-row mt-4 flex w-80 h-12 items-center gap-2 md:mb-0 mb-8"}>
-                        <label htmlFor="To"
-                               className="mr-3 block text-bs font-medium text-white ">Bis</label>
-                        <div className="flex md:flex-row flex-col gap-2 ">
-                            <DatePicker
-                                sx={{
-                                    '& .MuiIconButton-root': {
-                                        color: '#9fa3a8',
-                                    },
-                                }}
-                                minDate={dayjs()}
-                                className="mt-1 block bg-[#333C4F] w-36 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
-                                slotProps={{
-                                    textField: {
-                                        size: 'small', variant: 'standard', InputProps: {
-                                            disableUnderline: true,
-                                            sx: {
-                                                paddingLeft: '8px',
-                                                paddingRight: '8px',
-                                                color: '#e2e8f0',
-                                            }
-                                        },
-                                    }
-                                }}
-                                format="DD.MM.YYYY" defaultValue={date2} value={date2}
-                                onChange={handleDate2Change}/>
-                            <TimePicker
-                                sx={{
-                                    '& .MuiIconButton-root': {
-                                        color: '#9fa3a8',
-                                    },
-                                }}
-                                className="mt-1 block bg-[#333C4F] w-24 px-2 py-1 mb-4 border rounded-full shadow-sm border-[#333C4F] placeholder-gray-400 placeholder:text-xs"
-                                slotProps={{
-                                    textField: {
-                                        size: 'small', variant: 'standard', InputProps: {
-                                            disableUnderline: true,
-                                            sx: {
-                                                paddingLeft: '8px',
-                                                paddingRight: '8px',
-                                                color: '#e2e8f0',
-                                            }
-                                        },
-                                    }
-                                }}
-                                ampm={false} format="HH:mm" value={time2} onChange={handleTime2Change}/>
-                        </div>
-                    </div>
-                </LocalizationProvider>
                 <div className={"ml-5 flex-row mt-1 flex h-12 items-center gap-2"}>
 
                     <label htmlFor="Repeat"

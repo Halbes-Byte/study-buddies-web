@@ -37,13 +37,10 @@ export default function MeetingSearchResult(
 
     useEffect(() => {
         getUser(axiosInstance).then(setMyUser).catch(console.error);
-    }, []);
-
-    useEffect(() => {
         getUserIdsForMeeting(axiosInstance, meeting.id)
             .then(setUserIds)
             .catch(console.error);
-    }, []);
+    }, [meeting.id]);
 
     useEffect(() => {
         if (myUser == null) return;
