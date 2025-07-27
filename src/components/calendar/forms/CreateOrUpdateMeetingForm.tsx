@@ -3,7 +3,7 @@ import {Dialog, DialogActions, DialogTitle, DialogContent} from "@mui/material";
 import {CuteButton} from "../../CuteButton";
 import {Dayjs} from 'dayjs';
 import dayjs from 'dayjs';
-import {createMeeting, deleteMeeting, updateMeeting} from "../../../api/MeetingApi";
+import {createMeeting, updateMeeting} from "../../../api/MeetingApi";
 import {CreateMeetingDto, MeetingDto} from "../../../dtos/MeetingDto";
 import axiosInstance from "../../../auth/AxiosConfig";
 import {ChangeType} from "../../../enum/ChangeType";
@@ -62,15 +62,6 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
     const handleRepeatChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setRepeatable(event.target.value);
     };
-
-    const handleDelete = async () => {
-        try {
-            await deleteMeeting(axiosInstance, meeting!!.id);
-            closeAndReset();
-        } catch (error) {
-            console.error('Fehler:', error);
-        }
-    }
 
     const handleSave = async () => {
         const changeType = onlyThisMeeting ? ChangeType.OCCURRENCE : ChangeType.SERIES;
@@ -212,13 +203,6 @@ export function CreateOrUpdateMeetingForm({open, onClose, meeting, onlyThisMeeti
                 />
                 <DialogActions>
                     <div className={"flex lg:flex-row gap-4 w-full items-center flex-col"}>
-                        {meeting && (
-                            <div className={"flex lg:justify-start justify-end w-full"}>
-                                <CuteButton onClick={handleDelete} text={"Meeting Löschen"} textColor={"#f2f2f2"}
-                                            bgColor={"#974242"} type={"button"}
-                                            classname={"text-xl"}/>
-                            </div>
-                        )}
                         <div className={"gap-2 ml-auto flex items-center"}>
                             <CuteButton onClick={closeAndReset} text={"Abbrechen"} bgColor={"#598BB1"}
                                         textColor={"#e6ebfc"} type={"button"}
