@@ -28,61 +28,61 @@ export default function MeetingSearchResult(
         onToggle
     }: Props
 ) {
-    const [userIds, setUserIds] = useState<string[]>([]);
+    const [usernames, setUsernames] = useState<string[]>([]);
     const [myUser, setMyUser] = useState<UserDto | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [myUserId, setMyUserId] = useState<string | undefined>();
+    const [myUsername, setMyUsername] = useState<string | undefined>();
     const [isMember, setIsMember] = useState<boolean>(false);
     const mdAndUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
     useEffect(() => {
         getUser(axiosInstance).then(setMyUser).catch(console.error);
         getUserIdsForMeeting(axiosInstance, meeting.id)
-            .then(setUserIds)
+            .then(setUsernames)
             .catch(console.error);
     }, [meeting.id]);
 
     useEffect(() => {
         if (myUser == null) return;
-        setMyUserId(myUser.uuid);
-        setIsMember(userIds.includes(myUser.uuid));
-    }, [myUser, userIds]);
+        setMyUsername(myUser.username);
+        setIsMember(usernames.includes(myUser.username));
+    }, [myUser, usernames]);
 
     const joinMeeting = () => {
         setLoading(true);
-        if (myUserId === undefined) {
+        if (myUsername === undefined) {
             setLoading(false);
-            alert("userId undefined");
+            alert("username undefined");
             return;
         }
         joinStudyGroup(axiosInstance, meeting.id)
-            .then(() => setUserIds(prev => [...prev, myUserId]))
+            .then(() => setUsernames(prev => [...prev, myUsername]))
             .finally(() => setLoading(false));
     };
 
     const joinSuperMeeting = () => {
         setLoading(true);
-        if (myUserId === undefined) {
+        if (myUsername === undefined) {
             setLoading(false);
-            alert("userId undefined");
+            alert("username undefined");
             return;
         }
         joinSuperStudyGroup(axiosInstance, meeting.superId.toString())
-            .then(() => setUserIds(prev => [...prev, myUserId]))
+            .then(() => setUsernames(prev => [...prev, myUsername]))
             .finally(() => setLoading(false));
     };
 
     const leaveMeeting = () => {
         setLoading(true);
         leaveStudyGroup(axiosInstance, meeting.id)
-            .then(() => setUserIds(prev => prev.filter(id => id !== myUserId)))
+            .then(() => setUsernames(prev => prev.filter(id => id !== myUsername)))
             .finally(() => setLoading(false));
     };
 
     const leaveSuperMeeting = () => {
         setLoading(true);
         leaveSuperStudyGroup(axiosInstance, meeting.superId.toString())
-            .then(() => setUserIds(prev => prev.filter(id => id !== myUserId)))
+            .then(() => setUsernames(prev => prev.filter(id => id !== myUsername)))
             .finally(() => setLoading(false));
     };
 
@@ -131,8 +131,8 @@ export default function MeetingSearchResult(
                                     <p>Alle Teilnehmenden:</p>
                                     <ul style={{margin: 0, padding: 0, listStyle: 'inside'}}>
                                         <li key={meeting.creator}>{meeting.creator}</li>
-                                        {userIds.map(id => (
-                                            <li key={id}>{id}</li>
+                                        {usernames.map(name => (
+                                            <li key={name}>{name}</li>
                                         ))}
 
                                     </ul>
@@ -150,8 +150,8 @@ export default function MeetingSearchResult(
                             </p>
                             <ul className="text-white text-sm list-disc list-inside">
                                 <li key={meeting.creator}>{meeting.creator}</li>
-                                {userIds.map(id => (
-                                    <li key={id}>{id}</li>
+                                {usernames.map(name => (
+                                    <li key={name}>{name}</li>
                                 ))}
                             </ul>
                         </>
