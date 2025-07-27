@@ -91,7 +91,7 @@ export const MeetingDetails: React.FC<ModalProps> = ({isOpen, meeting, onClose, 
                     {userIds.length === 0 && <></>}
                 </ul>
             </div>
-            {meeting.creator === myUser.uuid ? (
+            {meeting.creator === myUser.username ? (
                 <div className="flex flex-row gap-4 mb-4 justify-end mt-auto items-center">
                     <div>
                         <CuteButton

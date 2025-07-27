@@ -35,7 +35,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
     const addCheckbox = (chapterId: number) => {
         const newCheckbox = {
             id: Date.now().toString(),
-            title: `Add Title`,
+            title: undefined,
             checked: false,
         };
 
@@ -127,6 +127,7 @@ const ModuleProgressSettings: React.FC<ModalProps> = ({onClose, module, allUserM
                                     type="text"
                                     className={"flex-grow px-2"}
                                     value={checkbox.title}
+                                    placeholder={"Add title"}
                                     onChange={(e) => {
                                         const newText = e.target.value;
                                         setChapters((prevChapters) =>

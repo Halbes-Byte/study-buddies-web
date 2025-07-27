@@ -8,7 +8,7 @@ export type UserModule = {
 
 export type Checkbox = {
     id: string;
-    title: string;
+    title: string | undefined;
     checked: boolean;
 }
 
